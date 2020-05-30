@@ -11,7 +11,9 @@
 // --------------------------------------------------------------------------------------------------------------
 // Modules initialisation
 
-var express = require('express'); // const path = require('path');
+var express = require('express');
+
+var path = require('path');
 
 var bodyParser = require('body-parser');
 
@@ -27,20 +29,23 @@ var services_login = require('./routes/serverSideJs/services_login');
 
 var services_cookieSession = require('./routes/serverSideJs/services_cookieSession');
 
-var extraFunctions = require('./routes/serverSideJs/extraFunctions'); // --------------------------------------------------------------------------------------------------------------
+var extraFunctions = require('./routes/serverSideJs/extraFunctions');
+
+// --------------------------------------------------------------------------------------------------------------
 // Express setting
 
 var app = express();
-var port = 1337; // --------------------------------------------------------------------------------------------------------------
+var port = 1337;
+
+// --------------------------------------------------------------------------------------------------------------
 // Serving Public Page
-// const root = './public';
-// app.use(express.static(path.join(__dirname, `${root}`)));
 
 app.use(express.static('./public'));
 app.get('/', function (request, response) {
-  // response.sendFile(path.join(__dirname, `${root}/index.html`));
   response.sendFile('./public/index.html');
-}); // --------------------------------------------------------------------------------------------------------------
+});
+
+// --------------------------------------------------------------------------------------------------------------
 // Prevent direct access to other pages
 
 var permittedLinker = ['localhost', '127.0.0.1']; // who can link here?
@@ -65,7 +70,9 @@ function directAccess(request, response, next) {
   }
 }
 
-app.use(directAccess); // --------------------------------------------------------------------------------------------------------------
+app.use(directAccess);
+
+// --------------------------------------------------------------------------------------------------------------
 // Cookie Session
 
 app.set('trust proxy', 1);
@@ -103,30 +110,37 @@ app.post('/remove_cookie', function (request, response, next) {
   };
 
   run();
-}); // --------------------------------------------------------------------------------------------------------------
+});
+
+// --------------------------------------------------------------------------------------------------------------
 // Other Pages
-// const routes = '/routes';
-// app.use(express.static(path.join(__dirname, `${routes}`)));
 
-app.use(express.static('./routes')); // const pages = '/routes/pages';
-// app.use(express.static(path.join(__dirname, `${pages}`)));
+const routes = '/routes';
+app.use(express.static(path.join(__dirname, `${routes}`)));
 
-app.use(express.static('./routes/pages')); // --------------------------------------------------------------------------------------------------------------
+const pages = '/routes/pages';
+app.use(express.static(path.join(__dirname, `${pages}`)));
+
+// --------------------------------------------------------------------------------------------------------------
 // Not compatible matters
 
 app.get('/not_compatible', function (request, response) {
-  // response.sendFile(path.join(__dirname, `${routes}/pages/not_compatible/not_compatible.html`));
-  response.sendFile('./routes/pages/not_compatible/not_compatible.html');
-}); // --------------------------------------------------------------------------------------------------------------
+  response.sendFile(path.join(__dirname, `${pages}/not_compatible/browser_not_compatible.html`));
+});
+
+// --------------------------------------------------------------------------------------------------------------
 // Pages - Student Portal
 
 app.get('/portal_student', function (request, response) {
-  // response.sendFile(path.join(__dirname, `${routes}/pages/portal_student/portal_student.html`));
-  response.sendFile('./routes/pages/portal_student/portal_student.html');
-}); // --------------------------------------------------------------------------------------------------------------
+  response.sendFile(path.join(__dirname, `${pages}/portal_student/portal_student.html`));
+});
+
+// --------------------------------------------------------------------------------------------------------------
 // Extra functions
 
-app.use(bodyParser.json()); // --------------------------------------------------------------------------------------------------------------
+app.use(bodyParser.json());
+
+// --------------------------------------------------------------------------------------------------------------
 // Contact Us
 
 app.post('/send_message_contact_us', function (request, response) {
@@ -140,7 +154,9 @@ app.post('/send_message_contact_us', function (request, response) {
   };
 
   run();
-}); // --------------------------------------------------------------------------------------------------------------
+});
+
+// --------------------------------------------------------------------------------------------------------------
 // Sign Up
 
 app.post('/check_MARA_id', function (request, response) {
@@ -166,7 +182,9 @@ app.post('/register_user', function (request, response) {
   };
 
   run();
-}); // --------------------------------------------------------------------------------------------------------------
+});
+
+// --------------------------------------------------------------------------------------------------------------
 // Forget Password
 
 app.post('/forget_password', function (request, response) {
@@ -180,7 +198,9 @@ app.post('/forget_password', function (request, response) {
   };
 
   run();
-}); // --------------------------------------------------------------------------------------------------------------
+});
+
+// --------------------------------------------------------------------------------------------------------------
 // Login
 
 app.post('/login', function (request, response) {
@@ -194,7 +214,9 @@ app.post('/login', function (request, response) {
   };
 
   run();
-}); // --------------------------------------------------------------------------------------------------------------
+});
+
+// --------------------------------------------------------------------------------------------------------------
 // Logon
 
 app.post('/logon', function (request, response) {
@@ -208,13 +230,17 @@ app.post('/logon', function (request, response) {
   };
 
   run();
-}); // --------------------------------------------------------------------------------------------------------------
+});
+
+// --------------------------------------------------------------------------------------------------------------
 // Before exit user page
 
 app.post('/setLogout', function (request, response) {
   services_login.setLogout(request);
   response.send('OK');
-}); // --------------------------------------------------------------------------------------------------------------
+});
+
+// --------------------------------------------------------------------------------------------------------------
 // Hosting
 
 app.listen(port, function () {
