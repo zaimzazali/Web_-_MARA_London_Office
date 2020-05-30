@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
+    />
+    <title>MARA London Portal</title>
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="assets/img/OG_01.png" />
+    <meta
+      name="twitter:description"
+      content="This portal is one of the digital project initiatives to aid MARA London to manage its resources. In line with the digitalisation agenda, this project would transform the work processes and make them more efficient than ever."
+    />
+    <meta property="og:type" content="website" />
+    <meta
+      name="description"
+      content="This portal is one of the digital project initiatives to aid MARA London to manage its resources. In line with the digitalisation agenda, this project would transform the work processes and make them more efficient than ever."
+    />
+    <meta name="twitter:title" content="MARA London Portal" />
+    <meta property="og:image" content="assets/img/OG_01.png" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="assets/img/fav_a.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="assets/img/fav_b.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="180x180"
+      href="assets/img/fav_c.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="192x192"
+      href="assets/img/fav_d.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="512x512"
+      href="assets/img/fav_e.png"
+    />
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="assets/fonts/fontawesome-all.min.css" />
+    <link rel="stylesheet" href="assets/fonts/font-awesome.min.css" />
+    <link rel="stylesheet" href="assets/fonts/line-awesome.min.css" />
+    <link rel="stylesheet" href="assets/fonts/material-icons.min.css" />
+    <link rel="stylesheet" href="assets/fonts/simple-line-icons.min.css" />
+    <link rel="stylesheet" href="assets/fonts/fontawesome5-overrides.min.css" />
+    <link rel="stylesheet" href="assets/css/loader.css" />
+    <link rel="stylesheet" href="assets/css/myAnimation.css" />
+    <link rel="stylesheet" href="assets/css/Navigation-with-Button.css" />
+    <link rel="stylesheet" href="assets/css/sideMenu.css" />
+    <link rel="stylesheet" href="assets/css/styles.css" />
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/eventSetter.js"></script>
+    <script src="assets/js/index.js"></script>
+    <script src="assets/js/initialiser.js"></script>
+    <script src="assets/js/modalSetup.js"></script>
+    <script src="assets/js/setupCopyrights.js"></script>
+    <script src="assets/js/setupNavbarButtons.js"></script>
+    <script src="assets/js/setupPopUp.js"></script>
+    <script src="assets/js/setupResetPasswordButton.js"></script>
+    <script src="assets/js/sideMenu.js"></script>
+  </head>
+
+  <body>
+    <div id="container_background" class="full_fixed"></div>
+    <div id="container_body" class="full_absolute">
+      <div id="section_top">
+        <div id="holder_brand">
+          <img id="image_MARA" src="assets/img/logo_mara_01.png" />
+        </div>
+        <nav
+          class="navbar navbar-dark navbar-expand-md navigation-clean-button"
+          id="holder_navbar"
+        >
+          <div class="container-fluid">
+            <div id="adjuster_toggle_icon">
+              <div id="toggle_blocker"></div>
+              <button
+                data-toggle="collapse"
+                class="navbar-toggler"
+                data-target="#navcol-1"
+                id="navbar_toggle"
+              >
+                <span class="sr-only">Toggle navigation</span
+                ><span class="navbar-toggler-icon"></span>
+              </button>
+            </div>
+            <div class="collapse navbar-collapse" id="navcol-1">
+              <div class="ml-auto float_left" id="holder_button_nav_group_1">
+                <div class="holder_button_nav float_left">
+                  <button
+                    class="btn btn-primary default_style default_text btn_nav btn_about"
+                    type="button"
+                  >
+                    ABOUT
+                  </button>
+                </div>
+                <div class="holder_button_nav float_left">
+                  <button
+                    class="btn btn-primary default_style default_text btn_nav btn_contact"
+                    type="button"
+                  >
+                    CONTACT US
+                  </button>
+                </div>
+                <div class="holder_button_nav float_left">
+                  <button
+                    class="btn btn-primary default_style default_text btn_important btn_white btn_nav btn_signup"
+                    type="button"
+                  >
+                    SIGN UP
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </nav>
+      </div>
+      <div id="section_main">
+        <div id="modal_login_form_holder" class="modal_default">
+          <div id="login_left_side" class="modal_default">
+            <div id="holder_malaysia_flag" class="full_absolute"></div>
+            <div id="holder_login_title">
+              <div id="holder_login_logo">
+                <img id="image_login_logo" src="assets/img/logo_mara_01.png" />
+              </div>
+              <div id="left_title_01">
+                <span>Majlis Amanah Rakyat (MARA)</span>
+              </div>
+              <div><span>London Office</span></div>
+              <div id="left_title_end"><span>Portal</span></div>
+            </div>
+          </div>
+          <div id="login_right_side" class="float_right">
+            <div id="holder_title_webpage">
+              <div id="header_background_flag"></div>
+              <div id="header_text">
+                <span>MARA London Office<br />Portal</span>
+              </div>
+            </div>
+            <div id="holder_header_icon">
+              <i class="fas fa-user-circle" id="login_header_icon"></i>
+            </div>
+            <div id="input_row_id">
+              <div class="input_header_default_style">
+                <span>MARA Reference Number</span>
+              </div>
+              <div>
+                <i class="far fa-user input_icon"></i
+                ><input
+                  type="text"
+                  id="input_id"
+                  class="input_default_style field_white field_border input_field"
+                  placeholder="330..."
+                />
+              </div>
+            </div>
+            <div id="input_row_password">
+              <div class="input_header_default_style">
+                <span>Password</span>
+              </div>
+              <div>
+                <i class="la la-key input_icon"></i
+                ><input
+                  type="password"
+                  id="input_password"
+                  class="input_default_style field_white field_border input_field"
+                  placeholder="Enter password..."
+                />
+              </div>
+            </div>
+            <div id="input_row_btn">
+              <button
+                class="btn btn-primary default_style default_text hover_important"
+                id="btn_login"
+                type="button"
+              >
+                LOGIN
+              </button>
+            </div>
+            <div id="input_row_forget_password">
+              <span
+                id="span_forget"
+                class="item_clickable item_underline text_red"
+                >Forget Password?</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="section_bottom">
+        <div id="footer_stack" class="modal_default">
+          <div class="row no-gutters" id="footer_01">
+            <div class="col-12 d-flex justify-content-center">
+              <span
+                id="item_disclaimer"
+                class="policy_item item_clickable no_padding float_left"
+                >Disclaimer<br /></span
+              ><span class="policy_item">|<br /></span
+              ><span id="item_privacy_policy" class="policy_item item_clickable"
+                >Privacy Policy<br
+              /></span>
+              <span class="policy_item">|<br /></span
+              ><a id="link_fb" class="policy_item icon_socmed" href="#"
+                ><i class="fa fa-facebook-official"></i
+              ></a>
+            </div>
+          </div>
+          <div class="row no-gutters d-flex justify-content-center">
+            <div class="col-auto">
+              <span
+                >Zaim Zazali for MARA London © All Rights Reserved 2020</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="holder_layers" class="type_layer">
+        <div id="blur_blocker" class="whole_page type_layer"></div>
+        <div id="modals_holder_1" class="whole_page type_layer">
+          <div class="div_center modal_holder_adjuster">
+            <div id="modal_about" class="modal_default type_modal">
+              <div class="modal_header">
+                <span class="modal_title">ABOUT THIS PROJECT</span
+                ><button class="btn btn-primary btn_exit" type="button">
+                  <i class="fa fa-close"></i>
+                </button>
+              </div>
+              <hr class="header_line" />
+              <div class="modal_body holder_body overflow_y">
+                <div>
+                  <span
+                    ><em>ALHAMDULILLAH</em> we managed to establish one stop
+                    portal for MARA sponsored students in the United Kingdom and
+                    Ireland. The platform includes an online registration
+                    process, profile access and update, semester result
+                    submission and a communication channel between sponsored
+                    students and MARA London office.<br
+                  /></span>
+                </div>
+                <div id="about_image_01" class="holder_about_images float_left">
+                  <img
+                    class="about_images tilted"
+                    src="assets/img/about_00b.png"
+                  />
+                </div>
+                <div class="end_content">
+                  <span
+                    ><br />In January 2019, a meeting was held to discuss
+                    potential digital move that was able to address issues on
+                    the processes towards an efficient workflow. Currently, the
+                    process involves a series of manual procedures , although it
+                    is simple, they are mainly tedious to begin with.&nbsp; It
+                    requires students to complete forms manually, print and scan
+                    necessary documents as well as the back and forth emails for
+                    further enquiries and submission. Finally, to overcome those
+                    issue, we took on the project which aims to provide a
+                    seamless and integrated process to our students.<br /><br />A
+                    special thanks to Mr Zaim Zazali, who had offered his
+                    experience in between his study to realise this effort. It
+                    is my hope that this portal will benefit MARA sponsored
+                    students for years to come!<br
+                  /></span>
+                </div>
+                <div class="holder_bio_header text_left">
+                  <span class="about_bio_header"
+                    >About MARA Director (London)<br
+                  /></span>
+                </div>
+                <div id="section_bio_director_1">
+                  <div
+                    id="about_image_02"
+                    class="holder_about_images float_left"
+                  >
+                    <img
+                      class="about_images"
+                      src="assets/img/pic_rohizal.png"
+                    />
+                  </div>
+                  <div id="bio_director" class="float_left"></div>
+                  <div class="row no-gutters bio_first_row">
+                    <div class="col-3"><span>Name</span></div>
+                    <div class="col-1"><span>:</span></div>
+                    <div class="col-auto">
+                      <span>Rohizal Mohd Radzi<br /></span>
+                    </div>
+                  </div>
+                  <div class="row no-gutters">
+                    <div class="col-3"><span>Effective</span></div>
+                    <div class="col-1"><span>:</span></div>
+                    <div class="col"><span>August 28, 2018</span></div>
+                  </div>
+                  <div class="row no-gutters">
+                    <div class="col-3"><span>LinkedIn</span></div>
+                    <div class="col-1"><span>:</span></div>
+                    <div class="col">
+                      <a
+                        class="any_links"
+                        href="https://www.linkedin.com/in/zaimzazali"
+                        target="_blank"
+                        ><span class="item_underline"
+                          >https://www.linkedin.com/in/rohizal-mohd-radzi-890513a5</span
+                        ><br
+                      /></a>
+                    </div>
+                  </div>
+                </div>
+                <div id="section_bio_director_2">
+                  <div class="row no-gutters">
+                    <div class="col">
+                      <div class="text-center holder_about_images">
+                        <img
+                          class="about_images"
+                          src="assets/img/pic_rohizal.png"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row no-gutters">
+                    <div class="col-4"><span>Name</span></div>
+                    <div class="col-1"><span>:</span></div>
+                    <div class="col">
+                      <span>Rohizal Mohd Radzi<br /></span>
+                    </div>
+                  </div>
+                  <div class="row no-gutters">
+                    <div class="col-4"><span>Effective</span></div>
+                    <div class="col-1"><span>:</span></div>
+                    <div class="col"><span>August 28, 2018</span></div>
+                  </div>
+                  <div class="row no-gutters">
+                    <div class="col-4"><span>LinkedIn</span></div>
+                    <div class="col-1"><span>:</span></div>
+                    <div class="col">
+                      <a
+                        class="any_links"
+                        href="https://www.linkedin.com/in/zaimzazali"
+                        target="_blank"
+                        ><span class="item_underline"
+                          >https://www.linkedin.com/in/rohizal-mohd-radzi-890513a5</span
+                        ><br
+                      /></a>
+                    </div>
+                  </div>
+                </div>
+                <div class="clear_float holder_bio_header text_right">
+                  <span>About Developer<br /></span>
+                </div>
+                <div id="section_bio_developer_1">
+                  <div
+                    id="about_image_03"
+                    class="holder_about_images float_right"
+                  >
+                    <img
+                      class="about_images"
+                      src="assets/img/pic_zaimzazali.png"
+                    />
+                  </div>
+                  <div id="bio_developer">
+                    <div class="row no-gutters bio_first_row">
+                      <div class="col-3"><span>Name</span></div>
+                      <div class="col-1"><span>:</span></div>
+                      <div class="col">
+                        <span>Zaim Zazali<br /></span>
+                      </div>
+                    </div>
+                    <div class="row no-gutters">
+                      <div class="col-3">
+                        <span>GrEP Batch<br /></span>
+                      </div>
+                      <div class="col-1"><span>:</span></div>
+                      <div class="col"><span>2nd (2019/2020)</span></div>
+                    </div>
+                    <div class="row no-gutters">
+                      <div class="col-3">
+                        <span>Course<br /></span>
+                      </div>
+                      <div class="col-1"><span>:</span></div>
+                      <div class="col">
+                        <span>MSc Computer Science<br /></span>
+                      </div>
+                    </div>
+                    <div class="row no-gutters">
+                      <div class="col-3">
+                        <span>University<br /></span>
+                      </div>
+                      <div class="col-1"><span>:</span></div>
+                      <div class="col">
+                        <span>University of Bristol<br /></span>
+                      </div>
+                    </div>
+                    <div class="row no-gutters">
+                      <div class="col-3"><span>LinkedIn</span></div>
+                      <div class="col-1"><span>:</span></div>
+                      <div class="col">
+                        <a
+                          class="any_links"
+                          href="https://www.linkedin.com/in/zaimzazali"
+                          target="_blank"
+                          >https://www.linkedin.com/in/zaimzazali<br
+                        /></a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div id="section_bio_developer_2">
+                  <div class="row no-gutters">
+                    <div class="col">
+                      <div class="text-center holder_about_images">
+                        <img
+                          class="about_images"
+                          src="assets/img/pic_zaimzazali.png"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row no-gutters">
+                    <div class="col-4"><span>Name</span></div>
+                    <div class="col-1"><span>:</span></div>
+                    <div class="col"><span>Zaim Zazali</span></div>
+                  </div>
+                  <div class="row no-gutters">
+                    <div class="col-4"><span>GrEP Batch</span></div>
+                    <div class="col-1"><span>:</span></div>
+                    <div class="col"><span>2nd (2019/2020)</span></div>
+                  </div>
+                  <div class="row no-gutters">
+                    <div class="col-4"><span>Course</span></div>
+                    <div class="col-1"><span>:</span></div>
+                    <div class="col"><span>MSc Computer Science</span></div>
+                  </div>
+                  <div class="row no-gutters">
+                    <div class="col-4"><span>University</span></div>
+                    <div class="col-1"><span>:</span></div>
+                    <div class="col"><span>University of Bristol</span></div>
+                  </div>
+                  <div class="row no-gutters">
+                    <div class="col-4"><span>LinkedIn</span></div>
+                    <div class="col-1"><span>:</span></div>
+                    <div class="col">
+                      <a
+                        class="any_links"
+                        href="https://www.linkedin.com/in/zaimzazali"
+                        target="_blank"
+                        >https://www.linkedin.com/in/zaimzazali<br
+                      /></a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div id="modal_forget_pass" class="modal_default type_modal">
+              <div class="modal_header">
+                <span class="modal_title">RESET PASSWORD</span
+                ><button class="btn btn-primary btn_exit" type="button">
+                  <i class="fa fa-close"></i>
+                </button>
+              </div>
+              <hr class="header_line" />
+              <div class="form_container overflow_y">
+                <div id="forget_row_1">
+                  <div class="input_header_default_style">
+                    <span>MARA Reference Number</span>
+                  </div>
+                  <div>
+                    <i class="far fa-user input_icon"></i
+                    ><input
+                      type="text"
+                      class="input_default_style input_field input_id"
+                      placeholder="330..."
+                    />
+                  </div>
+                </div>
+                <div id="forget_row_2">
+                  <div class="input_header_default_style">
+                    <span>E-Mail</span>
+                  </div>
+                  <div>
+                    <i class="material-icons input_icon">mail_outline</i
+                    ><input
+                      type="text"
+                      class="input_default_style input_field input_email"
+                      placeholder="Enter email..."
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="text-center holder_modal_button">
+                <button
+                  class="btn btn-primary default_style default_text btn_modal hover_important"
+                  type="button"
+                >
+                  RESET
+                </button>
+              </div>
+            </div>
+            <div id="modal_sign_up" class="modal_default type_modal">
+              <div class="modal_header">
+                <span class="modal_title">REGISTRATION</span
+                ><button class="btn btn-primary btn_exit" type="button">
+                  <i class="fa fa-close"></i>
+                </button>
+              </div>
+              <hr class="header_line" />
+              <div class="form_container overflow_y">
+                <div class="row no-gutters" id="register_row_1">
+                  <div class="col">
+                    <div>
+                      <div class="input_header_default_style">
+                        <span>MARA Reference Number</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row no-gutters">
+                  <div class="col">
+                    <div>
+                      <div>
+                        <i class="far fa-user input_icon"></i
+                        ><input
+                          type="text"
+                          class="input_default_style input_field input_id"
+                          placeholder="330..."
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-auto" id="holder_btn_check">
+                    <div>
+                      <button
+                        class="btn btn-primary default_style default_text btn_modal hover_important width_auto"
+                        id="btn_check"
+                        type="button"
+                      >
+                        Validate
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <hr class="divisor" />
+                <div class="remaining_rows">
+                  <div class="input_header_default_style">
+                    <span>Full Name (As Per Passport)</span>
+                  </div>
+                  <div class="row no-gutters">
+                    <div class="col">
+                      <div>
+                        <i class="fa fa-id-card-o input_icon"></i
+                        ><input
+                          type="text"
+                          class="input_default_style input_field input_name"
+                          placeholder="Enter full name..."
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="remaining_rows">
+                  <div class="input_header_default_style">
+                    <span>E-Mail</span>
+                  </div>
+                  <div class="row no-gutters">
+                    <div class="col">
+                      <div>
+                        <i class="material-icons input_icon">mail_outline</i
+                        ><input
+                          type="text"
+                          class="input_default_style input_field input_email"
+                          placeholder="Enter email..."
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <hr class="divisor" />
+                <div class="remaining_rows">
+                  <div class="input_header_default_style">
+                    <span>Password</span>
+                  </div>
+                  <div class="row no-gutters">
+                    <div class="col">
+                      <div>
+                        <i class="la la-key input_icon"></i
+                        ><input
+                          type="password"
+                          class="input_default_style input_field input_password"
+                          placeholder="Enter password..."
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="remaining_rows">
+                  <div class="input_header_default_style">
+                    <span>Re-Type Password</span>
+                  </div>
+                  <div class="row">
+                    <div class="col">
+                      <div>
+                        <i class="la la-key input_icon"></i
+                        ><input
+                          type="password"
+                          class="input_default_style input_field input_password"
+                          placeholder="Retype password..."
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <hr class="divisor" />
+                <div class="remaining_rows">
+                  <div class="row">
+                    <div class="col text-center">
+                      <div>
+                        <input type="checkbox" id="check_box_01" /><span
+                          style="padding-left: 1em;"
+                          >I accept the&nbsp;<span
+                            id="item_tnc"
+                            class="item_clickable item_underline"
+                            >Terms &amp; Conditions</span
+                          ></span
+                        >
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="text-center holder_modal_button">
+                <button
+                  class="btn btn-primary default_style default_text btn_modal hover_important width_auto"
+                  id="btn_register"
+                  type="button"
+                >
+                  REGISTER
+                </button>
+              </div>
+            </div>
+            <div id="modal_contact_us" class="type_modal">
+              <div id="contact_left_side" class="modal_default float_left">
+                <div id="holder_contact_title">
+                  <div id="holder_contact_logo">
+                    <i class="icon-envelope-open" id="icon_contact_logo"></i>
+                  </div>
+                  <div id="left_title_02">
+                    <span>We'd love to hear from you!<br /></span>
+                  </div>
+                  <div id="left_title_end_2">
+                    <span
+                      >Our team is happy to answer your questions.<br />Fill out
+                      the form and we'll be in touch as soon as possible.<br /><br
+                    /></span>
+                  </div>
+                </div>
+              </div>
+              <div id="contact_right_side" class="modal_default float_right">
+                <div class="modal_header">
+                  <span class="modal_title">CONTACT US</span
+                  ><button class="btn btn-primary btn_exit" type="button">
+                    <i class="fa fa-close"></i>
+                  </button>
+                </div>
+                <hr class="header_line" />
+                <div id="contact_form_body" class="form_container overflow_y">
+                  <div id="register_row_3">
+                    <div class="input_header_default_style">
+                      <span>Name</span>
+                    </div>
+                    <div class="row no-gutters">
+                      <div class="col">
+                        <div>
+                          <i class="fa fa-id-card-o input_icon"></i
+                          ><input
+                            type="text"
+                            class="input_default_style input_field input_name"
+                            placeholder="Enter full name..."
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="remaining_rows">
+                    <div class="input_header_default_style">
+                      <span>E-Mail</span>
+                    </div>
+                    <div class="row no-gutters">
+                      <div class="col">
+                        <div>
+                          <i class="material-icons input_icon">mail_outline</i
+                          ><input
+                            type="text"
+                            class="input_default_style input_field input_email"
+                            placeholder="Enter email..."
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="remaining_rows">
+                    <div class="input_header_default_style">
+                      <span>MARA Reference Number (Optional)</span>
+                    </div>
+                    <div class="row no-gutters">
+                      <div class="col">
+                        <div>
+                          <i class="fa fa-id-card-o input_icon"></i
+                          ><input
+                            type="text"
+                            class="input_default_style input_field input_id"
+                            placeholder="330..."
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <hr class="divisor" />
+                  <div class="remaining_rows">
+                    <div class="input_header_default_style">
+                      <span>Message</span>
+                    </div>
+                    <div class="row no-gutters">
+                      <div class="col">
+                        <div>
+                          <textarea
+                            class="input_default_style input_field text_area_default input_textarea"
+                            placeholder="Your message..."
+                          ></textarea>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="text-center holder_modal_button">
+                  <button
+                    class="btn btn-primary default_style default_text btn_modal hover_important"
+                    id="btn_send_message"
+                    type="button"
+                  >
+                    SEND
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="modals_holder_2" class="whole_page type_layer">
+          <div class="div_center modal_holder_adjuster">
+            <div id="modal_display_only" class="modal_default type_modal">
+              <div class="modal_header">
+                <span class="modal_title">TEXT TEXT TEXT</span
+                ><button class="btn btn-primary btn_exit" type="button">
+                  <i class="fa fa-close"></i>
+                </button>
+              </div>
+              <hr class="header_line" />
+              <div class="modal_body holder_body overflow_y"></div>
+            </div>
+            <div
+              id="modal_display_with_button"
+              class="modal_default type_modal"
+            >
+              <div class="modal_header">
+                <span class="modal_title">TEXT TEXT TEXT</span>
+              </div>
+              <hr class="header_line" />
+              <div class="modal_body holder_body overflow_y"></div>
+              <div class="text-center holder_modal_button">
+                <button
+                  class="btn btn-primary default_style default_text btn_modal hover_important btn_popup"
+                  type="button"
+                >
+                  OK
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="container_fixed_layers" class="full_fixed">
+      <div id="loading_page" class="whole_page">
+        <div id="initial_loader" class="loader">
+          <span></span><span></span><span></span><span></span>
+        </div>
+      </div>
+    </div>
+    <div id="side-menu">
+      <button class="btn btn-primary close" type="button">
+        <i class="fa fa-close"></i>
+      </button>
+      <div class="contents">
+        <div class="ml-auto float_left" id="holder_button_nav_group_2">
+          <div class="holder_button_nav float_left">
+            <button
+              class="btn btn-primary default_style default_text btn_nav btn_about"
+              type="button"
+            >
+              ABOUT
+            </button>
+          </div>
+          <div class="holder_button_nav float_left">
+            <button
+              class="btn btn-primary default_style default_text btn_nav btn_contact"
+              type="button"
+            >
+              CONTACT US
+            </button>
+          </div>
+          <div class="holder_button_nav float_left">
+            <button
+              class="btn btn-primary default_style default_text btn_important btn_white btn_nav btn_signup"
+              type="button"
+            >
+              SIGN UP
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

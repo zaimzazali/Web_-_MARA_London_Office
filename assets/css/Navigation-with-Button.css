@@ -1,0 +1,34 @@
+#adjuster_toggle_icon {
+  position: absolute;
+  top: 1.5em;
+  right: 1.5em;
+}
+
+.holder_button_nav {
+  padding-left: 1em;
+}
+
+#holder_button_nav_group_1 {
+  width: auto;
+  display: none;
+}
+
+@media (min-width: 768px) {
+  #holder_button_nav_group_1 {
+    display: block;
+  }
+}
+
+#navbar_toggle {
+  position: relative;
+  background-color: rgb(61, 57, 53);
+}
+
+#toggle_blocker {
+  position: absolute;
+  z-index: 500;
+  height: 100%;
+  width: 100%;
+  display: none;
+}
+
