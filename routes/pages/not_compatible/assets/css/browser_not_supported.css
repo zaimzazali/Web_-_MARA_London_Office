@@ -1,0 +1,183 @@
+#div_not_supported {
+  position: relative;
+  background-color: rgb(248,250,252);
+  width: 90%;
+  display: inline-block;
+  padding: 1em;
+}
+
+@media (min-width: 576px) {
+  #div_not_supported {
+    width: 30em;
+  }
+}
+
+@media (min-width: 768px) {
+  #div_not_supported {
+    width: 35em;
+  }
+}
+
+@media (min-width: 992px) {
+  #div_not_supported {
+    width: 40em;
+  }
+}
+
+.div_modal {
+  background: #ffffff;
+  border-radius: 0.4em;
+  box-shadow: 0.2em 0.2em 0.7em 0.05em rgba(0,0,0,0.75);
+  overflow: hidden;
+}
+
+#browser_sad {
+  height: 7em;
+}
+
+@media (min-width: 992px) {
+  #browser_sad {
+    height: 12em;
+  }
+}
+
+#title_msg_text, #end_msg_text {
+  font-size: 0.9em;
+}
+
+@media (min-width: 992px) {
+  #title_msg_text, #end_msg_text {
+    font-weight: bold;
+    font-size: 1.5em;
+  }
+}
+
+.pad_00 {
+  padding-top: 1em;
+  padding-bottom: 1em;
+}
+
+@media (min-width: 992px) {
+  .pad_00 {
+    padding-top: 2em;
+    padding-bottom: 2em;
+  }
+}
+
+@media (max-width: 991px) {
+  #content_text {
+    font-size: 0.8em;
+  }
+}
+
+#break_00 {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  #break_00 {
+    display: block;
+  }
+}
+
+.pad_01 {
+  padding-bottom: 2em;
+}
+
+.item_hover:hover, .item_hover:focus, .item_hover:active, .item_hover:visited {
+  box-shadow: 0em 0em 0.2em 0.02em rgba(0,0,0,0.75);
+  border-radius: 0.4em;
+}
+
+.browser_logo {
+  height: 2em;
+}
+
+@media (min-width: 992px) {
+  .browser_logo {
+    height: 4em;
+  }
+}
+
+.pad_02 {
+  padding-top: 0.5em;
+}
+
+@media (min-width: 992px) {
+  .pad_02 {
+    padding-top: 1em;
+  }
+}
+
+.browser_name {
+  font-weight: bold;
+  font-size: 0.8em;
+}
+
+@media (min-width: 992px) {
+  .browser_name {
+    font-size: 1em;
+  }
+}
+
+.item_hover {
+  padding-top: 1em;
+  padding-bottom: 1em;
+}
+
+@media (max-width: 991px) {
+  .item_hover {
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+  }
+}
+
+@media (max-width: 991px) and (orientation: landscape) {
+  .item_hover {
+    padding-top: 0.7em;
+    padding-bottom: 0.7em;
+  }
+}
+
+#browser_row {
+  padding-bottom: 0.5em;
+}
+
+.item_clickable {
+  cursor: pointer;
+}
+
+.myCol {
+  float: none;
+  width: auto;
+}
+
+@media (min-width: 300px) {
+  .myCol {
+    float: left;
+    width: 33.3333%;
+  }
+}
+
+#blocker {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #7e8ff1;
+  display: block;
+}
+
+body {
+  height: 100%;
+  width: 100%;
+  background-color: #7e8ff1;
+  color: rgb(61,57,53);
+  letter-spacing: 0.05em;
+  font-weight: 500;
+  text-align: center;
+  padding-top: 10vh;
+  padding-bottom: 10vh;
+}
+
