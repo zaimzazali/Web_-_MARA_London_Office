@@ -182,7 +182,7 @@ body {
   position: absolute;
   background-color: rgb(61, 57, 53);
   opacity: 1;
-  transition: 0.3s;
+  transition: opacity 0.3s;
   /*display: none;*/
 }
 
@@ -199,15 +199,6 @@ body {
   transform: translate(-50%, -50%) rotate(45deg) translate3d(0, 0, 0);
   animation: loader 1.2s infinite ease-in-out;
   display: none;
-}
-
-#blocker_blur {
-  /*position: absolute;*/
-  background-color: rgba(61, 57, 53, 0.4);
-  /*opacity: 0;*/
-  transition: 0.5s;
-  z-index: 500;
-  /*display: none;*/
 }
 
 .whole_page {
@@ -242,7 +233,7 @@ body {
   width: 90%;
   text-align: left;
   font-size: 90%;
-  /*display: none;*/
+  display: none;
 }
 
 #modal_forget_pass {
@@ -292,7 +283,7 @@ body {
   display: inline-block;
   width: 90%;
   text-align: left;
-  display: none;
+  /*display: none;*/
 }
 
 @media (min-width: 576px) {
@@ -382,7 +373,7 @@ body {
 
 @media (min-width: 992px) {
   #modal_display_with_button {
-    width: 40em;
+    width: 30em;
   }
 }
 
@@ -479,6 +470,7 @@ body {
 }
 
 #modal_login_form_holder {
+  position: relative;
   width: 18em;
   display: inline-block;
   background-color: rgba(255,255,255,0.95);
@@ -523,6 +515,7 @@ body {
 
 #contact_left_side {
   position: absolute;
+  overflow: hidden;
   display: none;
 }
 
@@ -538,17 +531,18 @@ body {
 }
 
 #login_left_side {
+  position: absolute;
+  float: left;
+  height: 100%;
+  background-color: rgb(61, 57, 53);
+  z-index: 150;
   display: none;
 }
 
 @media (min-width: 992px) {
   #login_left_side {
-    position: relative;
-    float: left;
     width: 50%;
-    background-color: rgb(61, 57, 53);
     display: block;
-    z-index: 150;
   }
 }
 
@@ -597,6 +591,7 @@ body {
 #login_right_side {
   position: relative;
   width: 100%;
+  height: 100%;
   padding-top: 1em;
   padding-left: 1em;
   padding-right: 1em;
@@ -608,6 +603,7 @@ body {
     padding-top: 3em;
     padding-left: 2em;
     padding-right: 2em;
+    padding-bottom: 0.5em;
   }
 }
 
@@ -663,7 +659,7 @@ body {
   padding-top: 1em;
 }
 
-.btn.btn-primary.hover_important:hover {
+.btn.btn-primary.hover_important:hover, .btn.btn-primary.hover_important:active, .btn.btn-primary.hover_important:focus, .btn.btn-primary.hover_important.active {
   background-color: #ffcc00;
   color: rgb(61, 57, 53);
 }
@@ -690,7 +686,7 @@ body {
 @media (min-width: 992px) {
   #input_row_forget_password {
     padding-top: 3.5em;
-    padding-bottom: 0em;
+    padding-bottom: 0.5em;
   }
 }
 
@@ -771,10 +767,6 @@ body {
   display: none;
 }
 
-#blur_blocker.visible {
-  opacity: 1;
-}
-
 .modal_holder_adjuster {
   text-align: center;
   width: 100%;
@@ -791,6 +783,13 @@ body {
 .holder_body {
   text-align: justify;
   font-size: 90%;
+}
+
+@media (min-width: 768px) {
+  .holder_body {
+    text-align: justify;
+    font-size: 100%;
+  }
 }
 
 #header_background_flag {
@@ -1098,6 +1097,7 @@ body {
 
 #contact_right_side {
   width: 100%;
+  overflow: hidden;
 }
 
 @media (min-width: 992px) {
@@ -1114,9 +1114,13 @@ body {
   position: absolute;
   background-color: rgba(61, 57, 53, 0.4);
   opacity: 0;
-  transition: 0.5s;
+  transition: opacity 0.5s;
   z-index: 400;
   display: none;
+}
+
+#blur_blocker.visible {
+  opacity: 1;
 }
 
 .btn.btn-primary.btn_red {
@@ -1127,7 +1131,56 @@ body {
   background-color: rgb(255,150,150);
 }
 
+.btn.btn-primary.signal_error {
+  background-color: rgb(255,150,150);
+  color: rgb(61, 57, 53);
+}
+
 .signal_ok {
   background-color: rgb(150,255,150);
+  color: rgb(61, 57, 53);
+}
+
+.btn.btn-primary.signal_ok {
+  background-color: rgb(150,255,150);
+}
+
+.modal_blocker {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 151;
+  background-color: rgba(61, 57, 53, 0.4);
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  display: none;
+}
+
+.modal_loader {
+  display: block;
+}
+
+.modal_empty {
+  background-color: transparent;
+  box-shadow: none;
+  border-radius: 50em;
+}
+
+#check_spinner {
+  display: none;
+}
+
+#check_text {
+  display: block;
+}
+
+.btn.btn-primary.btn_active_black:hover, .btn.btn-primary.btn_active_black:focus, .btn.btn-primary.btn_active_black:active {
+  background-color: rgb(61, 57, 53);
+  color: white;
+}
+
+.text_blue {
+  color: rgb(59, 85, 230);
 }
 
