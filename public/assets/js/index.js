@@ -1,21 +1,21 @@
-/* eslint-disable strict */
+"use strict";
 
-'use strict';
+// =====================================================================
+// =====================================================================
+// Global variable
 
-/* eslint-disable no-var */
-/* eslint-disable func-names */
-/* eslint-disable no-undef */
-/* eslint-disable prefer-destructuring */
-/* eslint-disable camelcase */
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-restricted-globals */
+var currentOrientation = window.orientation;
 
 // =====================================================================
 // =====================================================================
 // Related to browser's compatibility
 
 function checkBootstrapCompatibility() {
-  var flexWrap = document.createElement('p').style.flexWrap;
+  "use strict";
+
+  var flexWrap;
+
+  flexWrap = document.createElement("p").style.flexWrap;
   if (flexWrap === undefined) {
     return false;
   }
@@ -23,10 +23,12 @@ function checkBootstrapCompatibility() {
 }
 
 function showWebPage() {
+  "use strict";
+
   setTimeout(function () {
     window.scrollTo(0, 0);
-    document.getElementById('container_fixed_layers').style.display = 'none';
-    document.getElementById('loading_page').style.display = 'none';
+    document.getElementById("container_fixed_layers").style.display = "none";
+    document.getElementById("loading_page").style.display = "none";
   }, 1000);
 }
 
@@ -34,15 +36,19 @@ function showWebPage() {
 // =====================================================================
 
 function start() {
-  var isCompatible = false;
+  "use strict";
+
+  var isCompatible;
+
   isCompatible = checkBootstrapCompatibility();
 
   if (isCompatible) {
+    // -------------------------------------
     // General setup
     resetter();
 
     // Setup items in copyright section
-    setupItemsCopyrights();
+    setupPolicyItems();
 
     // Setup Side Menu
     setupSideMenu();
@@ -57,73 +63,39 @@ function start() {
     // Setup pop-up modals
     setupPopUp();
 
-    /*
-    // Contact Us setup
-    setupNavButtons();
-    setupSpans();
-    setupPolicyItems();
-    setupCollapseNavbar();
+    // Setup all input fields
     setupInputField();
 
-    // Sign Up setup
+    // -------------------------------------
+
+    // Setup - Contact Us
     setupSendMessageBtn();
 
-    // Forget Password setup
-    setupRegisterBtn();
-
-    // Login setup
+    // Setup - Forget Password
     setupForgetBtn();
 
-    // Pop Up Modal - Button setup
+    // Setup - Register
+    setupRegisterBtn();
+
+    // Setup - Login
     setupLoginBtn();
 
-    bindClickBtnPopUp();
+    // -------------------------------------
 
+    // Check if there is cookie related to logon
     checkCookie();
- */
+
+    // -------------------------------------
     showWebPage();
   } else {
     // Redirect to Not Compatible page
-    window.location.replace('/not_compatible');
+    window.location.replace("/not_compatible");
   }
 }
 
 // Polyfill at the very beginning
 if (window.addEventListener) {
-  addEventListener('load', start);
+  addEventListener("load", start);
 } else {
-  attachEvent('onload', start);
-}
-
-// =====================================================================
-// =====================================================================
-// To handle change in resolution @ orientation
-
-// On Orientation change
-$(window).on('orientationchange', function () {
-  sideMenuAutoClose();
-  orientationChange();
-});
-
-// On resize
-$(window).resize(function () {
-  sizeChange();
-});
-
-// =====================================================================
-// =====================================================================
-// Page transition
-
-function changePage() {
-  var container = document.getElementById('container_fixed_layers');
-  var loading_page = container.querySelector('#loading_page');
-
-  container.querySelector('#initial_loader').style.display = 'none';
-  loading_page.style.opacity = '0';
-
-  container.style.display = 'block';
-  loading_page.style.display = 'block';
-  setTimeout(function () {
-    loading_page.style.opacity = '1';
-  }, 1);
+  attachEvent("onload", start);
 }
