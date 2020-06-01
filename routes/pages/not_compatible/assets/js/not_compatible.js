@@ -1,16 +1,19 @@
+/* eslint-disable no-var */
+/* eslint-disable func-names */
+/* eslint-disable no-undef */
 /* eslint-disable strict */
 
 'use strict';
 
-/* eslint-disable no-var */
-/* eslint-disable func-names */
-/* eslint-disable no-undef */
-
 function openURL(urlString) {
+  'use strict';
+
   window.open(urlString, '_blank');
 }
 
 function setButtons() {
+  'use strict';
+
   var theObj;
 
   // Chrome
@@ -33,6 +36,8 @@ function setButtons() {
 }
 
 function start() {
+  'use strict';
+
   setButtons();
 }
 
