@@ -283,7 +283,7 @@ body {
   display: inline-block;
   width: 90%;
   text-align: left;
-  /*display: none;*/
+  display: none;
 }
 
 @media (min-width: 576px) {
@@ -959,6 +959,7 @@ body {
 }
 
 #section_bio_director_1 {
+  word-break: break-all;
   display: none;
 }
 
@@ -969,6 +970,7 @@ body {
 }
 
 #section_bio_developer_1 {
+  word-break: break-all;
   display: none;
 }
 
@@ -979,6 +981,7 @@ body {
 }
 
 #section_bio_director_2 {
+  word-break: break-all;
   padding-bottom: 2em;
   text-align: left;
 }
@@ -990,6 +993,7 @@ body {
 }
 
 #section_bio_developer_2 {
+  word-break: break-all;
   text-align: left;
 }
 
