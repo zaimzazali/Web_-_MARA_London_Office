@@ -1,11 +1,18 @@
-"use strict";
+/* eslint-disable func-names */
+/* eslint-disable prefer-destructuring */
+/* eslint-disable no-undef */
+/* eslint-disable no-var */
+/* eslint-disable no-unused-vars */
+/* eslint-disable strict */
+
+'use strict';
 
 // =====================================================================
 // =====================================================================
 // All login related matters
 
 function responseLogin(modal, divBlocker, response) {
-  "use strict";
+  'use strict';
 
   var modalObj;
   var inputBlocker;
@@ -13,16 +20,16 @@ function responseLogin(modal, divBlocker, response) {
 
   modalObj = modal;
   inputBlocker = divBlocker;
-  btn = inputBlocker.parentNode.querySelector("#btn_login");
+  btn = inputBlocker.parentNode.querySelector('#btn_login');
 
   switch (response[0]) {
-    case "OK":
+    case 'OK':
       switch (response[1]) {
-        case "Student":
-          window.location.replace("/portal_student");
+        case 'Student':
+          window.location.replace('/portal_student');
           break;
 
-        case "Admin_00":
+        case 'Admin_00':
           // Do Nothing
           break;
 
@@ -33,66 +40,66 @@ function responseLogin(modal, divBlocker, response) {
 
       break;
 
-    case "LOGGED":
+    case 'LOGGED':
       forceBlurBackground();
       setupPopUpContent(
-        "modal_display_with_button",
-        "Account in use!",
-        "It looks like your account is currently being used.<br />Please logout from all your devices first.",
+        'modal_display_with_button',
+        'Account in use!',
+        'It looks like your account is currently being used.<br />Please logout from all your devices first.',
         false,
         true
       );
-      displayPopUp(inputBlocker, "modal_display_with_button");
+      displayPopUp(inputBlocker, 'modal_display_with_button');
       break;
 
-    case "INACTIVE":
+    case 'INACTIVE':
       forceBlurBackground();
       setupPopUpContent(
-        "modal_display_with_button",
-        "Account is inactive!",
+        'modal_display_with_button',
+        'Account is inactive!',
         "Please register yourself first through 'Sign Up' to activate your account.",
         false,
         true
       );
-      displayPopUp(inputBlocker, "modal_display_with_button");
+      displayPopUp(inputBlocker, 'modal_display_with_button');
       clearInputField(modalObj);
       break;
 
-    case "BLOCKED":
+    case 'BLOCKED':
       forceBlurBackground();
       setupPopUpContent(
-        "modal_display_with_button",
-        "Account is blocked!",
+        'modal_display_with_button',
+        'Account is blocked!',
         "It looks like your account has been blocked by the system and could not log you in.<br />Kindly reach us through 'Contact Us'.",
         false,
         true
       );
-      displayPopUp(inputBlocker, "modal_display_with_button");
+      displayPopUp(inputBlocker, 'modal_display_with_button');
       break;
 
-    case "INVALID":
+    case 'INVALID':
       forceBlurBackground();
       setupPopUpContent(
-        "modal_display_with_button",
-        "Invalid login credentials!",
-        "You may have inputted a wrong combination of your MARA Reference Number and Password.",
+        'modal_display_with_button',
+        'Invalid login credentials!',
+        'You may have inputted a wrong combination of your MARA Reference Number and Password.',
         false,
         true
       );
-      displayPopUp(inputBlocker, "modal_display_with_button");
+      displayPopUp(inputBlocker, 'modal_display_with_button');
       clearInputField(modalObj);
       break;
 
-    case "ERROR":
+    case 'ERROR':
       forceBlurBackground();
       setupPopUpContent(
-        "modal_display_with_button",
-        "Something is not right!",
-        "There was an error that occurred while checking your login credentials.<br />Please try again.",
+        'modal_display_with_button',
+        'Something is not right!',
+        'There was an error that occurred while checking your login credentials.<br />Please try again.',
         true,
         true
       );
-      displayPopUp(inputBlocker, "modal_display_with_button");
+      displayPopUp(inputBlocker, 'modal_display_with_button');
       break;
 
     default:
@@ -100,12 +107,12 @@ function responseLogin(modal, divBlocker, response) {
       break;
   }
 
-  btn.classList.remove("active");
+  btn.classList.remove('active');
   btn.blur();
 }
 
 function getReadyToLogin(modal, btn) {
-  "use strict";
+  'use strict';
 
   var modalObj;
   var inputID;
@@ -116,20 +123,19 @@ function getReadyToLogin(modal, btn) {
   var divBlocker;
 
   modalObj = modal;
-  inputID = modalObj.getElementsByClassName("input_id")[0].value.trim();
-  inputPass = modalObj.getElementsByClassName("input_password")[0].value.trim();
+  inputID = modalObj.getElementsByClassName('input_id')[0].value.trim();
+  inputPass = modalObj.getElementsByClassName('input_password')[0].value.trim();
 
   if (inputID.length > 0 && inputPass.length > 0) {
     data.id = inputID;
     data.password = inputPass;
 
     theBtn = btn;
-    theBtn.classList.add("active");
+    theBtn.classList.add('active');
 
-    divBlocker = modalObj.getElementsByClassName("modal_blocker")[0];
-    divBlocker.getElementsByClassName("modal_loader")[0].style.display =
-      "block";
-    divBlocker.style.display = "block";
+    divBlocker = modalObj.getElementsByClassName('modal_blocker')[0];
+    divBlocker.getElementsByClassName('modal_loader')[0].style.display = 'block';
+    divBlocker.style.display = 'block';
 
     /*
     $.ajax({
@@ -153,14 +159,14 @@ function getReadyToLogin(modal, btn) {
 // Set Login Button click event
 
 function setupLoginBtn() {
-  "use strict";
+  'use strict';
 
   var modal;
   var theBtn;
 
-  modal = document.getElementById("modal_login_form_holder");
-  theBtn = modal.querySelector("#btn_login");
-  theBtn.addEventListener("click", function () {
+  modal = document.getElementById('modal_login_form_holder');
+  theBtn = modal.querySelector('#btn_login');
+  theBtn.addEventListener('click', function () {
     getReadyToLogin(modal, this);
   });
 }

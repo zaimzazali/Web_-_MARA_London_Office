@@ -1,11 +1,18 @@
-"use strict";
+/* eslint-disable func-names */
+/* eslint-disable prefer-destructuring */
+/* eslint-disable no-undef */
+/* eslint-disable no-var */
+/* eslint-disable no-unused-vars */
+/* eslint-disable strict */
+
+'use strict';
 
 // =====================================================================
 // =====================================================================
 // Send Message related matters
 
 function responseSendMessage(divBlocker, response) {
-  "use strict";
+  'use strict';
 
   var inputBlocker;
   var modal;
@@ -13,45 +20,38 @@ function responseSendMessage(divBlocker, response) {
   inputBlocker = divBlocker;
   modal = inputBlocker.parentNode;
 
-  if (response === "OK") {
+  if (response === 'OK') {
     setupPopUpContent(
-      "modal_display_with_button",
-      "Thank you for your message!",
-      "You will receive an acknowledgement e-mail with a copy of your message shortly.",
+      'modal_display_with_button',
+      'Thank you for your message!',
+      'You will receive an acknowledgement e-mail with a copy of your message shortly.',
       false,
       false
     );
-    displayPopUp(inputBlocker, "modal_display_with_button");
+    displayPopUp(inputBlocker, 'modal_display_with_button');
     clearInputField(modal);
   } else {
     setupPopUpContent(
-      "modal_display_with_button",
-      "Something is not right!",
-      "Your message could not be sent.<br />Please try again.",
+      'modal_display_with_button',
+      'Something is not right!',
+      'Your message could not be sent.<br />Please try again.',
       true,
       true
     );
-    displayPopUp(inputBlocker, "modal_display_with_button");
+    displayPopUp(inputBlocker, 'modal_display_with_button');
   }
 }
 
-function sendTheMessage(
-  divBlocker,
-  inputName,
-  inputEmail,
-  inputMaraId,
-  inputMessage,
-  tmpMessage
-) {
-  "use strict";
+function sendTheMessage(divBlocker, inputName, inputEmail, inputMaraId, inputMessage, tmpMessage) {
+  'use strict';
 
   var maraID;
   var data = {};
 
   maraID = inputMaraId;
 
-  if (maraID.trim() === "") {
-    maraID = "NA";
+  if (maraID.trim() === '') {
+    maraID = 'NA';
   }
 
   data.name = inputName;
@@ -76,7 +76,7 @@ function sendTheMessage(
 }
 
 function getReadyToSendMessage(obj) {
-  "use strict";
+  'use strict';
 
   var theBtn;
   var modal;
@@ -100,25 +100,25 @@ function getReadyToSendMessage(obj) {
   modal = theBtn.parentNode.parentNode.parentNode;
 
   // Name
-  inputNameObj = modal.getElementsByClassName("input_name")[0];
+  inputNameObj = modal.getElementsByClassName('input_name')[0];
   inputName = inputNameObj.value;
   returnVal.push(isNameValid(inputName));
   returnVal[returnVal.length - 1].push(inputNameObj);
   Signals.push(returnVal[returnVal.length - 1][0]);
 
   // Email
-  inputEmailObj = modal.getElementsByClassName("input_email")[0];
+  inputEmailObj = modal.getElementsByClassName('input_email')[0];
   inputEmail = inputEmailObj.value;
   returnVal.push(isEmailAddressValid(inputEmail));
   returnVal[returnVal.length - 1].push(inputEmailObj);
   Signals.push(returnVal[returnVal.length - 1][0]);
 
   // MARA ID - OPTIONAL
-  inputMaraIdObj = modal.getElementsByClassName("input_id")[0];
+  inputMaraIdObj = modal.getElementsByClassName('input_id')[0];
   inputMaraId = inputMaraIdObj.value;
   inputMaraId = inputMaraId.trim();
   if (inputMaraId.length === 0) {
-    returnVal.push([true, "", inputMaraIdObj]);
+    returnVal.push([true, '', inputMaraIdObj]);
     Signals.push(returnVal[returnVal.length - 1][0]);
   } else {
     returnVal.push(isMARAidValid(inputMaraId));
@@ -127,7 +127,7 @@ function getReadyToSendMessage(obj) {
   }
 
   // Message
-  inputMessageObj = modal.getElementsByClassName("input_textarea")[0];
+  inputMessageObj = modal.getElementsByClassName('input_textarea')[0];
   inputMessage = inputMessageObj.value;
   returnVal.push(isMessageValid(inputMessage));
   returnVal[returnVal.length - 1].push(inputMessageObj);
@@ -138,23 +138,16 @@ function getReadyToSendMessage(obj) {
   if (Signals.includes(false)) {
     for (i = 0; i < returnVal.length; i += 1) {
       if (!returnVal[i][0]) {
-        returnVal[i][2].classList.add("signal_error");
+        returnVal[i][2].classList.add('signal_error');
         theBtn.blur();
       }
     }
   } else {
-    theBtn.classList.add("active");
+    theBtn.classList.add('active');
     divBlocker = showLoader(modal);
-    tmpMessage = inputMessage.replace(/\n/g, "<br>\n");
+    tmpMessage = inputMessage.replace(/\n/g, '<br>\n');
 
-    sendTheMessage(
-      divBlocker,
-      inputName,
-      inputEmail,
-      inputMaraId,
-      inputMessage,
-      tmpMessage
-    );
+    sendTheMessage(divBlocker, inputName, inputEmail, inputMaraId, inputMessage, tmpMessage);
   }
 }
 
@@ -163,12 +156,12 @@ function getReadyToSendMessage(obj) {
 // Set all Send button click event
 
 function setupSendMessageBtn() {
-  "use strict";
+  'use strict';
 
   var theBtn;
 
-  theBtn = document.getElementById("btn_send_message");
-  theBtn.addEventListener("click", function () {
+  theBtn = document.getElementById('btn_send_message');
+  theBtn.addEventListener('click', function () {
     getReadyToSendMessage(this);
   });
 }

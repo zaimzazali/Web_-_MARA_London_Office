@@ -1,8 +1,11 @@
-"use strict";
+/* eslint-disable no-unused-vars */
+/* eslint-disable strict */
+
+'use strict';
 
 // Check if login cookie has already set
 function checkCookie() {
-  "use strict";
+  'use strict';
 
   /*
     $.ajax({

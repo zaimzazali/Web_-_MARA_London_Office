@@ -1,40 +1,43 @@
-"use strict";
+/* eslint-disable func-names */
+/* eslint-disable no-unused-vars */
+/* eslint-disable prefer-template */
+/* eslint-disable no-undef */
+/* eslint-disable no-var */
+/* eslint-disable strict */
+
+'use strict';
 
 // =====================================================================
 // =====================================================================
 // Extra functions
 
 function scrollToTop(modalObj) {
-  "use strict";
+  'use strict';
 
   var overflowBody;
   var i;
 
-  overflowBody = modalObj.getElementsByClassName("overflow_y");
+  overflowBody = modalObj.getElementsByClassName('overflow_y');
   for (i = 0; i < overflowBody.length; i += 1) {
     overflowBody[i].scrollTop = 0;
   }
 }
 
 function backgroundBlurAdjuster(modalObj) {
-  "use strict";
+  'use strict';
 
   var modal;
   var heightBackground;
   var heightDivBlocker;
 
   modal = modalObj;
-  heightBackground = document.getElementById("container_background")
-    .offsetHeight;
-  heightDivBlocker =
-    modal.parentNode.parentNode.parentNode.parentNode.offsetHeight;
+  heightBackground = document.getElementById('container_background').offsetHeight;
+  heightDivBlocker = modal.parentNode.parentNode.parentNode.parentNode.offsetHeight;
 
   if (heightBackground < heightDivBlocker) {
-    modal.parentNode.parentNode.parentNode.style.height =
-      heightDivBlocker + "px";
+    modal.parentNode.parentNode.parentNode.style.height = heightDivBlocker + 'px';
   } else if (heightBackground > heightDivBlocker) {
-    modal.parentNode.parentNode.parentNode.style.height =
-      heightBackground + "px";
+    modal.parentNode.parentNode.parentNode.style.height = heightBackground + 'px';
   }
 }
 
@@ -43,7 +46,7 @@ function backgroundBlurAdjuster(modalObj) {
 // Opening
 
 function performModalPopUp(modalObj, animationName) {
-  "use strict";
+  'use strict';
 
   var modal;
 
@@ -52,19 +55,19 @@ function performModalPopUp(modalObj, animationName) {
   backgroundBlurAdjuster(modal);
 
   // If the modal is Sign Up, Handle MARA ID validation
-  if (modal.id === "modal_sign_up") {
+  if (modal.id === 'modal_sign_up') {
     normalValidate(modal);
     normalCheckBox(modal);
   }
 
-  modal.parentNode.parentNode.parentNode.style.display = "block";
-  modal.parentNode.parentNode.style.display = "block";
-  document.getElementById("blur_blocker").style.display = "block";
+  modal.parentNode.parentNode.parentNode.style.display = 'block';
+  modal.parentNode.parentNode.style.display = 'block';
+  document.getElementById('blur_blocker').style.display = 'block';
 
   setTimeout(function () {
-    document.getElementById("blur_blocker").classList.add("visible");
+    document.getElementById('blur_blocker').classList.add('visible');
     modal.classList.add(animationName);
-    modal.style.display = "inline-block";
+    modal.style.display = 'inline-block';
 
     setTimeout(function () {
       scrollToTop(modal);
@@ -73,7 +76,7 @@ function performModalPopUp(modalObj, animationName) {
 }
 
 function openModal(btnObj, modalName, animationName, btnName) {
-  "use strict";
+  'use strict';
 
   var modalObj;
   var btn;
@@ -84,7 +87,7 @@ function openModal(btnObj, modalName, animationName, btnName) {
 
   btn = btnObj;
   try {
-    btn.classList.add("active");
+    btn.classList.add('active');
   } catch (err) {
     // Do nothing
   }
@@ -96,47 +99,47 @@ function openModal(btnObj, modalName, animationName, btnName) {
 
   setTitleAndContent(btn, modalObj, btnName);
 
-  btns = modalObj.getElementsByTagName("button");
+  btns = modalObj.getElementsByTagName('button');
   for (i = 0; i < btns.length; i += 1) {
-    if (btns[i].classList.contains("active")) {
-      btns[i].classList.remove("active");
+    if (btns[i].classList.contains('active')) {
+      btns[i].classList.remove('active');
     }
   }
 
-  blocker = document.getElementById("blur_blocker");
-  if (modalObj.parentNode.parentNode.id === "modals_holder_2") {
-    blocker.style.zIndex = "510";
+  blocker = document.getElementById('blur_blocker');
+  if (modalObj.parentNode.parentNode.id === 'modals_holder_2') {
+    blocker.style.zIndex = '510';
   }
 
-  sideMenuVisibility = document.getElementById("side-menu").style.display;
-  if (sideMenuVisibility === "block") {
-    closeSideMenu("partial");
+  sideMenuVisibility = document.getElementById('side-menu').style.display;
+  if (sideMenuVisibility === 'block') {
+    closeSideMenu('partial');
   }
 
   performModalPopUp(modalObj, animationName);
 }
 
 function bindClickOpen(flag, btnName, modalName, animationName) {
-  "use strict";
+  'use strict';
 
   var btnObj;
   var i;
 
   switch (flag) {
-    case "byClass":
+    case 'byClass':
       btnObj = document.getElementsByClassName(btnName);
 
       for (i = 0; i < btnObj.length; i += 1) {
-        btnObj[i].addEventListener("click", function () {
+        btnObj[i].addEventListener('click', function () {
           openModal(this, modalName, animationName, btnName);
         });
       }
 
       break;
 
-    case "byID":
+    case 'byID':
       btnObj = document.getElementById(btnName);
-      btnObj.addEventListener("click", function () {
+      btnObj.addEventListener('click', function () {
         openModal(this, modalName, animationName, null);
       });
       break;
@@ -152,7 +155,7 @@ function bindClickOpen(flag, btnName, modalName, animationName) {
 // Closing
 
 function executeLayerClose(params) {
-  "use strict";
+  'use strict';
 
   /*
     Variables
@@ -175,13 +178,10 @@ function executeLayerClose(params) {
   removeBlockerBackground = false;
   theTargetDiv = document.getElementById(params[0]);
 
-  modals = document.getElementsByClassName("type_modal");
+  modals = document.getElementsByClassName('type_modal');
   availModal = 0;
-  for (i = 0; i < modals.length; i++) {
-    if (
-      modals[i].style.display === "block" ||
-      modals[i].style.display === "inline-block"
-    ) {
+  for (i = 0; i < modals.length; i += 1) {
+    if (modals[i].style.display === 'block' || modals[i].style.display === 'inline-block') {
       availModal += 1;
     }
   }
@@ -190,56 +190,51 @@ function executeLayerClose(params) {
     removeBlockerBackground = true;
   }
 
-  blockerBackground = document.getElementById("blur_blocker");
+  blockerBackground = document.getElementById('blur_blocker');
   if (removeBlockerBackground) {
-    blockerBackground.style.transitionDuration = params[3] / 1000 + "s";
-    blockerBackground.classList.remove("visible");
+    blockerBackground.style.transitionDuration = params[3] / 1000 + 's';
+    blockerBackground.classList.remove('visible');
   }
 
   theObj = document.getElementsByClassName(params[4]);
-  for (i = 0; i < theObj.length; i++) {
-    theObj[i].classList.remove("active");
+  for (i = 0; i < theObj.length; i += 1) {
+    theObj[i].classList.remove('active');
   }
 
   theTargetDiv.classList.add(params[2]);
   toRemain = true;
   try {
     toRemain = theTargetDiv
-      .getElementsByClassName("btn_popup")[0]
-      .classList.contains("stay_remain");
+      .getElementsByClassName('btn_popup')[0]
+      .classList.contains('stay_remain');
   } catch (error) {
     // Do Nothing
   }
 
-  blockerBackground.style.zIndex = "400";
+  blockerBackground.style.zIndex = '400';
 
   setTimeout(function () {
-    theTargetDiv.style.display = "none";
+    theTargetDiv.style.display = 'none';
     theTargetDiv.classList.remove(params[1]);
     theTargetDiv.classList.remove(params[2]);
 
-    theTargetDiv.parentNode.parentNode.style.display = "none";
+    theTargetDiv.parentNode.parentNode.style.display = 'none';
     if (removeBlockerBackground) {
-      blockerBackground.style.display = "none";
-      blockerBackground.style.transitionDuration = "0.5s";
+      blockerBackground.style.display = 'none';
+      blockerBackground.style.transitionDuration = '0.5s';
 
-      theTargetDiv.parentNode.parentNode.parentNode.style.display = "none";
+      theTargetDiv.parentNode.parentNode.parentNode.style.display = 'none';
 
       // Login Blocker
-      document.getElementsByClassName("modal_blocker")[0].style.display =
-        "none";
+      document.getElementsByClassName('modal_blocker')[0].style.display = 'none';
     } else {
-      modals = document.getElementsByClassName("type_modal");
-      for (i = 0; i < modals.length; i++) {
-        if (
-          modals[i].style.display === "block" ||
-          modals[i].style.display === "inline-block"
-        ) {
+      modals = document.getElementsByClassName('type_modal');
+      for (i = 0; i < modals.length; i += 1) {
+        if (modals[i].style.display === 'block' || modals[i].style.display === 'inline-block') {
           if (toRemain) {
-            modals[i].getElementsByClassName("modal_blocker")[0].style.display =
-              "none";
+            modals[i].getElementsByClassName('modal_blocker')[0].style.display = 'none';
           } else {
-            modals[i].getElementsByClassName("btn_exit")[0].click();
+            modals[i].getElementsByClassName('btn_exit')[0].click();
           }
         }
       }
@@ -248,55 +243,45 @@ function executeLayerClose(params) {
 }
 
 function closeLayer(itemClassName, modalName, animationName) {
-  "use strict";
+  'use strict';
 
   var timing;
   var counterAnim;
 
   switch (animationName) {
-    case "slideUp":
+    case 'slideUp':
       timing = 600;
-      counterAnim = "slideDown";
+      counterAnim = 'slideDown';
       break;
-    case "bounceOut":
+    case 'bounceOut':
       timing = 800;
-      counterAnim = "bounceIn";
+      counterAnim = 'bounceIn';
       break;
-    case "jackInTheBoxOut":
+    case 'jackInTheBoxOut':
       timing = 800;
-      counterAnim = "jackInTheBox";
+      counterAnim = 'jackInTheBox';
       break;
     default:
       // Do Nothing
       break;
   }
 
-  executeLayerClose([
-    modalName,
-    counterAnim,
-    animationName,
-    timing,
-    itemClassName,
-  ]);
+  executeLayerClose([modalName, counterAnim, animationName, timing, itemClassName]);
 }
 
 function bindClickClose(objs, modalName, animationName) {
-  "use strict";
+  'use strict';
 
   var theObj;
 
   try {
-    theObj = document
-      .getElementById(modalName)
-      .getElementsByClassName("btn_exit");
-    theObj[0].addEventListener("click", function () {
+    theObj = document.getElementById(modalName).getElementsByClassName('btn_exit');
+    theObj[0].addEventListener('click', function () {
       closeLayer(objs, modalName, animationName);
     });
   } catch (error) {
-    theObj = document
-      .getElementById(modalName)
-      .getElementsByClassName("btn_popup");
-    theObj[0].addEventListener("click", function () {
+    theObj = document.getElementById(modalName).getElementsByClassName('btn_popup');
+    theObj[0].addEventListener('click', function () {
       closeLayer(objs, modalName, animationName);
     });
   }
@@ -307,21 +292,21 @@ function bindClickClose(objs, modalName, animationName) {
 // New Tab
 
 function openNewTab(indicator) {
-  "use strict";
+  'use strict';
 
   var url;
   var win;
 
   switch (indicator) {
-    case "facebook":
-      url = "https://www.facebook.com/mara.london.uk/";
-      win = window.open(url, "_blank");
+    case 'facebook':
+      url = 'https://www.facebook.com/mara.london.uk/';
+      win = window.open(url, '_blank');
       win.focus();
       break;
-    case "ig":
+    case 'ig':
       // Do Nothing
       break;
-    case "linkedin":
+    case 'linkedin':
       // Do Nothing
       break;
     default:
@@ -331,12 +316,12 @@ function openNewTab(indicator) {
 }
 
 function bindOpenURL(objId, socmed) {
-  "use strict";
+  'use strict';
 
   var theObj;
 
   theObj = document.getElementById(objId);
-  theObj.addEventListener("click", function () {
+  theObj.addEventListener('click', function () {
     openNewTab(socmed);
   });
 }
