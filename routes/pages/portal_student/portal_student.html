@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-GB" xml:lang="en-GB">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
+    <title>Dashboard - Brand</title>
+    <meta name="twitter:image" content="assets/img/OG_01.png" />
+    <meta property="og:image" content="assets/img/OG_01.png" />
+    <meta
+      name="twitter:description"
+      content="This portal is one of the digital project initiatives to aid MARA London to manage its resources. In line with the digitalisation agenda, this project would transform the work processes and make them more efficient than ever."
+    />
+    <meta
+      name="description"
+      content="This portal is one of the digital project initiatives to aid MARA London to manage its resources. In line with the digitalisation agenda, this project would transform the work processes and make them more efficient than ever."
+    />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:title" content="MARA London | Student Portal" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/img/fav_a.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/img/fav_b.png" />
+    <link rel="icon" type="image/png" sizes="180x180" href="assets/img/fav_c.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="assets/img/fav_d.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="assets/img/fav_e.png" />
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+    />
+    <link rel="stylesheet" href="assets/fonts/fontawesome-all.min.css" />
+    <link rel="stylesheet" href="assets/fonts/ionicons.min.css" />
+    <link rel="stylesheet" href="assets/fonts/material-icons.min.css" />
+    <link rel="stylesheet" href="assets/css/loader.css" />
+    <link rel="stylesheet" href="assets/css/portal_student.css" />
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/logout.js"></script>
+    <script src="assets/js/pageTransition.js"></script>
+    <script src="assets/js/portal_student.js"></script>
+    <script src="assets/js/setupSideBar.js"></script>
+    <script src="assets/js/smoothScrolling.js"></script>
+    <script src="assets/js/theme.js"></script>
+  </head>
+
+  <body id="scroll_body">
+    <div id="wrapper">
+      <nav
+        class="navbar navbar-dark text-center align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0"
+        id="navbar_holder"
+      >
+        <div class="container-fluid d-flex flex-column p-0">
+          <div>
+            <div id="brand_holder"><img id="logo_00" src="assets/img/logo_mara_01.png" /></div>
+            <div id="logon_holder">
+              <span id="logon_name" class="span_col">FULL NAME FULL NAME FULL NAME<br /></span
+              ><span id="logon_maraiID" class="span_col">0000000000</span>
+            </div>
+            <div id="hr_holder">
+              <hr class="sidebar-divider my-0 horizontal_hr" />
+            </div>
+          </div>
+          <div id="div_nav_bottom_section">
+            <ul class="nav navbar-nav text-light">
+              <li class="nav-item sideNav clickable active" role="presentation">
+                <a class="nav-link active">
+                  <div class="nav_link_icon_holder"><i class="fas fa-tachometer-alt"></i></div>
+                  <div class="nav_link_text_holder"><span>Dashboard</span></div>
+                </a>
+              </li>
+              <li class="nav-item sideNav clickable" role="presentation">
+                <a class="nav-link active">
+                  <div class="nav_link_icon_holder"><i class="fas fa-user"></i></div>
+                  <div class="nav_link_text_holder"><span>Profile</span></div>
+                </a>
+              </li>
+              <li class="nav-item sideNav clickable disabled" role="presentation">
+                <a class="nav-link disabled active">
+                  <div class="nav_link_icon_holder"><i class="fas fa-graduation-cap"></i></div>
+                  <div class="nav_link_text_holder"><span>Academic Results</span></div>
+                </a>
+              </li>
+              <li class="nav-item sideNav clickable multiChoice" role="presentation">
+                <a class="nav-link active collapsed">
+                  <div class="nav_link_icon_holder"><i class="icon ion-document-text"></i></div>
+                  <div class="nav_link_text_holder"><span>Forms</span></div>
+                  <div class="nav_link_dropdown_holder">
+                    <i class="icon ion-ios-arrow-right icon_collapsed" id="icon_right"></i
+                    ><i class="icon ion-ios-arrow-down icon_collapsed" id="icon_down"></i>
+                  </div>
+                </a>
+              </li>
+              <li class="nav-item" role="presentation">
+                <div id="collapseForms" class="default_cursor">
+                  <div class="text-left">
+                    <div id="collapsed_header"><span>MARA Forms</span></div>
+                    <div class="myCollapse-item">
+                      <div class="row_holder clickable">
+                        <div class="forms_code"><span>ML01</span></div>
+                        <div class="forms_name"><span>Student Registration</span></div>
+                      </div>
+                    </div>
+                    <div class="myCollapse-item clickable">
+                      <div class="row_holder">
+                        <div class="forms_code"><span>ML02</span></div>
+                        <div class="forms_name">
+                          <span>Flight Booking and Final Allowance</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="myCollapse-item clickable">
+                      <div class="row_holder">
+                        <div class="forms_code"><span>ML03</span></div>
+                        <div class="forms_name"><span>Flight Claim</span></div>
+                      </div>
+                    </div>
+                    <div class="myCollapse-item clickable">
+                      <div class="row_holder">
+                        <div class="forms_code"><span>ML05</span></div>
+                        <div class="forms_name"><span>Thesis Claim</span></div>
+                      </div>
+                    </div>
+                    <div class="myCollapse-item clickable">
+                      <div class="row_holder">
+                        <div class="forms_code"><span>ML12</span></div>
+                        <div class="forms_name"><span>Payment Instruction</span></div>
+                      </div>
+                    </div>
+                    <div class="myCollapse-item clickable">
+                      <div class="row_holder">
+                        <div class="forms_code"><span>BPPM B 05A</span></div>
+                        <div class="forms_name"><span>Other Application</span></div>
+                      </div>
+                    </div>
+                    <div class="myCollapse-item clickable">
+                      <div class="row_holder">
+                        <div class="forms_code"><span class="code_text">N/A</span></div>
+                        <div class="forms_name"><span>Declaration of Consent</span></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </li>
+              <li class="nav-item sideNav clickable" role="presentation">
+                <a class="nav-link active">
+                  <div class="nav_link_icon_holder">
+                    <i class="material-icons">perm_phone_msg</i>
+                  </div>
+                  <div class="nav_link_text_holder"><span>Contact Us</span></div>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+      <div id="header" class="right_side">
+        <nav
+          class="navbar navbar-light navbar-expand bg-white shadow mb-4 topbar static-top"
+          id="top_nav_holder"
+        >
+          <div class="container-fluid">
+            <button
+              class="btn btn-link d-md-none rounded-circle mr-3"
+              id="sidebarToggleTop"
+              type="button"
+            >
+              <i class="fas fa-bars"></i>
+            </button>
+            <ul class="nav navbar-nav flex-nowrap ml-auto">
+              <div class="d-none d-sm-block topbar-divider"></div>
+              <li class="nav-item dropdown no-arrow clickable" role="presentation">
+                <div class="nav-item dropdown">
+                  <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false"
+                    ><span
+                      class="d-none d-lg-inline mr-2 text-gray-600 small span_white"
+                      id="right_side_full_name"
+                      >SHORT NAME</span
+                    ><img
+                      class="border rounded-circle img-profile"
+                      id="profile_picture"
+                      src="assets/img/default_profile_pic.png"
+                  /></a>
+                  <div
+                    class="dropdown-menu shadow dropdown-menu-right animated--grow-in"
+                    role="menu"
+                  >
+                    <a class="dropdown-item" role="presentation" id="btn_logout"
+                      ><i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i
+                      >&nbsp;Logout</a
+                    >
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </div>
+      <div id="info_holder" class="right_side">
+        <div class="d-flex flex-column" id="content-wrapper">
+          <div class="container-fluid" id="container">
+            <div id="panel_dashboard" class="panel_box">
+              <div class="content_box">
+                <div class="d-sm-flex justify-content-between align-items-center mb-4">
+                  <h3 class="text-dark mb-0 panel_title">Dashboard</h3>
+                </div>
+                <div class="row">
+                  <div
+                    class="col d-flex d-xl-flex justify-content-center align-items-center justify-content-xl-center align-items-xl-center"
+                  >
+                    <img class="underCon" src="assets/img/underCon.png" />
+                  </div>
+                </div>
+                <div class="row">
+                  <div
+                    class="col d-flex d-xl-flex justify-content-center align-items-center justify-content-xl-center align-items-xl-center"
+                  >
+                    <img class="underCon" src="assets/img/underCon.png" />
+                  </div>
+                </div>
+                <div class="row">
+                  <div
+                    class="col d-flex d-xl-flex justify-content-center align-items-center justify-content-xl-center align-items-xl-center"
+                  >
+                    <img class="underCon" src="assets/img/underCon.png" />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div id="panel_profile" class="panel_box">
+              <div class="content_box">
+                <div class="d-sm-flex justify-content-between align-items-center mb-4">
+                  <h3 class="text-dark mb-0 panel_title">Profile</h3>
+                </div>
+                <div class="row">
+                  <div
+                    class="col d-flex d-xl-flex justify-content-center align-items-center justify-content-xl-center align-items-xl-center"
+                  >
+                    <img class="underCon" src="assets/img/underCon.png" />
+                  </div>
+                </div>
+                <div class="row">
+                  <div
+                    class="col d-flex d-xl-flex justify-content-center align-items-center justify-content-xl-center align-items-xl-center"
+                  >
+                    <img class="underCon" src="assets/img/underCon.png" />
+                  </div>
+                </div>
+                <div class="row">
+                  <div
+                    class="col d-flex d-xl-flex justify-content-center align-items-center justify-content-xl-center align-items-xl-center"
+                  >
+                    <img class="underCon" src="assets/img/underCon.png" />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div id="panel_results" class="panel_box">
+              <div class="content_box">
+                <div class="d-sm-flex justify-content-between align-items-center mb-4">
+                  <h3 class="text-dark mb-0 panel_title">Academic Results</h3>
+                </div>
+                <div class="row">
+                  <div
+                    class="col d-flex d-xl-flex justify-content-center align-items-center justify-content-xl-center align-items-xl-center"
+                  >
+                    <img class="underCon" src="assets/img/underCon.png" />
+                  </div>
+                </div>
+                <div class="row">
+                  <div
+                    class="col d-flex d-xl-flex justify-content-center align-items-center justify-content-xl-center align-items-xl-center"
+                  >
+                    <img class="underCon" src="assets/img/underCon.png" />
+                  </div>
+                </div>
+                <div class="row">
+                  <div
+                    class="col d-flex d-xl-flex justify-content-center align-items-center justify-content-xl-center align-items-xl-center"
+                  >
+                    <img class="underCon" src="assets/img/underCon.png" />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div id="panel_forms" class="panel_box">
+              <div class="content_box">
+                <div class="d-sm-flex justify-content-between align-items-center mb-4">
+                  <h3 class="text-dark mb-0 panel_title">Forms</h3>
+                </div>
+                <div class="row">
+                  <div
+                    class="col d-flex d-xl-flex justify-content-center align-items-center justify-content-xl-center align-items-xl-center"
+                  >
+                    <img class="underCon" src="assets/img/underCon.png" />
+                  </div>
+                </div>
+                <div class="row">
+                  <div
+                    class="col d-flex d-xl-flex justify-content-center align-items-center justify-content-xl-center align-items-xl-center"
+                  >
+                    <img class="underCon" src="assets/img/underCon.png" />
+                  </div>
+                </div>
+                <div class="row">
+                  <div
+                    class="col d-flex d-xl-flex justify-content-center align-items-center justify-content-xl-center align-items-xl-center"
+                  >
+                    <img class="underCon" src="assets/img/underCon.png" />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div id="panel_contactUs" class="panel_box">
+              <div class="content_box">
+                <div class="d-sm-flex justify-content-between align-items-center mb-4">
+                  <h3 class="text-dark mb-0 panel_title">Contact Us</h3>
+                </div>
+                <div class="row">
+                  <div
+                    class="col d-flex d-xl-flex justify-content-center align-items-center justify-content-xl-center align-items-xl-center"
+                  >
+                    <img class="underCon" src="assets/img/underCon.png" />
+                  </div>
+                </div>
+                <div class="row">
+                  <div
+                    class="col d-flex d-xl-flex justify-content-center align-items-center justify-content-xl-center align-items-xl-center"
+                  >
+                    <img class="underCon" src="assets/img/underCon.png" />
+                  </div>
+                </div>
+                <div class="row">
+                  <div
+                    class="col d-flex d-xl-flex justify-content-center align-items-center justify-content-xl-center align-items-xl-center"
+                  >
+                    <img class="underCon" src="assets/img/underCon.png" />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="text-center" id="footer">
+              <div class="row no-gutters">
+                <div class="col">
+                  <span>Zaim Zazali for MARA London<br /></span>
+                </div>
+              </div>
+              <div class="row no-gutters">
+                <div class="col">
+                  <span>© All Rights Reserved 2020<br /></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="loading_page" class="page_fixed page_whole">
+      <div id="initial_loader" class="loader">
+        <span></span><span></span><span></span><span></span>
+      </div>
+    </div>
+  </body>
+</html>
