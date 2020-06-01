@@ -1,4 +1,11 @@
-"use strict";
+/* eslint-disable no-restricted-globals */
+/* eslint-disable func-names */
+/* eslint-disable no-undef */
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-var */
+/* eslint-disable strict */
+
+'use strict';
 
 // =====================================================================
 // =====================================================================
@@ -11,11 +18,11 @@ var currentOrientation = window.orientation;
 // Related to browser's compatibility
 
 function checkBootstrapCompatibility() {
-  "use strict";
+  'use strict';
 
   var flexWrap;
 
-  flexWrap = document.createElement("p").style.flexWrap;
+  flexWrap = document.createElement('p').style.flexWrap;
   if (flexWrap === undefined) {
     return false;
   }
@@ -23,12 +30,12 @@ function checkBootstrapCompatibility() {
 }
 
 function showWebPage() {
-  "use strict";
+  'use strict';
 
   setTimeout(function () {
     window.scrollTo(0, 0);
-    document.getElementById("container_fixed_layers").style.display = "none";
-    document.getElementById("loading_page").style.display = "none";
+    document.getElementById('container_fixed_layers').style.display = 'none';
+    document.getElementById('loading_page').style.display = 'none';
   }, 1000);
 }
 
@@ -36,7 +43,7 @@ function showWebPage() {
 // =====================================================================
 
 function start() {
-  "use strict";
+  'use strict';
 
   var isCompatible;
 
@@ -89,13 +96,13 @@ function start() {
     showWebPage();
   } else {
     // Redirect to Not Compatible page
-    window.location.replace("/not_compatible");
+    window.location.replace('/not_compatible');
   }
 }
 
 // Polyfill at the very beginning
 if (window.addEventListener) {
-  addEventListener("load", start);
+  addEventListener('load', start);
 } else {
-  attachEvent("onload", start);
+  attachEvent('onload', start);
 }

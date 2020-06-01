@@ -1,7 +1,12 @@
-"use strict";
+/* eslint-disable camelcase */
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-var */
+/* eslint-disable strict */
+
+'use strict';
 
 function encodeSingleQuote(input) {
-  "use strict";
+  'use strict';
 
   var theInput;
 
@@ -11,7 +16,7 @@ function encodeSingleQuote(input) {
 }
 
 function decodeSingleQuote(input) {
-  "use strict";
+  'use strict';
 
   var theInput;
 
@@ -21,36 +26,33 @@ function decodeSingleQuote(input) {
 }
 
 function isNameValid(input) {
-  "use strict";
+  'use strict';
 
   var resultSignal;
   var theInput;
 
   try {
     theInput = input.toString();
-    theInput = theInput.replace(/\s+/g, " ").trim();
+    theInput = theInput.replace(/\s+/g, ' ').trim();
     theInput = encodeURIComponent(theInput);
     theInput = encodeSingleQuote(theInput);
 
     if (theInput.length < 2) {
-      resultSignal = [false, "Please enter your proper name!"];
+      resultSignal = [false, 'Please enter your proper name!'];
       return resultSignal;
     }
 
     // If everything is okay
     resultSignal = [true, theInput];
   } catch (error) {
-    resultSignal = [
-      false,
-      "There is something wrong during the name validation!",
-    ];
+    resultSignal = [false, 'There is something wrong during the name validation!'];
   }
 
   return resultSignal;
 }
 
 function isEmailAddressValid(input) {
-  "use strict";
+  'use strict';
 
   var resultSignal;
   var errorMessage_0;
@@ -59,11 +61,11 @@ function isEmailAddressValid(input) {
   var rgxp;
   var startIndex;
 
-  errorMessage_0 = "Please ensure the e-mail address is correct!";
+  errorMessage_0 = 'Please ensure the e-mail address is correct!';
 
   try {
     theInput = input.toString();
-    theInput = theInput.replace(/\s/g, "").trim();
+    theInput = theInput.replace(/\s/g, '').trim();
     theInput = encodeURIComponent(theInput);
     theInput = encodeSingleQuote(theInput);
 
@@ -73,19 +75,19 @@ function isEmailAddressValid(input) {
       return resultSignal;
     }
 
-    rgxp = new RegExp(encodeURIComponent("@"), "g");
+    rgxp = new RegExp(encodeURIComponent('@'), 'g');
 
     if (
-      theInput.indexOf(encodeURIComponent("@")) < 1 ||
+      theInput.indexOf(encodeURIComponent('@')) < 1 ||
       (theInput.match(rgxp) || []).length !== 1 ||
-      theInput.indexOf(encodeURIComponent("@")) === theInput.length - 1
+      theInput.indexOf(encodeURIComponent('@')) === theInput.length - 1
     ) {
       resultSignal = [false, errorMessage_0];
       return resultSignal;
     }
 
     // Checking the input after "@" in the email address
-    startIndex = theInput.indexOf(encodeURIComponent("@"));
+    startIndex = theInput.indexOf(encodeURIComponent('@'));
     theInput2 = theInput.substring(startIndex + 1);
 
     if (theInput2.length < 3) {
@@ -93,12 +95,12 @@ function isEmailAddressValid(input) {
       return resultSignal;
     }
 
-    rgxp = new RegExp(encodeURIComponent("."), "g");
+    rgxp = new RegExp(encodeURIComponent('.'), 'g');
 
     if (
-      theInput2.indexOf(encodeURIComponent(".")) < 1 ||
+      theInput2.indexOf(encodeURIComponent('.')) < 1 ||
       (theInput2.match(rgxp) || []).length < 1 ||
-      theInput2.indexOf(encodeURIComponent(".")) === theInput2.length - 1
+      theInput2.indexOf(encodeURIComponent('.')) === theInput2.length - 1
     ) {
       resultSignal = [false, errorMessage_0];
       return resultSignal;
@@ -107,17 +109,14 @@ function isEmailAddressValid(input) {
     // If everything is okay
     resultSignal = [true, theInput];
   } catch (error) {
-    resultSignal = [
-      false,
-      "There is something wrong during the email validation!",
-    ];
+    resultSignal = [false, 'There is something wrong during the email validation!'];
   }
 
   return resultSignal;
 }
 
 function isMessageValid(input) {
-  "use strict";
+  'use strict';
 
   var resultSignal;
   var theInput;
@@ -127,42 +126,39 @@ function isMessageValid(input) {
     theInput = theInput.trim();
 
     if (theInput.length < 2) {
-      resultSignal = [false, "Please enter your message!"];
+      resultSignal = [false, 'Please enter your message!'];
       return resultSignal;
     }
 
     // If everything is okay
     resultSignal = [true, theInput];
   } catch (error) {
-    resultSignal = [
-      false,
-      "There is something wrong during the message validation!",
-    ];
+    resultSignal = [false, 'There is something wrong during the message validation!'];
   }
 
   return resultSignal;
 }
 
 function isMARAidValid(input) {
-  "use strict";
+  'use strict';
 
   var resultSignal;
   var errorMessage_0;
   var theInput;
 
-  errorMessage_0 = "Please ensure the MARA Reference Number is correct!";
+  errorMessage_0 = 'Please ensure the MARA Reference Number is correct!';
 
   try {
     theInput = input.toString();
     theInput = theInput.trim();
-    theInput = theInput.replace(/\s/g, "");
+    theInput = theInput.replace(/\s/g, '');
 
-    if (theInput.replace(/\D/g, "").length !== theInput.length) {
+    if (theInput.replace(/\D/g, '').length !== theInput.length) {
       resultSignal = [false, errorMessage_0];
       return resultSignal;
     }
 
-    theInput = theInput.replace(/\D/g, "");
+    theInput = theInput.replace(/\D/g, '');
 
     if (theInput.length < 9) {
       resultSignal = [false, errorMessage_0];
@@ -172,17 +168,14 @@ function isMARAidValid(input) {
     // If everything is okay
     resultSignal = [true, theInput];
   } catch (error) {
-    resultSignal = [
-      false,
-      "There is something wrong during the MARA Reference Number validation!",
-    ];
+    resultSignal = [false, 'There is something wrong during the MARA Reference Number validation!'];
   }
 
   return resultSignal;
 }
 
 function isPasswordValid(input) {
-  "use strict";
+  'use strict';
 
   var resultSignal;
   var theInput;
@@ -191,24 +184,21 @@ function isPasswordValid(input) {
     theInput = input.toString();
 
     if (theInput.length < 8) {
-      resultSignal = [false, "Please ensure the password follows the rule!"];
+      resultSignal = [false, 'Please ensure the password follows the rule!'];
       return resultSignal;
     }
 
     // If everything is okay
     resultSignal = [true, theInput];
   } catch (error) {
-    resultSignal = [
-      false,
-      "There is something wrong during the Password validation!",
-    ];
+    resultSignal = [false, 'There is something wrong during the Password validation!'];
   }
 
   return resultSignal;
 }
 
 function isPasswordSame(input, inputOri) {
-  "use strict";
+  'use strict';
 
   var resultSignal;
   var theInput;
@@ -219,17 +209,14 @@ function isPasswordSame(input, inputOri) {
     theInputOri = inputOri.toString();
 
     if (theInput !== theInputOri) {
-      resultSignal = [false, "Please ensure the password is the same!"];
+      resultSignal = [false, 'Please ensure the password is the same!'];
       return resultSignal;
     }
 
     // If everything is okay
-    resultSignal = [true, ""];
+    resultSignal = [true, ''];
   } catch (error) {
-    resultSignal = [
-      false,
-      "There is something wrong during the Confirm Password validation!",
-    ];
+    resultSignal = [false, 'There is something wrong during the Confirm Password validation!'];
   }
 
   return resultSignal;
