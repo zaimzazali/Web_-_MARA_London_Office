@@ -12,30 +12,88 @@
 // Modules initialisation
 
 var express = require('express');
-
 var path = require('path');
-
 var bodyParser = require('body-parser');
+var AWS = require('aws-sdk');
 
-var cookieSession = require('cookie-session');
+// --------------------------------------------------------------------------------------------------------------
+// Other Server-Side files
 
 var services_contactUs = require('./routes/serverSideJs/services_contactUs');
-
 var services_signUp = require('./routes/serverSideJs/services_signUp');
+
+/*
+
 
 var services_forgetPassword = require('./routes/serverSideJs/services_forgetPassword');
 
 var services_login = require('./routes/serverSideJs/services_login');
 
+var cookieSession = require('cookie-session');
 var services_cookieSession = require('./routes/serverSideJs/services_cookieSession');
 
 var extraFunctions = require('./routes/serverSideJs/extraFunctions');
+*/
 
 // --------------------------------------------------------------------------------------------------------------
 // Express setting
 
 var app = express();
-var port = 1337;
+var port = 80;
+
+// --------------------------------------------------------------------------------------------------------------
+// AWS setting
+
+AWS.config.loadFromPath('./routes/aws/config.json');
+
+/*
+// Create createTemplate params
+var params = {
+  Template: {
+    TemplateName: 'test1',
+    HtmlPart: '<html><h1>TEST</h1></html>',
+    SubjectPart: 'TEST_SUBJECT',
+  },
+};
+
+// Create the promise and SES service object
+var templatePromise = new AWS.SES({ apiVersion: '2010-12-01' }).createTemplate(params).promise();
+
+// Handle promise's fulfilled/rejected states
+templatePromise
+  .then(function (data) {
+    console.log(data);
+  })
+  .catch(function (err) {
+    console.error(err, err.stack);
+  });
+*/
+
+/*
+// Create sendTemplatedEmail params
+var params = {
+  Destination: {
+    CcAddresses: ['gv19698@bristol.ac.uk'],
+    ToAddresses: ['zaim.pe.srcutp@gmail.com'],
+  },
+  Source: 'zaim.zazali@gmail.com',
+  Template: 'test1',
+  TemplateData: '{ "name":"testing" }',
+  ReplyToAddresses: ['zaim.zazali@gmail.com'],
+};
+
+// Create the promise and SES service object
+var sendPromise = new AWS.SES({ apiVersion: '2010-12-01' }).sendTemplatedEmail(params).promise();
+
+// Handle promise's fulfilled/rejected states
+sendPromise
+  .then(function (data) {
+    console.log(data);
+  })
+  .catch(function (err) {
+    console.error(err, err.stack);
+  });
+  */
 
 // --------------------------------------------------------------------------------------------------------------
 // Serving Public Page
@@ -74,7 +132,7 @@ app.use(directAccess);
 
 // --------------------------------------------------------------------------------------------------------------
 // Cookie Session
-
+/*
 app.set('trust proxy', 1);
 app.use(
   cookieSession({
@@ -111,7 +169,7 @@ app.post('/remove_cookie', function (request, response, next) {
 
   run();
 });
-
+*/
 // --------------------------------------------------------------------------------------------------------------
 // Other Pages
 
@@ -171,6 +229,7 @@ app.post('/check_MARA_id', function (request, response) {
 
   run();
 });
+
 app.post('/register_user', function (request, response) {
   var run = async function run() {
     try {
@@ -186,7 +245,7 @@ app.post('/register_user', function (request, response) {
 
 // --------------------------------------------------------------------------------------------------------------
 // Forget Password
-
+/*
 app.post('/forget_password', function (request, response) {
   var run = async function run() {
     try {
@@ -199,10 +258,10 @@ app.post('/forget_password', function (request, response) {
 
   run();
 });
-
+*/
 // --------------------------------------------------------------------------------------------------------------
 // Login
-
+/*
 app.post('/login', function (request, response) {
   var run = async function run() {
     try {
@@ -215,10 +274,10 @@ app.post('/login', function (request, response) {
 
   run();
 });
-
+*/
 // --------------------------------------------------------------------------------------------------------------
 // Logon
-
+/*
 app.post('/logon', function (request, response) {
   var run = async function run() {
     try {
@@ -231,15 +290,15 @@ app.post('/logon', function (request, response) {
 
   run();
 });
-
+*/
 // --------------------------------------------------------------------------------------------------------------
 // Before exit user page
-
+/*
 app.post('/setLogout', function (request, response) {
   services_login.setLogout(request);
   response.send('OK');
 });
-
+*/
 // --------------------------------------------------------------------------------------------------------------
 // Hosting
 

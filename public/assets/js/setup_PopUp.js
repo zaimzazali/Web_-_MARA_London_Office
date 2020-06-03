@@ -30,13 +30,14 @@ function setupPopUpContent(divName, stringTitle, stringContent, isError, toRemai
     popUpModal.getElementsByClassName('modal_header')[0].classList.remove('text_red');
   }
 
-  // Body
+  // Body and Button
   if (isError) {
     theBtn.classList.add('btn_red');
     theBtn.innerHTML = 'CLOSE';
     popUpModal.getElementsByClassName('modal_body')[0].classList.add('text_red');
   } else {
     theBtn.innerHTML = 'OK';
+    theBtn.classList.remove('btn_red');
     popUpModal.getElementsByClassName('modal_body')[0].classList.remove('text_red');
   }
 
