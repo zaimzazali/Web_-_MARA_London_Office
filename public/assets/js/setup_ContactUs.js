@@ -61,18 +61,17 @@ function sendTheMessage(divBlocker, inputName, inputEmail, inputMaraId, inputMes
   data.tmpMessage = tmpMessage;
   data.currentTimeStamp = getCurrentTimeStamp();
 
-  /*
   $.ajax({
-    type: "POST",
+    type: 'POST',
     async: true,
     data: JSON.stringify(data),
-    contentType: "application/json",
-    url: "/send_message_contact_us",
+    contentType: 'application/json',
+    url: '/send_message_contact_us',
     success: function success(response) {
+      console.log(response);
       responseSendMessage(divBlocker, response);
     },
   });
-  */
 }
 
 function getReadyToSendMessage(obj) {

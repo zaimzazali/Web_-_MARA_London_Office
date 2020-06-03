@@ -1,13 +1,14 @@
-/* eslint-disable strict */
+/* eslint-disable no-console */
+/* eslint-disable func-names */
 /* eslint-disable camelcase */
+/* eslint-disable strict */
 
 'use strict';
 
 const services_database = require('./services_database');
-const services_mailer = require('./services_mailer');
+// const services_mailer = require('./services_mailer');
 
-const tableName = 'contactUs_messages';
-
+/*
 async function setupWholeEmail(request, emailBody, latestIndex) {
   const theMessage = await services_mailer.messageDetails(
     request.body.email,
@@ -29,32 +30,59 @@ function setupEmailBody(request) {
 
   return emailBody;
 }
+*/
 
-function setupErrorSQL() {
-  const sqlStatment = `DELETE FROM ${tableName} WHERE refNum = INDEXNUM`;
-  return sqlStatment;
-}
+function startExecution(db, request) {
+  return new Promise(function (resolve, reject) {
+    db.beginTransaction(function (err, transaction) {
+      // Step 1 - Record the enquiry
+      transaction.run(
+        `INSERT INTO contactUs_messages (timeStampGMT0, senderName, senderEmail, senderMARAid, senderMessage) ` +
+          `VALUES ('${request.body.currentTimeStamp}','${request.body.name}','${request.body.email}',` +
+          `'${request.body.maraID}','${request.body.message}')`,
+        function (err1) {
+          if (err1) {
+            reject(new Error(err1.message));
+            return console.log(err1.message);
+          }
+          return console.log('Query Pass');
+        }
+      );
 
-function setupSQLstatement(request) {
-  const sqlStatment =
-    `INSERT INTO ${tableName} (timeStampGMT0, senderName, senderEmail, senderWebsite, senderMessage) ` +
-    `VALUES ('${request.body.currentTimeStamp}','${request.body.name}','${request.body.email}',` +
-    `'${request.body.web}','${request.body.message}')`;
+      /*
+      // Step 2 - Send acknowledgement email
+      transaction.run(
+        `INSERT INTO contactUs_messages (timeStampGMT0, senderName, senderEmail, senderMARAid, senderMessage) ` +
+          `VALUES ('${request.body.currentTimeStamp}','${request.body.name}','${request.body.email}',` +
+          `'${request.body.maraID}','${request.body.message}')`,
+        function (err2) {
+          if (err2) {
+            reject(new Error(err2.message));
+            return console.log(err2.message);
+          }
 
-  return sqlStatment;
+          // To .commit() or .rollback()
+          transaction.commit(function (err3) {
+            if (err3) {
+              console.log('Transaction commit() failed. Rollback...', err);
+              reject(new Error(err3.message));
+            }
+            console.log('Transaction commit() was successful.');
+            resolve('OK');
+          });
+          // or transaction.rollback()
+        }
+      );
+      */
+    });
+  });
 }
 
 module.exports = {
   async sendEmail(request) {
     try {
-      // Record the data into database
-      const sqlStatment = setupSQLstatement(request);
-      const sqlError = setupErrorSQL();
-      const latestIndex = await services_database.insertData(sqlStatment);
-      // Send the acknowledgement
-      const emailBody = setupEmailBody(request);
-      const theMessage = await setupWholeEmail(request, emailBody, latestIndex);
-      await services_mailer.send(theMessage, sqlError, latestIndex);
+      const db = await services_database.openConnection();
+      await startExecution(db, request);
     } catch (error) {
       throw new Error(error);
     }

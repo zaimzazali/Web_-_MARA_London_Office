@@ -18,6 +18,7 @@ DROP TABLE IF EXISTS historyPassword_list;
 DROP TABLE IF EXISTS userPassword_list;
 DROP TABLE IF EXISTS user_list;
 
+DROP TABLE IF EXISTS profilePicture_list;
 DROP TABLE IF EXISTS studyLevel_list;
 DROP TABLE IF EXISTS studyField_list;
 DROP TABLE IF EXISTS country_list;
@@ -94,6 +95,13 @@ CREATE TABLE studyLevel_list (
 	studyLevelName TEXT(250) DEFAULT NA NOT NULL,
 	CONSTRAINT studyLevel_list_PK PRIMARY KEY (studyLevelCode),
 	CONSTRAINT studyLevel_list_UN UNIQUE (studyLevelName)
+);
+
+CREATE TABLE profilePicture_list (
+	profilePictureCode INTEGER NOT NULL,
+	profilePictureName TEXT DEFAULT NA NOT NULL,
+	CONSTRAINT profilePicture_list_PK PRIMARY KEY (profilePictureCode),
+	CONSTRAINT profilePicture_list_UN UNIQUE (profilePictureName)
 );
 
 /*
@@ -190,6 +198,7 @@ CREATE TABLE userDetails_list (
 	ethnicityCode INTEGER DEFAULT 0 NOT NULL,
 	stateCode INTEGER DEFAULT 0 NOT NULL,
 	addressCode INTEGER DEFAULT 0 NOT NULL,
+	profilePictureCode INTEGER DEFAULT 0 NOT NULL,
 	CONSTRAINT userDetails_list_PK PRIMARY KEY (num),
 	CONSTRAINT userDetails_list_UN_1 UNIQUE (userID),
 	CONSTRAINT userDetails_list_UN_2 UNIQUE (userMyKad),
@@ -200,7 +209,8 @@ CREATE TABLE userDetails_list (
 	CONSTRAINT userDetails_list_FK_4 FOREIGN KEY (ethnicityCode) REFERENCES ethnicity_list(ethnicityCode) ON UPDATE CASCADE,
 	CONSTRAINT userDetails_list_FK_5 FOREIGN KEY (stateCode) REFERENCES state_list(stateCode) ON UPDATE CASCADE,
 	CONSTRAINT userDetails_list_FK_6 FOREIGN KEY (addressCode) REFERENCES address_list(addressCode) ON UPDATE CASCADE,
-	CONSTRAINT userDetails_list_FK_7 FOREIGN KEY (userID) REFERENCES user_list(userID)
+	CONSTRAINT userDetails_list_FK_7 FOREIGN KEY (profilePictureCode) REFERENCES profilePicture_list(profilePictureCode) ON UPDATE CASCADE,
+	CONSTRAINT userDetails_list_FK_8 FOREIGN KEY (userID) REFERENCES user_list(userID)
 );
 
 /*
@@ -304,7 +314,8 @@ SELECT
 	`country_list`.countryName AS current_country,
 	`postTown_list`.postTownName AS current_town,
 	`address_list`.postCode AS current_postcode,
-	`address_list`.addressLine AS current_address
+	`address_list`.addressLine AS current_address,
+	`profilePicture_list`.profilePictureName AS profile_picture
 FROM
     `user_list`
 LEFT OUTER JOIN `userDetails_list` ON `user_list`.userID = `userDetails_list`.userID
@@ -315,7 +326,8 @@ LEFT OUTER JOIN `ethnicity_list` ON `userDetails_list`.ethnicityCode = `ethnicit
 LEFT OUTER JOIN `state_list` ON `userDetails_list`.stateCode = `state_list`.stateCode
 LEFT OUTER JOIN `address_list` ON `userDetails_list`.addressCode = `address_list`.addressCode
 LEFT OUTER JOIN `postTown_list` ON `address_list`.postTownCode = `postTown_list`.postTownCode
-LEFT OUTER JOIN `country_list` ON `postTown_list`.countryCode = `country_list`.countryCode;
+LEFT OUTER JOIN `country_list` ON `postTown_list`.countryCode = `country_list`.countryCode
+LEFT OUTER JOIN `profilePicture_list` ON `userDetails_list`.profilePictureCode = `profilePicture_list`.profilePictureCode;
 
 
 CREATE VIEW view_userEducationDetails AS 
