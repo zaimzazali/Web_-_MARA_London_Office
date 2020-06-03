@@ -24,4 +24,16 @@ module.exports = {
       );
     });
   },
+  closeConnection(db) {
+    return new Promise(function (resolve, reject) {
+      try {
+        db.close();
+        resolve('OK');
+        console.log('Database Connection closed');
+      } catch (error) {
+        reject(new Error(error));
+        console.log('Database Connection closure error');
+      }
+    });
+  },
 };

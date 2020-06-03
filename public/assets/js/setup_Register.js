@@ -79,18 +79,16 @@ function registerMe(divBlocker, MARAid, inputName, inputEmail, inputPassword) {
   data.email = inputEmail;
   data.password = inputPassword;
 
-  /*
   $.ajax({
-    type: "POST",
+    type: 'POST',
     async: true,
     data: JSON.stringify(data),
-    contentType: "application/json",
-    url: "/register_user",
+    contentType: 'application/json',
+    url: '/register_user',
     success: function success(response) {
       responseRegisterUser(divBlocker, response);
     },
   });
-  */
 }
 
 function getReadyToRegister(modal, btn) {
@@ -260,6 +258,7 @@ function validateMARAid(btn, modal) {
   var feedback;
 
   var blocker;
+  var data = {};
 
   modalObj = modal;
   theBtn = btn;
@@ -297,27 +296,19 @@ function validateMARAid(btn, modal) {
     blocker.getElementsByClassName('modal_loader')[0].style.display = 'block';
     blocker.style.display = 'block';
 
-    /*
-    var data = {};
     data.id = inputID;
     $.ajax({
-      type: "POST",
+      type: 'POST',
       async: true,
       data: JSON.stringify(data),
-      contentType: "application/json",
-      url: "/check_MARA_id",
+      contentType: 'application/json',
+      url: '/check_MARA_id',
       success: function success(response) {
         setTimeout(function () {
-          responseCheckMARAid(
-            theBtn,
-            blocker,
-            response,
-            inputFieldObj
-          );
+          responseCheckMARAid(theBtn, blocker, response, inputFieldObj);
         }, 500);
       },
     });
-    */
   } else {
     inputFieldObj.classList.add('signal_error');
     theBtn.blur();

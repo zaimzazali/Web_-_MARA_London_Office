@@ -20,9 +20,10 @@ var AWS = require('aws-sdk');
 // Other Server-Side files
 
 var services_contactUs = require('./routes/serverSideJs/services_contactUs');
+var services_signUp = require('./routes/serverSideJs/services_signUp');
 
 /*
-var services_signUp = require('./routes/serverSideJs/services_signUp');
+
 
 var services_forgetPassword = require('./routes/serverSideJs/services_forgetPassword');
 
@@ -215,7 +216,7 @@ app.post('/send_message_contact_us', function (request, response) {
 
 // --------------------------------------------------------------------------------------------------------------
 // Sign Up
-/*
+
 app.post('/check_MARA_id', function (request, response) {
   var run = async function run() {
     try {
@@ -228,6 +229,7 @@ app.post('/check_MARA_id', function (request, response) {
 
   run();
 });
+
 app.post('/register_user', function (request, response) {
   var run = async function run() {
     try {
@@ -240,7 +242,7 @@ app.post('/register_user', function (request, response) {
 
   run();
 });
-*/
+
 // --------------------------------------------------------------------------------------------------------------
 // Forget Password
 /*
