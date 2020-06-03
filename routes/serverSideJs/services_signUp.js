@@ -164,62 +164,6 @@ async function b(request) {
   let tableName = null;
   let sqlStatment = null;
 
-  // Insert user details
-  try {
-    tableName = 'userDetails_list';
-    sqlStatment =
-      `INSERT INTO ${tableName} (userFullName, userMyKad, userEmail, userID) ` +
-      `VALUES ('${request.body.name}', '${request.body.mykad}', '${request.body.email}',` +
-      `'${request.body.maraID}')`;
-    await services_database.insertData(sqlStatment);
-  } catch (error) {
-    throw new Error(error);
-  }
-*/
-/*
-  // Encrypt the password
-  let hashedPassword = null;
-  try {
-    hashedPassword = await services_encryptor.ecryptString(request.body.password);
-  } catch (error) {
-    // Rollback - Delete user details
-    await deleteUserDetails(request);
-    throw new Error(error);
-  }
-*/
-/*
-  // Insert user password
-  try {
-    tableName = 'userPassword_list';
-    sqlStatment =
-      `INSERT INTO ${tableName} (userPassword, userID, needReset) ` +
-      `VALUES ('${hashedPassword}', '${request.body.maraID}', 'NO')`;
-
-    await services_database.insertData(sqlStatment);
-  } catch (error) {
-    // Rollback - Delete user details
-    await deleteUserDetails(request);
-    throw new Error(error);
-  }
-*/
-/*
-  // Update user accessibility
-  try {
-    tableName = 'user_list';
-    sqlStatment =
-      `UPDATE ${tableName} SET isRegistered = 'YES', isAccountActive = 'YES',  userTypeCode = 1 ` +
-      `WHERE userID = '${request.body.maraID}'`;
-
-    await services_database.updateData(sqlStatment);
-  } catch (error) {
-    // Rollback - Delete user password
-    await deleteUserPassword(request);
-
-    // Rollback - Delete user details
-    await deleteUserDetails(request);
-    throw new Error(error);
-  }
-
   // Send registration confirmation email to user
   const emailBody = setupEmailBody(request);
   const theMessage = await setupWholeEmail(request, emailBody);
