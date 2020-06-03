@@ -42,23 +42,32 @@ function responseSendMessage(divBlocker, response) {
   }
 }
 
-function sendTheMessage(divBlocker, inputName, inputEmail, inputMaraId, inputMessage, tmpMessage) {
+function sendTheMessage(params) {
   'use strict';
+
+  /*
+  0 - inputName
+  1 - inputEmail
+  2 - inputMaraId
+  3 - inputMessage
+  4 - tmpMessage
+  5 - divBlocker
+   */
 
   var maraID;
   var data = {};
 
-  maraID = inputMaraId;
+  maraID = params[2];
 
   if (maraID.trim() === '') {
     maraID = 'NA';
   }
 
-  data.name = inputName;
-  data.email = inputEmail;
+  data.name = params[0];
+  data.email = params[1];
   data.maraID = maraID;
-  data.message = inputMessage;
-  data.tmpMessage = tmpMessage;
+  data.message = params[3];
+  data.tmpMessage = params[4];
   data.currentTimeStamp = getCurrentTimeStamp();
 
   $.ajax({
@@ -68,8 +77,7 @@ function sendTheMessage(divBlocker, inputName, inputEmail, inputMaraId, inputMes
     contentType: 'application/json',
     url: '/send_message_contact_us',
     success: function success(response) {
-      console.log(response);
-      responseSendMessage(divBlocker, response);
+      responseSendMessage(params[5], response);
     },
   });
 }
@@ -83,14 +91,9 @@ function getReadyToSendMessage(obj) {
   var Signals = [];
   var i;
 
-  var inputNameObj;
-  var inputName;
-  var inputEmailObj;
-  var inputEmail;
-  var inputMaraIdObj;
-  var inputMaraId;
-  var inputMessageObj;
-  var inputMessage;
+  var params = [];
+  var inputObj;
+  var inputValue;
 
   var divBlocker;
   var tmpMessage;
@@ -99,38 +102,43 @@ function getReadyToSendMessage(obj) {
   modal = theBtn.parentNode.parentNode.parentNode;
 
   // Name
-  inputNameObj = modal.getElementsByClassName('input_name')[0];
-  inputName = inputNameObj.value;
-  returnVal.push(isNameValid(inputName));
-  returnVal[returnVal.length - 1].push(inputNameObj);
+  inputObj = modal.getElementsByClassName('input_name')[0];
+  inputValue = inputObj.value;
+  returnVal.push(isNameValid(inputValue));
+  returnVal[returnVal.length - 1].push(inputObj);
   Signals.push(returnVal[returnVal.length - 1][0]);
+  params.push(inputValue);
 
   // Email
-  inputEmailObj = modal.getElementsByClassName('input_email')[0];
-  inputEmail = inputEmailObj.value;
-  returnVal.push(isEmailAddressValid(inputEmail));
-  returnVal[returnVal.length - 1].push(inputEmailObj);
+  inputObj = modal.getElementsByClassName('input_email')[0];
+  inputValue = inputObj.value;
+  returnVal.push(isEmailAddressValid(inputValue));
+  returnVal[returnVal.length - 1].push(inputObj);
   Signals.push(returnVal[returnVal.length - 1][0]);
+  params.push(inputValue);
 
   // MARA ID - OPTIONAL
-  inputMaraIdObj = modal.getElementsByClassName('input_id')[0];
-  inputMaraId = inputMaraIdObj.value;
-  inputMaraId = inputMaraId.trim();
-  if (inputMaraId.length === 0) {
-    returnVal.push([true, '', inputMaraIdObj]);
+  inputObj = modal.getElementsByClassName('input_id')[0];
+  inputValue = inputObj.value;
+  inputValue = inputValue.trim();
+  if (inputValue.length === 0) {
+    returnVal.push([true, '', inputObj]);
     Signals.push(returnVal[returnVal.length - 1][0]);
+    params.push('');
   } else {
-    returnVal.push(isMARAidValid(inputMaraId));
-    returnVal[returnVal.length - 1].push(inputMaraIdObj);
+    returnVal.push(isMARAidValid(inputValue));
+    returnVal[returnVal.length - 1].push(inputObj);
     Signals.push(returnVal[returnVal.length - 1][0]);
+    params.push(inputValue);
   }
 
   // Message
-  inputMessageObj = modal.getElementsByClassName('input_textarea')[0];
-  inputMessage = inputMessageObj.value;
-  returnVal.push(isMessageValid(inputMessage));
-  returnVal[returnVal.length - 1].push(inputMessageObj);
+  inputObj = modal.getElementsByClassName('input_textarea')[0];
+  inputValue = inputObj.value;
+  returnVal.push(isMessageValid(inputValue));
+  returnVal[returnVal.length - 1].push(inputObj);
   Signals.push(returnVal[returnVal.length - 1][0]);
+  params.push(inputValue);
 
   // -----------------------------------------------------------------
 
@@ -144,9 +152,11 @@ function getReadyToSendMessage(obj) {
   } else {
     theBtn.classList.add('active');
     divBlocker = showLoader(modal);
-    tmpMessage = inputMessage.replace(/\n/g, '<br>\n');
+    tmpMessage = inputValue.replace(/\n/g, '<br>\n');
+    params.push(tmpMessage);
+    params.push(divBlocker);
 
-    sendTheMessage(divBlocker, inputName, inputEmail, inputMaraId, inputMessage, tmpMessage);
+    sendTheMessage(params);
   }
 }
 

@@ -49,6 +49,16 @@ function startExecution(db, request) {
         }
       );
 
+      // To .commit() or .rollback()
+      transaction.commit(function (err3) {
+        if (err3) {
+          console.log('Transaction commit() failed. Rollback...', err);
+          reject(new Error(err3.message));
+        }
+        console.log('Transaction commit() was successful.');
+        resolve('OK');
+      });
+
       /*
       // Step 2 - Send acknowledgement email
       transaction.run(
