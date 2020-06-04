@@ -148,7 +148,7 @@ function getReadyToLogin(modal, btn) {
       url: '/login',
       success: function success(response) {
         setTimeout(function () {
-          responseLogin(divBlocker, response);
+          responseLogin(modalObj, divBlocker, response);
         }, 500);
       },
     });

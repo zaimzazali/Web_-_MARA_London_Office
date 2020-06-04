@@ -22,10 +22,9 @@ var AWS = require('aws-sdk');
 var services_contactUs = require('./routes/serverSideJs/services_contactUs');
 var services_signUp = require('./routes/serverSideJs/services_signUp');
 var services_forgetPassword = require('./routes/serverSideJs/services_forgetPassword');
+var services_login = require('./routes/serverSideJs/services_login');
 
 /*
-
-var services_login = require('./routes/serverSideJs/services_login');
 
 var cookieSession = require('cookie-session');
 var services_cookieSession = require('./routes/serverSideJs/services_cookieSession');
@@ -267,20 +266,22 @@ app.post('/forget_password', function (request, response) {
 
 // --------------------------------------------------------------------------------------------------------------
 // Login
-/*
+
 app.post('/login', function (request, response) {
-  var run = async function run() {
-    try {
-      var data = await services_login.tryLogin(request);
-      response.send(data);
-    } catch (error) {
-      response.send('ERROR');
-    }
-  };
+  async function run() {
+    await services_login
+      .tryLogin(request)
+      .then(function (result) {
+        response.send(result);
+      })
+      .catch(function () {
+        response.send('ERROR');
+      });
+  }
 
   run();
 });
-*/
+
 // --------------------------------------------------------------------------------------------------------------
 // Logon
 /*
