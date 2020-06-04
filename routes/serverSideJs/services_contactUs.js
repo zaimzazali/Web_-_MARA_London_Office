@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+/* eslint-disable prefer-destructuring */
 /* eslint-disable no-console */
 /* eslint-disable func-names */
 /* eslint-disable camelcase */
@@ -6,35 +8,44 @@
 'use strict';
 
 const services_database = require('./services_database');
-// const services_mailer = require('./services_mailer');
+const services_mailer = require('./services_mailer');
 
 // =====================================================================
 // =====================================================================
 // Email
 
-/*
-async function setupWholeEmail(request, emailBody, latestIndex) {
-  const theMessage = await services_mailer.messageDetails(
-    request.body.email,
-    'zaim.zazali.2019@bristol.ac.uk',
-    `[MARA London] REF: CU${`00000${latestIndex}`.slice(-5)} - Message Acknowledgement`,
-    emailBody
-  );
-  return theMessage;
-}
+function emailing(inputValues) {
+  return new Promise(function (resolve, reject) {
+    // Setting up the parameters
+    const emailData = {};
+    emailData.refNumber = inputValues[0];
+    emailData.senderName = inputValues[1];
+    emailData.senderEmail = inputValues[2];
+    emailData.senderMARAid = inputValues[3];
+    emailData.senderTmpMessage = inputValues[4];
 
-function setupEmailBody(request) {
-  const emailBody =
-    `<span><b>From:</b> ${request.body.name}</span><br/>` +
-    `<span><b>Email:</b> ${request.body.email}</span><br/>` +
-    `<span><b>Web:</b> ${request.body.web}</span><br/>` +
-    `<br/>` +
-    `<span><b>Message:</b></span><br/>` +
-    `<span>${request.body.tmpMessage}</span>`;
+    const params = {
+      Destination: {
+        ToAddresses: [inputValues[2]],
+      },
+      Source: services_mailer.getSystemMailer(),
+      Template: 'template_contact_us',
+      TemplateData: JSON.stringify(emailData),
+      ReplyToAddresses: [services_mailer.getSystemReceiver()],
+    };
 
-  return emailBody;
+    services_mailer
+      .triggerSendEmail(params)
+      .then(function (result) {
+        console.log(result);
+        resolve(result);
+      })
+      .catch(function (err) {
+        console.error(err, err.stack);
+        reject(err);
+      });
+  });
 }
-*/
 
 // =====================================================================
 // =====================================================================
@@ -50,7 +61,7 @@ function query1(transaction, request) {
         if (err) {
           reject(err.message);
         } else {
-          resolve('Query Pass');
+          resolve(this.lastID);
         }
       }
     );
@@ -64,9 +75,11 @@ function startExecution(db, request) {
 
       async function run() {
         // Step 1 - Record the enquiry
+        let rowID;
         await query1(transaction, request)
-          .then(function () {
+          .then(function (result) {
             queryPassed.push(true);
+            rowID = result;
             console.log('Query 1 - Pass');
           })
           .catch(function () {
@@ -75,6 +88,22 @@ function startExecution(db, request) {
           });
 
         // Step 2 - Send the Acknowledgement Email
+        const inputValues = [];
+        inputValues.push(`00000${rowID}`.slice(-5));
+        inputValues.push(request.body.name);
+        inputValues.push(request.body.email);
+        inputValues.push(request.body.maraID);
+        inputValues.push(request.body.tmpMessage);
+
+        await emailing(inputValues)
+          .then(function () {
+            queryPassed.push(true);
+            console.log('Send Email - Pass');
+          })
+          .catch(function () {
+            queryPassed.push(false);
+            console.log('Send Email - Fail');
+          });
 
         // Step 3 - To .commit() or .rollback()
         if (queryPassed.includes(false)) {

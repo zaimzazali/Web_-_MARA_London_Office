@@ -52,7 +52,7 @@ function sendTheMessage(params) {
   3 - inputMessage
   4 - tmpMessage
   5 - divBlocker
-   */
+  */
 
   var maraID;
   var data = {};
