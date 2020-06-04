@@ -36,6 +36,149 @@ function normalCheckBox(modal) {
 // =====================================================================
 // Registration related matters
 
+function responseCheckMARAid(theBtn, blocker, response, inputFieldObj, process) {
+  'use strict';
+
+  var currentBtn;
+  var inputBlocker;
+  var inputField;
+
+  currentBtn = theBtn;
+  inputBlocker = blocker;
+  inputField = inputFieldObj;
+
+  switch (response) {
+    case 'OK':
+      if (process === 'pre') {
+        currentBtn.classList.add('signal_ok');
+        inputField.classList.add('signal_ok');
+        currentBtn.innerHTML = 'OK';
+        inputBlocker.style.display = 'none';
+      }
+      break;
+
+    case 'EXIST':
+      currentBtn.innerHTML = 'Validate';
+      setupPopUpContent(
+        'modal_display_with_button',
+        'Existing user!',
+        'Our records say there is an active account associated with that MARA Reference Number.',
+        false,
+        true
+      );
+      if (process === 'pre') {
+        displayPopUp(inputBlocker, 'modal_display_with_button');
+      }
+      break;
+
+    case 'NOT EXIST':
+      currentBtn.innerHTML = 'Validate';
+      setupPopUpContent(
+        'modal_display_with_button',
+        'MARA ID not found!',
+        "We could not find your MARA Reference Number.<br />Kindly reach us through 'Contact Us'.",
+        false,
+        true
+      );
+      if (process === 'pre') {
+        displayPopUp(inputBlocker, 'modal_display_with_button');
+      }
+      break;
+
+    case 'ERROR':
+      currentBtn.classList.add('signal_error');
+      inputField.classList.add('signal_error');
+      currentBtn.innerHTML = 'ERROR';
+      setupPopUpContent(
+        'modal_display_with_button',
+        'Something is not right!',
+        'There was an error that occurred while looking for your MARA Reference Number.<br />Please try again.',
+        true,
+        true
+      );
+      if (process === 'pre') {
+        displayPopUp(inputBlocker, 'modal_display_with_button');
+      }
+      break;
+
+    default:
+      break;
+  }
+
+  currentBtn.classList.remove('active');
+  currentBtn.blur();
+}
+
+function validateMARAid(btn, modal, process) {
+  'use strict';
+
+  var modalObj;
+  var theBtn;
+
+  var inputFieldObj;
+  var inputID;
+  var feedback;
+
+  var blocker;
+  var data = {};
+
+  modalObj = modal;
+  theBtn = btn;
+
+  inputFieldObj = modalObj.getElementsByClassName('input_id')[0];
+  inputID = inputFieldObj.value;
+
+  switch (inputID) {
+    case 'test_student_00':
+      feedback = [true, 'test_student_00'];
+      break;
+
+    case 'test_student_01':
+      feedback = [true, 'test_student_01'];
+      break;
+
+    case 'test_student_02':
+      feedback = [true, 'test_student_02'];
+      break;
+
+    case 'test_student_03':
+      feedback = [true, 'test_student_03'];
+      break;
+
+    default:
+      feedback = isMARAidValid(inputID);
+      break;
+  }
+
+  if (feedback[0]) {
+    if (process === 'pre') {
+      theBtn.classList.add('active'); //
+      theBtn.innerHTML = 'Checking'; //
+
+      blocker = modalObj.getElementsByClassName('modal_blocker')[0]; //
+      blocker.getElementsByClassName('modal_loader')[0].style.display = 'block'; //
+      blocker.style.display = 'block'; //
+    }
+
+    data.id = inputID;
+    $.ajax({
+      type: 'POST',
+      async: true,
+      data: JSON.stringify(data),
+      contentType: 'application/json',
+      url: '/check_MARA_id',
+      success: function success(response) {
+        setTimeout(function () {
+          responseCheckMARAid(theBtn, blocker, response, inputFieldObj, process);
+        }, 500);
+      },
+    });
+  } else {
+    inputFieldObj.classList.add('signal_error');
+    theBtn.blur();
+  }
+}
+
 function responseRegisterUser(divBlocker, response) {
   'use strict';
 
@@ -100,6 +243,10 @@ function getReadyToRegister(modal, btn) {
   var Signals = [];
   var i;
 
+  var params = [];
+  var inputObj;
+  var inputValue;
+
   var inputMARAidObj;
   var MARAid;
   var inputNameObj;
@@ -117,6 +264,7 @@ function getReadyToRegister(modal, btn) {
   modalObj = modal;
 
   // MARA Reference Number
+  validateMARAid(modal.querySelector('#btn_check'), modal, 'post');
   inputMARAidObj = modalObj.getElementsByClassName('input_id')[0];
   if (inputMARAidObj.classList.contains('signal_ok')) {
     returnVal.push([true, '']);
@@ -182,139 +330,6 @@ function getReadyToRegister(modal, btn) {
   }
 }
 
-function responseCheckMARAid(theBtn, blocker, response, inputFieldObj) {
-  'use strict';
-
-  var currentBtn;
-  var inputBlocker;
-  var inputField;
-
-  currentBtn = theBtn;
-  inputBlocker = blocker;
-  inputField = inputFieldObj;
-
-  switch (response) {
-    case 'OK':
-      currentBtn.classList.add('signal_ok');
-      inputField.classList.add('signal_ok');
-      currentBtn.innerHTML = 'OK';
-      inputBlocker.style.display = 'none';
-      break;
-
-    case 'EXIST':
-      currentBtn.innerHTML = 'Validate';
-      setupPopUpContent(
-        'modal_display_with_button',
-        'Existing user!',
-        'Our records say there is an active account associated with that MARA Reference Number.',
-        false,
-        true
-      );
-      displayPopUp(inputBlocker, 'modal_display_with_button');
-      break;
-
-    case 'NOT EXIST':
-      currentBtn.innerHTML = 'Validate';
-      setupPopUpContent(
-        'modal_display_with_button',
-        'MARA ID not found!',
-        "We could not find your MARA Reference Number.<br />Kindly reach us through 'Contact Us'.",
-        false,
-        true
-      );
-      displayPopUp(inputBlocker, 'modal_display_with_button');
-      break;
-
-    case 'ERROR':
-      currentBtn.classList.add('signal_error');
-      inputField.classList.add('signal_error');
-      currentBtn.innerHTML = 'ERROR';
-      setupPopUpContent(
-        'modal_display_with_button',
-        'Something is not right!',
-        'There was an error that occurred while looking for your MARA Reference Number.<br />Please try again.',
-        true,
-        true
-      );
-      displayPopUp(inputBlocker, 'modal_display_with_button');
-      break;
-
-    default:
-      break;
-  }
-
-  currentBtn.classList.remove('active');
-  currentBtn.blur();
-}
-
-function validateMARAid(btn, modal) {
-  'use strict';
-
-  var modalObj;
-  var theBtn;
-
-  var inputFieldObj;
-  var inputID;
-  var feedback;
-
-  var blocker;
-  var data = {};
-
-  modalObj = modal;
-  theBtn = btn;
-
-  inputFieldObj = modalObj.getElementsByClassName('input_id')[0];
-  inputID = inputFieldObj.value;
-
-  switch (inputID) {
-    case 'test_student_00':
-      feedback = [true, 'test_student_00'];
-      break;
-
-    case 'test_student_01':
-      feedback = [true, 'test_student_01'];
-      break;
-
-    case 'test_student_02':
-      feedback = [true, 'test_student_02'];
-      break;
-
-    case 'test_student_03':
-      feedback = [true, 'test_student_03'];
-      break;
-
-    default:
-      feedback = isMARAidValid(inputID);
-      break;
-  }
-
-  if (feedback[0]) {
-    theBtn.classList.add('active');
-    theBtn.innerHTML = 'Checking';
-
-    blocker = modalObj.getElementsByClassName('modal_blocker')[0];
-    blocker.getElementsByClassName('modal_loader')[0].style.display = 'block';
-    blocker.style.display = 'block';
-
-    data.id = inputID;
-    $.ajax({
-      type: 'POST',
-      async: true,
-      data: JSON.stringify(data),
-      contentType: 'application/json',
-      url: '/check_MARA_id',
-      success: function success(response) {
-        setTimeout(function () {
-          responseCheckMARAid(theBtn, blocker, response, inputFieldObj);
-        }, 500);
-      },
-    });
-  } else {
-    inputFieldObj.classList.add('signal_error');
-    theBtn.blur();
-  }
-}
-
 // =====================================================================
 // =====================================================================
 // Set all clicking events
@@ -334,7 +349,7 @@ function setupRegisterBtn() {
   // MARA ID validator button
   btnCheck = modal.querySelector('#btn_check');
   btnCheck.addEventListener('click', function () {
-    validateMARAid(this, modal);
+    validateMARAid(this, modal, 'pre');
   });
   inputIdObj.addEventListener('focus', function () {
     normalValidate(modal);

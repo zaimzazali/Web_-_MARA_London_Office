@@ -17,7 +17,7 @@ module.exports = {
             console.log('Cannot open Database');
             reject(new Error(err));
           } else {
-            console.log('Database Connection established');
+            console.log('Database Connection - established');
             resolve(db);
           }
         })
@@ -28,11 +28,11 @@ module.exports = {
     return new Promise(function (resolve, reject) {
       try {
         db.close();
+        console.log('Database Connection - closed');
         resolve('OK');
-        console.log('Database Connection closed');
       } catch (error) {
+        console.log('Cannot close Database');
         reject(new Error(error));
-        console.log('Database Connection closure error');
       }
     });
   },

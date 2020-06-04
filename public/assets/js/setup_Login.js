@@ -26,7 +26,10 @@ function responseLogin(modal, divBlocker, response) {
     case 'OK':
       switch (response[1]) {
         case 'Student':
-          window.location.replace('/portal_student');
+          changePage();
+          setTimeout(function () {
+            window.location.replace('/portal_student');
+          }, 400);
           break;
 
         case 'Admin_00':
@@ -137,20 +140,18 @@ function getReadyToLogin(modal, btn) {
     divBlocker.getElementsByClassName('modal_loader')[0].style.display = 'block';
     divBlocker.style.display = 'block';
 
-    /*
     $.ajax({
-      type: "POST",
+      type: 'POST',
       async: true,
       data: JSON.stringify(data),
-      contentType: "application/json",
-      url: "/login",
+      contentType: 'application/json',
+      url: '/login',
       success: function success(response) {
         setTimeout(function () {
-          responseLogin(divBlocker, response);
+          responseLogin(modalObj, divBlocker, response);
         }, 500);
       },
     });
-    */
   }
 }
 

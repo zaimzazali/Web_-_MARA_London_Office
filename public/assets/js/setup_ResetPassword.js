@@ -20,25 +20,55 @@ function responseResetPassword(divBlocker, response) {
   inputBlocker = divBlocker;
   modal = inputBlocker.parentNode;
 
-  if (response === 'OK') {
-    setupPopUpContent(
-      'modal_display_with_button',
-      'Your password has been reset!',
-      'You will receive a new auto-generated password in an e-mail shorty.',
-      false,
-      false
-    );
-    displayPopUp(inputBlocker, 'modal_display_with_button');
-    clearInputField(modal);
-  } else {
-    setupPopUpContent(
-      'modal_display_with_button',
-      'Something is not right!',
-      'There was an error that occurred while resetting your password.<br />Please try again.',
-      true,
-      true
-    );
-    displayPopUp(inputBlocker, 'modal_display_with_button');
+  switch (response) {
+    case 'OK':
+      setupPopUpContent(
+        'modal_display_with_button',
+        'Your password has been reset!',
+        'You will receive a new auto-generated password in an e-mail shorty.',
+        false,
+        false
+      );
+      displayPopUp(inputBlocker, 'modal_display_with_button');
+      clearInputField(modal);
+      break;
+
+    case 'NOT EXIST':
+      setupPopUpContent(
+        'modal_display_with_button',
+        'MARA ID not found!',
+        "We could not find your MARA Reference Number.<br />Kindly reach us through 'Contact Us'.",
+        false,
+        true
+      );
+      displayPopUp(inputBlocker, 'modal_display_with_button');
+      break;
+
+    case 'NOT SAME':
+      setupPopUpContent(
+        'modal_display_with_button',
+        'Wrong email address!',
+        "The provided email address does not sync with our record.<br />Kindly reach us through 'Contact Us'.",
+        false,
+        true
+      );
+      displayPopUp(inputBlocker, 'modal_display_with_button');
+      break;
+
+    case 'ERROR':
+      setupPopUpContent(
+        'modal_display_with_button',
+        'Something is not right!',
+        'There was an error that occurred while resetting your password.<br />Please try again.',
+        true,
+        true
+      );
+      displayPopUp(inputBlocker, 'modal_display_with_button');
+      break;
+
+    default:
+      // Do Nothing
+      break;
   }
 }
 
@@ -48,18 +78,16 @@ function resetPassword(divBlocker, inputMARAid, inputEmail) {
   data.email = inputEmail;
   data.currentTimeStamp = getCurrentTimeStamp();
 
-  /*
   $.ajax({
-    type: "POST",
+    type: 'POST',
     async: true,
     data: JSON.stringify(data),
-    contentType: "application/json",
-    url: "/forget_password",
+    contentType: 'application/json',
+    url: '/forget_password',
     success: function success(response) {
       responseResetPassword(divBlocker, response);
     },
   });
-  */
 }
 
 function getReadyToResetPassword(modal, btn) {

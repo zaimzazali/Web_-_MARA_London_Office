@@ -21,13 +21,10 @@ var AWS = require('aws-sdk');
 
 var services_contactUs = require('./routes/serverSideJs/services_contactUs');
 var services_signUp = require('./routes/serverSideJs/services_signUp');
+var services_forgetPassword = require('./routes/serverSideJs/services_forgetPassword');
+var services_login = require('./routes/serverSideJs/services_login');
 
 /*
-
-
-var services_forgetPassword = require('./routes/serverSideJs/services_forgetPassword');
-
-var services_login = require('./routes/serverSideJs/services_login');
 
 var cookieSession = require('cookie-session');
 var services_cookieSession = require('./routes/serverSideJs/services_cookieSession');
@@ -202,14 +199,16 @@ app.use(bodyParser.json());
 // Contact Us
 
 app.post('/send_message_contact_us', function (request, response) {
-  var run = async function run() {
-    try {
-      await services_contactUs.sendEmail(request);
-      response.send('OK');
-    } catch (error) {
-      response.send('ERROR');
-    }
-  };
+  async function run() {
+    await services_contactUs
+      .sendEmail(request)
+      .then(function () {
+        response.send('OK');
+      })
+      .catch(function () {
+        response.send('ERROR');
+      });
+  }
 
   run();
 });
@@ -218,63 +217,71 @@ app.post('/send_message_contact_us', function (request, response) {
 // Sign Up
 
 app.post('/check_MARA_id', function (request, response) {
-  var run = async function run() {
-    try {
-      var data = await services_signUp.checkMaraID(request);
-      response.send(data);
-    } catch (error) {
-      response.send('ERROR');
-    }
-  };
+  async function run() {
+    await services_signUp
+      .checkMaraID(request)
+      .then(function (result) {
+        response.send(result);
+      })
+      .catch(function () {
+        response.send('ERROR');
+      });
+  }
 
   run();
 });
 
 app.post('/register_user', function (request, response) {
-  var run = async function run() {
-    try {
-      await services_signUp.registerUser(request);
-      response.send('OK');
-    } catch (error) {
-      response.send('ERROR');
-    }
-  };
+  async function run() {
+    await services_signUp
+      .registerUser(request)
+      .then(function () {
+        response.send('OK');
+      })
+      .catch(function () {
+        response.send('ERROR');
+      });
+  }
 
   run();
 });
 
 // --------------------------------------------------------------------------------------------------------------
 // Forget Password
-/*
+
 app.post('/forget_password', function (request, response) {
-  var run = async function run() {
-    try {
-      await services_forgetPassword.resetPassword(request);
-      response.send('OK');
-    } catch (error) {
-      response.send('ERROR');
-    }
-  };
+  async function run() {
+    await services_forgetPassword
+      .resetPassword(request)
+      .then(function (result) {
+        response.send(result);
+      })
+      .catch(function () {
+        response.send('ERROR');
+      });
+  }
 
   run();
 });
-*/
+
 // --------------------------------------------------------------------------------------------------------------
 // Login
-/*
+
 app.post('/login', function (request, response) {
-  var run = async function run() {
-    try {
-      var data = await services_login.tryLogin(request);
-      response.send(data);
-    } catch (error) {
-      response.send('ERROR');
-    }
-  };
+  async function run() {
+    await services_login
+      .tryLogin(request)
+      .then(function (result) {
+        response.send(result);
+      })
+      .catch(function () {
+        response.send('ERROR');
+      });
+  }
 
   run();
 });
-*/
+
 // --------------------------------------------------------------------------------------------------------------
 // Logon
 /*
