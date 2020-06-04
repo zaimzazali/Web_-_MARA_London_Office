@@ -8,6 +8,10 @@
 const services_database = require('./services_database');
 // const services_mailer = require('./services_mailer');
 
+// =====================================================================
+// =====================================================================
+// Email
+
 /*
 async function setupWholeEmail(request, emailBody, latestIndex) {
   const theMessage = await services_mailer.messageDetails(
@@ -32,6 +36,10 @@ function setupEmailBody(request) {
 }
 */
 
+// =====================================================================
+// =====================================================================
+// Contact Us
+
 function query1(transaction, request) {
   return new Promise(function (resolve, reject) {
     transaction.run(
@@ -52,7 +60,7 @@ function query1(transaction, request) {
 function startExecution(db, request) {
   return new Promise(function (resolve, reject) {
     db.beginTransaction(function (err, transaction) {
-      let queryPassed = [];
+      const queryPassed = [];
 
       async function run() {
         // Step 1 - Record the enquiry
@@ -66,18 +74,17 @@ function startExecution(db, request) {
             console.log('Query 1 - Fail');
           });
 
-        // Step 2 - Send acknowledgement email
+        // Step 2 - Send the Acknowledgement Email
 
         // Step 3 - To .commit() or .rollback()
         if (queryPassed.includes(false)) {
           reject(new Error('Transaction not commited'));
           return console.log('Transaction not commited');
         }
-
-        await transaction.commit(function (err3) {
-          if (err3) {
-            reject(new Error(err3.message));
-            return console.log('Transaction commit() failed. Rollback...', err3);
+        await transaction.commit(function (error) {
+          if (error) {
+            reject(new Error(error.message));
+            return console.log('Transaction commit() failed. Rollback...', error);
           }
           resolve('OK');
           return console.log('Transaction commit() was successful.');
@@ -85,35 +92,13 @@ function startExecution(db, request) {
         return 0;
       }
       run();
-
-      /*
-      // Step 2 - Send acknowledgement email
-      transaction.run(
-        `INSERT INTO contactUs_messages (timeStampGMT0, senderName, senderEmail, senderMARAid, senderMessage) ` +
-          `VALUES ('${request.body.currentTimeStamp}','${request.body.name}','${request.body.email}',` +
-          `'${request.body.maraID}','${request.body.message}')`,
-        function (err2) {
-          if (err2) {
-            reject(new Error(err2.message));
-            return console.log(err2.message);
-          }
-
-          // To .commit() or .rollback()
-          transaction.commit(function (err3) {
-            if (err3) {
-              console.log('Transaction commit() failed. Rollback...', err);
-              reject(new Error(err3.message));
-            }
-            console.log('Transaction commit() was successful.');
-            resolve('OK');
-          });
-          // or transaction.rollback()
-        }
-      );
-      */
     });
   });
 }
+
+// =====================================================================
+// =====================================================================
+// Modules
 
 module.exports = {
   sendEmail(request) {
