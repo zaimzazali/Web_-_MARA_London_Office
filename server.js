@@ -1,12 +1,11 @@
+/* eslint-disable no-console */
+/* eslint-disable vars-on-top */
+/* eslint-disable func-names */
+/* eslint-disable camelcase */
+/* eslint-disable no-var */
 /* eslint-disable strict */
 
 'use strict';
-
-/* eslint-disable vars-on-top */
-/* eslint-disable no-var */
-/* eslint-disable camelcase */
-/* eslint-disable func-names */
-/* eslint-disable no-console */
 
 // --------------------------------------------------------------------------------------------------------------
 // Modules initialisation
@@ -14,7 +13,6 @@
 var express = require('express');
 var path = require('path');
 var bodyParser = require('body-parser');
-var AWS = require('aws-sdk');
 
 // --------------------------------------------------------------------------------------------------------------
 // Other Server-Side files
@@ -40,18 +38,53 @@ var port = 80;
 // --------------------------------------------------------------------------------------------------------------
 // AWS setting
 
+const AWS = require('aws-sdk');
+
 AWS.config.loadFromPath('./routes/aws/config.json');
 
 /*
+// Create the promise and SES service object
+var templatePromise = new AWS.SES({ apiVersion: '2010-12-01' })
+  .deleteTemplate({ TemplateName: 'template_contact_us' })
+  .promise();
+
+// Handle promise's fulfilled/rejected states
+templatePromise
+  .then(function (data) {
+    console.log('Template Deleted');
+  })
+  .catch(function (err) {
+    console.error(err, err.stack);
+  });
+*/
+
 // Create createTemplate params
 var params = {
   Template: {
-    TemplateName: 'test1',
-    HtmlPart: '<html><h1>TEST</h1></html>',
-    SubjectPart: 'TEST_SUBJECT',
+    TemplateName: 'template_contact_us',
+    SubjectPart: '🔴 [MARA London] REF: CU{{refNumber}} - Enquiry Acknowledgement',
+    HtmlPart:
+      '<!DOCTYPE html>\r\n<html xmlns="http://www.w3.org/1999/xhtml" lang="en-GB" xml:lang="en-GB">\r\n  <head>\r\n    <meta charset="utf-8" />\r\n    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />\r\n  </head>\r\n  <body>\r\n    <span>Hello!</span><br /><br />\r\n    <span\r\n      ><i\r\n        >You are receiving this email because you just sent an enquiry to MARA London Office.</i\r\n      ></span\r\n    ><br />\r\n    <span><i>Below is a copy of your enquiry for reference purposes.</i></span\r\n    ><br /><br />\r\n    <span><b>Sender Name:</b> {{senderName}}</span><br />\r\n    <span><b>Sender Email:</b> {{senderEmail}}</span><br />\r\n    <span><b>Sender MARA ID:</b> {{senderMARAid}}</span><br /><br />\r\n    <span><b>Sender Message:</b></span\r\n    ><br />\r\n    <span>{{senderTmpMessage}}</span>\r\n    <br /><br />\r\n    <span\r\n      >-----------------------------------------------------------------------------------------------------------</span\r\n    ><br />\r\n    <span><i>This email is an automated email from the system.</i></span>\r\n  </body>\r\n</html>\r\n',
+    TextPart:
+      'Hello!\r\n\r\nYou are receiving this email because you just sent an enquiry to MARA London Office.\r\nBelow is a copy of your enquiry for reference purposes.\r\n\r\nSender Name: {{senderName}}\r\nSender Email: {{senderEmail}}\r\nSender MARA ID: {{senderMARAid}}\r\n\r\nSender Message:\r\n{{senderTmpMessage}}\r\n\r\n-----------------------------------------------------------------------------------------------------------\r\nThis email is an automated email from the system.',
   },
 };
 
+/*
+// Create the promise and SES service object
+var templatePromise = new AWS.SES({ apiVersion: '2010-12-01' }).updateTemplate(params).promise();
+
+// Handle promise's fulfilled/rejected states
+templatePromise
+  .then(function (data) {
+    console.log('Template Updated');
+  })
+  .catch(function (err) {
+    console.error(err, err.stack);
+  });
+  */
+
+/*
 // Create the promise and SES service object
 var templatePromise = new AWS.SES({ apiVersion: '2010-12-01' }).createTemplate(params).promise();
 
@@ -64,33 +97,6 @@ templatePromise
     console.error(err, err.stack);
   });
 */
-
-/*
-// Create sendTemplatedEmail params
-var params = {
-  Destination: {
-    CcAddresses: ['gv19698@bristol.ac.uk'],
-    ToAddresses: ['zaim.pe.srcutp@gmail.com'],
-  },
-  Source: 'zaim.zazali@gmail.com',
-  Template: 'test1',
-  TemplateData: '{ "name":"testing" }',
-  ReplyToAddresses: ['zaim.zazali@gmail.com'],
-};
-
-// Create the promise and SES service object
-var sendPromise = new AWS.SES({ apiVersion: '2010-12-01' }).sendTemplatedEmail(params).promise();
-
-// Handle promise's fulfilled/rejected states
-sendPromise
-  .then(function (data) {
-    console.log(data);
-  })
-  .catch(function (err) {
-    console.error(err, err.stack);
-  });
-  */
-
 // --------------------------------------------------------------------------------------------------------------
 // Serving Public Page
 

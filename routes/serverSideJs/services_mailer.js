@@ -1,73 +1,39 @@
-/* eslint-disable strict */
-/* eslint-disable camelcase */
+/* eslint-disable no-console */
 /* eslint-disable func-names */
+/* eslint-disable strict */
 
 'use strict';
 
-const nodemailer = require('nodemailer');
-const services_database = require('./services_database');
+const AWS = require('aws-sdk');
 
-// Create a SMTP transporter object
-const transporter = nodemailer.createTransport(
-  {
-    service: 'gmail',
-    port: 465,
-    secure: true,
-    auth: {
-      user: 'zaim.zazali@gmail.com',
-      pass: 'Zaimkacak69!',
-    },
-    logger: false,
-    debug: false, // include SMTP traffic in the logs
-  },
-  {
-    // sender info
-    from: 'No-Reply <maralondon.mailer@mara.gov.my>',
-  }
-);
-
-function executeSending(message) {
-  return new Promise(function (resolve, reject) {
-    transporter.sendMail(message, (error) => {
-      // only needed when using pooled connections
-      transporter.close();
-      if (error) {
-        reject(new Error(error));
-      } else {
-        resolve('OK');
-      }
-    });
-  });
-}
+AWS.config.loadFromPath('./routes/aws/config.json');
 
 module.exports = {
-  async messageDetails(recipentEmails, MARAofficeEmails, subjectHeader, bodyHTML) {
-    // Message object
-    const message = {
-      // Comma separated list of recipients
-      to: recipentEmails,
-      bcc: MARAofficeEmails,
+  triggerSendEmail(params) {
+    return new Promise(function (resolve, reject) {
+      // Create the promise and SES service object
+      const sendPromise = new AWS.SES({ apiVersion: '2010-12-01' })
+        .sendTemplatedEmail(params)
+        .promise();
 
-      // Header
-      subject: subjectHeader,
-
-      // Content
-      html: bodyHTML,
-    };
-    return message;
+      // Handle promise's fulfilled/rejected states
+      sendPromise
+        .then(function (data) {
+          console.log(data);
+          resolve(data);
+        })
+        .catch(function (err) {
+          console.error(err, err.stack);
+          reject(err);
+        });
+    });
   },
-
-  async send(message, sqlError, latestIndex) {
-    try {
-      await executeSending(message).catch(() => {
-        if (sqlError !== null) {
-          const sqlErrorStatement = sqlError.replace('INDEXNUM', latestIndex);
-          services_database.removeData(sqlErrorStatement);
-        }
-        throw new Error();
-      });
-    } catch (error) {
-      throw new Error(error);
-    }
+  getSystemMailer() {
+    const systemEmailerSource = 'MARA London Mailer <zaim.zazali@gmail.com>';
+    return systemEmailerSource;
+  },
+  getSystemReceiver() {
+    const systemEmailerReceive = 'MARA London Mailer <zaim.zazali@gmail.com>';
+    return systemEmailerReceive;
   },
 };
