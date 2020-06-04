@@ -202,14 +202,16 @@ app.use(bodyParser.json());
 // Contact Us
 
 app.post('/send_message_contact_us', function (request, response) {
-  var run = async function run() {
-    try {
-      await services_contactUs.sendEmail(request);
-      response.send('OK');
-    } catch (error) {
-      response.send('ERROR');
-    }
-  };
+  async function run() {
+    await services_contactUs
+      .sendEmail(request)
+      .then(function () {
+        response.send('OK');
+      })
+      .catch(function () {
+        response.send('ERROR');
+      });
+  }
 
   run();
 });
@@ -234,13 +236,6 @@ app.post('/check_MARA_id', function (request, response) {
 
 app.post('/register_user', function (request, response) {
   async function run() {
-    /*
-    try {
-      await services_signUp.registerUser(request);
-      response.send('OK');
-    } catch (error) {
-      response.send('ERROR');
-    }*/
     await services_signUp
       .registerUser(request)
       .then(function () {

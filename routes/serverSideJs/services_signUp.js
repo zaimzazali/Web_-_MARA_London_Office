@@ -152,10 +152,11 @@ function userRegistration(db, request) {
           .then(function (result) {
             queryPassed.push(true);
             hashedPassword = result;
+            console.log('Password Hashed - Pass');
           })
           .catch(function (err0) {
             queryPassed.push(false);
-            reject(new Error(err0));
+            console.log('Password Hashed - Fail');
           });
 
         // Step 1 - Insert User Details
@@ -167,7 +168,6 @@ function userRegistration(db, request) {
           .catch(function (err1) {
             queryPassed.push(false);
             console.log('Query 1 - Fail');
-            reject(new Error(err1));
           });
 
         // Step 2 - Insert user password
@@ -179,7 +179,6 @@ function userRegistration(db, request) {
           .catch(function (err2) {
             queryPassed.push(false);
             console.log('Query 2 - Fail');
-            reject(new Error(err2));
           });
 
         // Step 3 - Update user accessibility
@@ -191,7 +190,6 @@ function userRegistration(db, request) {
           .catch(function (err3) {
             queryPassed.push(false);
             console.log('Query 3 - Fail');
-            reject(new Error(err3));
           });
 
         // Step 4 - Send registration confirmation email
