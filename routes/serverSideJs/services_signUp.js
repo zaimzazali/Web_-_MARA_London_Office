@@ -45,10 +45,10 @@ function IDchecker(db, request) {
       transaction.commit(function (err2) {
         if (err2) {
           reject(new Error(err2.message));
-          return console.log('Transaction commit() failed. Rollback...', err2);
+          return console.log('Transaction #1 commit() failed. Rollback...', err2);
         }
         resolve('OK');
-        return console.log('Transaction commit() was successful.');
+        return console.log('Transaction #1 commit() was successful.');
       });
       // or automatically transaction.rollback()
     });
@@ -78,87 +78,145 @@ function setupEmailBody(request) {
   return emailBody;
 }
 */
-async function getHashedPassword(string) {
-  try {
-    const hashedPassword = await services_encryptor.ecryptString(string);
-    console.log('Password Hashed');
-    return hashedPassword;
-  } catch (err) {
-    console.log('Cannot hash password');
-    return 'ERROR';
-  }
+
+function getHashedPassword(string) {
+  return new Promise(function (resolve, reject) {
+    services_encryptor
+      .ecryptString(string)
+      .then(function (result) {
+        resolve(result);
+      })
+      .catch(function (error) {
+        reject(new Error(error));
+      });
+  });
+}
+
+function query1(transaction, request) {
+  return new Promise(function (resolve, reject) {
+    transaction.run(
+      `INSERT INTO userDetails_list (userFullName, userEmail, userID) ` +
+        `VALUES ('${request.body.name}', '${request.body.email}', '${request.body.maraID}')`,
+      function (err) {
+        if (err) {
+          reject(err.message);
+        } else {
+          resolve('Query Pass');
+        }
+      }
+    );
+  });
+}
+
+function query2(transaction, request, hashedPassword) {
+  return new Promise(function (resolve, reject) {
+    transaction.run(
+      `INSERT INTO userPassword_list (userPassword, userID, needReset) ` +
+        `VALUES ('${hashedPassword}', '${request.body.maraID}', 'NO')`,
+      function (err) {
+        if (err) {
+          reject(err.message);
+        } else {
+          resolve('Query Pass');
+        }
+      }
+    );
+  });
+}
+
+function query3(transaction, request) {
+  return new Promise(function (resolve, reject) {
+    transaction.run(
+      `UPDATE user_list SET isRegistered = 'YES', isAccountActive = 'YES',  userTypeCode = 1 ` +
+        `WHERE userID = '${request.body.maraID}'`,
+      function (err) {
+        if (err) {
+          reject(err.message);
+        } else {
+          resolve('Query Pass');
+        }
+      }
+    );
+  });
 }
 
 function userRegistration(db, request) {
   return new Promise(function (resolve, reject) {
     db.beginTransaction(function (err, transaction) {
       let hashedPassword;
+      let queryPassed = [];
 
-      // Step 1 - Insert User Details
-      transaction.run(
-        `INSERT INTO userDetails_list (userFullName, userEmail, userID) ` +
-          `VALUES ('${request.body.name}', '${request.body.email}', '${request.body.maraID}')`,
-        function (err1) {
-          if (err1) {
-            reject(new Error(err1.message));
-            return console.log(err1.message);
-          }
-          console.log('Query Pass');
+      async function run() {
+        // Step 0 - Encrypt the password
+        await getHashedPassword(request.body.password)
+          .then(function (result) {
+            queryPassed.push(true);
+            hashedPassword = result;
+          })
+          .catch(function (err0) {
+            queryPassed.push(false);
+            reject(new Error(err0));
+          });
 
-          run1();
+        // Step 1 - Insert User Details
+        await query1(transaction, request)
+          .then(function () {
+            queryPassed.push(true);
+            console.log('Query 1 - Pass');
+          })
+          .catch(function (err1) {
+            queryPassed.push(false);
+            console.log('Query 1 - Fail');
+            reject(new Error(err1));
+          });
+
+        // Step 2 - Insert user password
+        await query2(transaction, request, hashedPassword)
+          .then(function () {
+            queryPassed.push(true);
+            console.log('Query 2 - Pass');
+          })
+          .catch(function (err2) {
+            queryPassed.push(false);
+            console.log('Query 2 - Fail');
+            reject(new Error(err2));
+          });
+
+        // Step 3 - Update user accessibility
+        await query3(transaction, request)
+          .then(function () {
+            queryPassed.push(true);
+            console.log('Query 3 - Pass');
+          })
+          .catch(function (err3) {
+            queryPassed.push(false);
+            console.log('Query 3 - Fail');
+            reject(new Error(err3));
+          });
+
+        // Step 4 - Send registration confirmation email
+
+        // Step 5 - To .commit() or .rollback()
+        if (queryPassed.includes(false)) {
+          reject(new Error('Transaction #2 not commited'));
+          return console.log('Transaction #2 not commited');
         }
-      );
 
-      async function run1() {
-        // Step 2 - Encrypt the password
-        hashedPassword = await getHashedPassword(request.body.password);
-        if (hashedPassword === 'ERROR') {
-          reject(new Error(hashedPassword));
-          return console.log(hashedPassword);
-        }
-
-        // Step 3 - Insert user password
-        transaction.run(
-          `INSERT INTO userPassword_list (userPassword, userID, needReset) ` +
-            `VALUES ('${hashedPassword}', '${request.body.maraID}', 'NO')`,
-          function (err3) {
-            if (err3) {
-              reject(new Error(err3.message));
-              return console.log(err3.message);
-            }
-            return console.log('Query Pass');
+        await transaction.commit(function (err5) {
+          if (err5) {
+            reject(new Error(err5.message));
+            return console.log('Transaction #2 commit() failed. Rollback...', err5);
           }
-        );
-
-        // Step 4 - Update user accessibility
-        transaction.run(
-          `UPDATE user_list SET isRegistered = 'YES', isAccountActive = 'YES',  userTypeCode = 1 ` +
-            `WHERE userID = '${request.body.maraID}'`,
-          function (err4) {
-            if (err4) {
-              reject(new Error(err4.message));
-              return console.log(err4.message);
-            }
-            console.log('Query Pass');
-
-            // To .commit() or .rollback()
-            transaction.commit(function (err6) {
-              if (err6) {
-                reject(new Error(err6.message));
-                return console.log('Transaction commit() failed. Rollback...', err6);
-              }
-              resolve('OK');
-              return console.log('Transaction commit() was successful.');
-            });
-            // or transaction.rollback()
-          }
-        );
-
-        // Step 5 - Send registration confirmation email
+          resolve('OK');
+          return console.log('Transaction #2 commit() was successful.');
+        });
+        return 0;
       }
+      run();
     });
   });
 }
+
 /*
 async function b(request) {
   let tableName = null;
@@ -193,24 +251,58 @@ async function b(request) {
 }
 */
 module.exports = {
-  async checkMaraID(request) {
-    try {
-      const db = await services_database.openConnection();
-      const flag = await IDchecker(db, request);
-      await services_database.closeConnection(db);
-      return flag;
-    } catch (error) {
-      throw new Error(error);
-    }
+  checkMaraID(request) {
+    return new Promise(function (resolve, reject) {
+      async function run() {
+        let db;
+        await services_database
+          .openConnection()
+          .then(async function (result1) {
+            db = result1;
+            await IDchecker(db, request)
+              .then(function (result2) {
+                resolve(result2);
+                return result2;
+              })
+              .catch(function (error2) {
+                reject(new Error(error2));
+              })
+              .finally(async function () {
+                await services_database.closeConnection(db);
+              });
+          })
+          .catch(function (error1) {
+            reject(new Error(error1));
+          });
+      }
+      run();
+    });
   },
-  async registerUser(request) {
-    try {
-      const db = await services_database.openConnection();
-      const flag = await userRegistration(db, request);
-      await services_database.closeConnection(db);
-      return flag;
-    } catch (error) {
-      throw new Error(error);
-    }
+  registerUser(request) {
+    return new Promise(function (resolve, reject) {
+      async function run() {
+        let db;
+        await services_database
+          .openConnection()
+          .then(async function (result1) {
+            db = result1;
+            await userRegistration(db, request)
+              .then(function (result2) {
+                resolve(result2);
+                return result2;
+              })
+              .catch(function (error2) {
+                reject(new Error(error2));
+              })
+              .finally(async function () {
+                await services_database.closeConnection(db);
+              });
+          })
+          .catch(function (error1) {
+            reject(new Error(error1));
+          });
+      }
+      run();
+    });
   },
 };

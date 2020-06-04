@@ -31,20 +31,33 @@ function beginComparing(string, hashedString) {
 }
 
 module.exports = {
-  async ecryptString(input) {
-    try {
-      const hashedString = await beginEncryption(input);
-      return hashedString;
-    } catch (error) {
-      throw new Error(error);
-    }
+  ecryptString(input) {
+    return new Promise(function (resolve, reject) {
+      async function run() {
+        await beginEncryption(input)
+          .then(function (result) {
+            resolve(result);
+          })
+          .catch(function (error) {
+            reject(new Error(error));
+          });
+      }
+      run();
+    });
   },
-  async compareString(string, hashedString) {
-    try {
-      const flag = await beginComparing(string, hashedString);
-      return flag;
-    } catch (error) {
-      throw new Error(error);
-    }
+
+  compareString(string, hashedString) {
+    return new Promise(function (resolve, reject) {
+      async function run() {
+        await beginComparing(string, hashedString)
+          .then(function (result) {
+            resolve(result);
+          })
+          .catch(function (error) {
+            reject(new Error(error));
+          });
+      }
+      run();
+    });
   },
 };
