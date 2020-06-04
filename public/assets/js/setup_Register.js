@@ -152,12 +152,12 @@ function validateMARAid(btn, modal, process) {
 
   if (feedback[0]) {
     if (process === 'pre') {
-      theBtn.classList.add('active'); //
-      theBtn.innerHTML = 'Checking'; //
+      theBtn.classList.add('active');
+      theBtn.innerHTML = 'Checking';
 
-      blocker = modalObj.getElementsByClassName('modal_blocker')[0]; //
-      blocker.getElementsByClassName('modal_loader')[0].style.display = 'block'; //
-      blocker.style.display = 'block'; //
+      blocker = modalObj.getElementsByClassName('modal_blocker')[0];
+      blocker.getElementsByClassName('modal_loader')[0].style.display = 'block';
+      blocker.style.display = 'block';
     }
 
     data.id = inputID;
@@ -212,15 +212,23 @@ function responseRegisterUser(divBlocker, response) {
   }
 }
 
-function registerMe(divBlocker, MARAid, inputName, inputEmail, inputPassword) {
+function registerMe(params) {
   'use strict';
+
+  /*
+  0 - MARAid
+  1 - inputName
+  2 - inputEmail
+  3 - inputPassword
+  4 - divBlocker
+  */
 
   var data = {};
 
-  data.maraID = MARAid;
-  data.name = inputName;
-  data.email = inputEmail;
-  data.password = inputPassword;
+  data.maraID = params[0];
+  data.name = params[1];
+  data.email = params[2];
+  data.password = params[3];
 
   $.ajax({
     type: 'POST',
@@ -229,7 +237,7 @@ function registerMe(divBlocker, MARAid, inputName, inputEmail, inputPassword) {
     contentType: 'application/json',
     url: '/register_user',
     success: function success(response) {
-      responseRegisterUser(divBlocker, response);
+      responseRegisterUser(params[4], response);
     },
   });
 }
@@ -246,15 +254,6 @@ function getReadyToRegister(modal, btn) {
   var params = [];
   var inputObj;
   var inputValue;
-
-  var inputMARAidObj;
-  var MARAid;
-  var inputNameObj;
-  var inputName;
-  var inputEmailObj;
-  var inputEmail;
-  var inputPasswordObj;
-  var inputPassword;
   var inputPasswordSame;
   var checkBoxObj;
 
@@ -265,44 +264,47 @@ function getReadyToRegister(modal, btn) {
 
   // MARA Reference Number
   validateMARAid(modal.querySelector('#btn_check'), modal, 'post');
-  inputMARAidObj = modalObj.getElementsByClassName('input_id')[0];
-  if (inputMARAidObj.classList.contains('signal_ok')) {
+  inputObj = modalObj.getElementsByClassName('input_id')[0];
+  if (inputObj.classList.contains('signal_ok')) {
     returnVal.push([true, '']);
   } else {
     returnVal.push([false, '']);
   }
-  returnVal[returnVal.length - 1].push(inputMARAidObj);
+  returnVal[returnVal.length - 1].push(inputObj);
   Signals.push(returnVal[returnVal.length - 1][0]);
-  MARAid = inputMARAidObj.value;
+  params.push(inputObj.value);
 
   // Name
-  inputNameObj = modalObj.getElementsByClassName('input_name')[0];
-  inputName = inputNameObj.value;
-  returnVal.push(isNameValid(inputName));
-  inputName = returnVal[returnVal.length - 1][1];
-  returnVal[returnVal.length - 1].push(inputNameObj);
+  inputObj = modalObj.getElementsByClassName('input_name')[0];
+  inputValue = inputObj.value;
+  returnVal.push(isNameValid(inputValue));
+  inputValue = returnVal[returnVal.length - 1][1];
+  returnVal[returnVal.length - 1].push(inputObj);
   Signals.push(returnVal[returnVal.length - 1][0]);
+  params.push(inputValue);
 
   // Email
-  inputEmailObj = modalObj.getElementsByClassName('input_email')[0];
-  inputEmail = inputEmailObj.value;
-  returnVal.push(isEmailAddressValid(inputEmail));
-  inputEmail = returnVal[returnVal.length - 1][1];
-  returnVal[returnVal.length - 1].push(inputEmailObj);
+  inputObj = modalObj.getElementsByClassName('input_email')[0];
+  inputValue = inputObj.value;
+  returnVal.push(isEmailAddressValid(inputValue));
+  inputValue = returnVal[returnVal.length - 1][1];
+  returnVal[returnVal.length - 1].push(inputObj);
   Signals.push(returnVal[returnVal.length - 1][0]);
+  params.push(inputValue);
 
   // Password
-  inputPasswordObj = modalObj.getElementsByClassName('input_password');
-  inputPassword = inputPasswordObj[0].value;
-  returnVal.push(isPasswordValid(inputPassword));
-  inputPassword = returnVal[returnVal.length - 1][1];
-  returnVal[returnVal.length - 1].push(inputPasswordObj[0]);
+  inputObj = modalObj.getElementsByClassName('input_password');
+  inputValue = inputObj[0].value;
+  returnVal.push(isPasswordValid(inputValue));
+  inputValue = returnVal[returnVal.length - 1][1];
+  returnVal[returnVal.length - 1].push(inputObj[0]);
   Signals.push(returnVal[returnVal.length - 1][0]);
+  params.push(inputValue);
 
   // Confirm Password
-  inputPasswordSame = inputPasswordObj[1].value;
-  returnVal.push(isPasswordSame(inputPasswordSame, inputPassword));
-  returnVal[returnVal.length - 1].push(inputPasswordObj[1]);
+  inputPasswordSame = inputObj[1].value;
+  returnVal.push(isPasswordSame(inputPasswordSame, inputValue));
+  returnVal[returnVal.length - 1].push(inputObj[1]);
   Signals.push(returnVal[returnVal.length - 1][0]);
 
   // Agreement T&C
@@ -325,8 +327,9 @@ function getReadyToRegister(modal, btn) {
   } else {
     theBtn.classList.add('active');
     divBlocker = showLoader(modalObj);
+    params.push(divBlocker);
 
-    registerMe(divBlocker, MARAid, inputName, inputEmail, inputPassword);
+    registerMe(params);
   }
 }
 

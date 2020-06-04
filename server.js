@@ -25,7 +25,6 @@ var services_forgetPassword = require('./routes/serverSideJs/services_forgetPass
 var services_login = require('./routes/serverSideJs/services_login');
 
 /*
-
 var cookieSession = require('cookie-session');
 var services_cookieSession = require('./routes/serverSideJs/services_cookieSession');
 
@@ -103,13 +102,13 @@ app.get('/', function (request, response) {
 // --------------------------------------------------------------------------------------------------------------
 // Prevent direct access to other pages
 
-var permittedLinker = ['localhost', '127.0.0.1']; // who can link here?
+var permittedLinker = ['localhost', '127.0.0.1'];
 
 function directAccess(request, response, next) {
   var i = 0;
   var notFound = 1;
   var referer = request.get('Referer');
-  if (request.path === '/' || request.path === '') next(); // pass calls to '/' always
+  if (request.path === '/' || request.path === '') next();
 
   if (referer) {
     while (i < permittedLinker.length && notFound) {
@@ -121,7 +120,7 @@ function directAccess(request, response, next) {
   if (notFound) {
     response.redirect('/');
   } else {
-    next(); // access is permitted, go to the next step in the ordinary routing
+    next(); // access is permitted, proceed
   }
 }
 

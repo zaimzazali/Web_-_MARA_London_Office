@@ -72,10 +72,18 @@ function responseResetPassword(divBlocker, response) {
   }
 }
 
-function resetPassword(divBlocker, inputMARAid, inputEmail) {
+function resetPassword(params) {
+  'use strict';
+
+  /*
+  0 - inputMARAid
+  1 - inputEmail
+  2 - divBlocker
+  */
+
   var data = {};
-  data.maraID = inputMARAid;
-  data.email = inputEmail;
+  data.maraID = params[0];
+  data.email = params[1];
   data.currentTimeStamp = getCurrentTimeStamp();
 
   $.ajax({
@@ -85,7 +93,7 @@ function resetPassword(divBlocker, inputMARAid, inputEmail) {
     contentType: 'application/json',
     url: '/forget_password',
     success: function success(response) {
-      responseResetPassword(divBlocker, response);
+      responseResetPassword(params[2], response);
     },
   });
 }
@@ -99,10 +107,9 @@ function getReadyToResetPassword(modal, btn) {
   var modalObj;
   var i;
 
-  var inputMARAidObj;
-  var inputMARAid;
-  var inputEmailObj;
-  var inputEmail;
+  var params = [];
+  var inputObj;
+  var inputValue;
 
   var divBlocker;
 
@@ -110,30 +117,32 @@ function getReadyToResetPassword(modal, btn) {
   modalObj = modal;
 
   // MARA Reference Number
-  inputMARAidObj = modalObj.getElementsByClassName('input_id')[0];
-  inputMARAid = inputMARAidObj.value;
+  inputObj = modalObj.getElementsByClassName('input_id')[0];
+  inputValue = inputObj.value;
 
-  if (inputMARAid === 'test_student_01') {
+  if (inputValue === 'test_student_01') {
     returnVal.push([true, 'test_student_01']);
-  } else if (inputMARAid === 'test_student_02') {
+  } else if (inputValue === 'test_student_02') {
     returnVal.push([true, 'test_student_02']);
-  } else if (inputMARAid === 'test_student_03') {
+  } else if (inputValue === 'test_student_03') {
     returnVal.push([true, 'test_student_03']);
   } else {
-    returnVal.push(isMARAidValid(inputMARAid));
+    returnVal.push(isMARAidValid(inputValue));
   }
 
-  inputMARAid = returnVal[returnVal.length - 1][1];
-  returnVal[returnVal.length - 1].push(inputMARAidObj);
+  inputValue = returnVal[returnVal.length - 1][1];
+  returnVal[returnVal.length - 1].push(inputObj);
   Signals.push(returnVal[returnVal.length - 1][0]);
+  params.push(inputValue);
 
   // Email
-  inputEmailObj = modalObj.getElementsByClassName('input_email')[0];
-  inputEmail = inputEmailObj.value;
-  returnVal.push(isEmailAddressValid(inputEmail));
-  inputEmail = returnVal[returnVal.length - 1][1];
-  returnVal[returnVal.length - 1].push(inputEmailObj);
+  inputObj = modalObj.getElementsByClassName('input_email')[0];
+  inputValue = inputObj.value;
+  returnVal.push(isEmailAddressValid(inputValue));
+  inputValue = returnVal[returnVal.length - 1][1];
+  returnVal[returnVal.length - 1].push(inputObj);
   Signals.push(returnVal[returnVal.length - 1][0]);
+  params.push(inputValue);
 
   // -----------------------------------------------------------------
 
@@ -147,7 +156,9 @@ function getReadyToResetPassword(modal, btn) {
   } else {
     theBtn.classList.add('active');
     divBlocker = showLoader(modalObj);
-    resetPassword(divBlocker, inputMARAid, inputEmail);
+    params.push(divBlocker);
+
+    resetPassword(params);
   }
 }
 

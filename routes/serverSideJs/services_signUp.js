@@ -1,12 +1,18 @@
-/* eslint-disable strict */
+/* eslint-disable no-console */
+/* eslint-disable func-names */
 /* eslint-disable camelcase */
+/* eslint-disable strict */
 
 'use strict';
 
 const services_database = require('./services_database');
 const services_encryptor = require('./services_encryptor');
 // const services_mailer = require('./services_mailer');
-const extraFunctions = require('./extraFunctions');
+// const extraFunctions = require('./extraFunctions');
+
+// =====================================================================
+// =====================================================================
+// MARA ID Checker
 
 function query0(transaction, request) {
   return new Promise(function (resolve, reject) {
@@ -27,10 +33,10 @@ function IDchecker(db, request) {
   return new Promise(function (resolve, reject) {
     db.beginTransaction(function (err, transaction) {
       let returnRow;
-      let queryPassed = [];
+      const queryPassed = [];
 
       async function run() {
-        // Step 1 - Select account registration status
+        // Step 1 - Select the registration status of the provided account
         await query0(transaction, request)
           .then(function (result) {
             queryPassed.push(true);
@@ -47,16 +53,15 @@ function IDchecker(db, request) {
           reject(new Error('Transaction #1 not commited'));
           return console.log('Transaction #1 not commited');
         }
-
-        await transaction.commit(function (err5) {
-          if (err5) {
-            reject(new Error(err5.message));
-            return console.log('Transaction #1 commit() failed. Rollback...', err5);
+        await transaction.commit(function (error) {
+          if (error) {
+            reject(new Error(error.message));
+            return console.log('Transaction #1 commit() failed. Rollback...', error);
           }
           return console.log('Transaction #1 commit() was successful.');
         });
 
-        // Step 3 - Check for the flag
+        // Step 3 - Check the query result
         if (returnRow.length === 0) {
           resolve('NOT EXIST');
         } else if (returnRow.length > 1) {
@@ -69,13 +74,16 @@ function IDchecker(db, request) {
             resolve('EXIST');
           });
         }
-
         return 0;
       }
       run();
     });
   });
 }
+
+// =====================================================================
+// =====================================================================
+// Email
 
 /*
 async function setupWholeEmail(request, emailBody) {
@@ -100,6 +108,44 @@ function setupEmailBody(request) {
   return emailBody;
 }
 */
+
+/*
+async function b(request) {
+  let tableName = null;
+  let sqlStatment = null;
+
+  // Send registration confirmation email to user
+  const emailBody = setupEmailBody(request);
+  const theMessage = await setupWholeEmail(request, emailBody);
+  try {
+    await services_mailer.send(theMessage, null, null);
+    if (request.body.maraID === 'test_student_00') {
+      // Rollback - Revoke user accessibility
+      await revokeUserAccessibility(request);
+
+      // Rollback - Delete user password
+      await deleteUserPassword(request);
+
+      // Rollback - Delete user details
+      await deleteUserDetails(request);
+    }
+  } catch (error) {
+    // Rollback - Revoke user accessibility
+    await revokeUserAccessibility(request);
+
+    // Rollback - Delete user password
+    await deleteUserPassword(request);
+
+    // Rollback - Delete user details
+    await deleteUserDetails(request);
+    throw new Error(error);
+  }
+}
+*/
+
+// =====================================================================
+// =====================================================================
+// User Registration
 
 function query1(transaction, request) {
   return new Promise(function (resolve, reject) {
@@ -153,10 +199,10 @@ function userRegistration(db, request) {
   return new Promise(function (resolve, reject) {
     db.beginTransaction(function (err, transaction) {
       let hashedPassword;
-      let queryPassed = [];
+      const queryPassed = [];
 
       async function run() {
-        // Step 0 - Encrypt the password
+        // Step 0 - Encrypt the provided password
         await services_encryptor
           .ecryptString(request.body.password)
           .then(function (result) {
@@ -209,11 +255,10 @@ function userRegistration(db, request) {
           reject(new Error('Transaction #2 not commited'));
           return console.log('Transaction #2 not commited');
         }
-
-        await transaction.commit(function (err5) {
-          if (err5) {
-            reject(new Error(err5.message));
-            return console.log('Transaction #2 commit() failed. Rollback...', err5);
+        await transaction.commit(function (error) {
+          if (error) {
+            reject(new Error(error.message));
+            return console.log('Transaction #2 commit() failed. Rollback...', error);
           }
           resolve('OK');
           return console.log('Transaction #2 commit() was successful.');
@@ -225,39 +270,10 @@ function userRegistration(db, request) {
   });
 }
 
-/*
-async function b(request) {
-  let tableName = null;
-  let sqlStatment = null;
+// =====================================================================
+// =====================================================================
+// Modules
 
-  // Send registration confirmation email to user
-  const emailBody = setupEmailBody(request);
-  const theMessage = await setupWholeEmail(request, emailBody);
-  try {
-    await services_mailer.send(theMessage, null, null);
-    if (request.body.maraID === 'test_student_00') {
-      // Rollback - Revoke user accessibility
-      await revokeUserAccessibility(request);
-
-      // Rollback - Delete user password
-      await deleteUserPassword(request);
-
-      // Rollback - Delete user details
-      await deleteUserDetails(request);
-    }
-  } catch (error) {
-    // Rollback - Revoke user accessibility
-    await revokeUserAccessibility(request);
-
-    // Rollback - Delete user password
-    await deleteUserPassword(request);
-
-    // Rollback - Delete user details
-    await deleteUserDetails(request);
-    throw new Error(error);
-  }
-}
-*/
 module.exports = {
   checkMaraID(request) {
     return new Promise(function (resolve, reject) {
