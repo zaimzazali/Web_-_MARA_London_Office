@@ -21,11 +21,9 @@ var AWS = require('aws-sdk');
 
 var services_contactUs = require('./routes/serverSideJs/services_contactUs');
 var services_signUp = require('./routes/serverSideJs/services_signUp');
+var services_forgetPassword = require('./routes/serverSideJs/services_forgetPassword');
 
 /*
-
-
-var services_forgetPassword = require('./routes/serverSideJs/services_forgetPassword');
 
 var services_login = require('./routes/serverSideJs/services_login');
 
@@ -251,20 +249,22 @@ app.post('/register_user', function (request, response) {
 
 // --------------------------------------------------------------------------------------------------------------
 // Forget Password
-/*
+
 app.post('/forget_password', function (request, response) {
-  var run = async function run() {
-    try {
-      await services_forgetPassword.resetPassword(request);
-      response.send('OK');
-    } catch (error) {
-      response.send('ERROR');
-    }
-  };
+  async function run() {
+    await services_forgetPassword
+      .resetPassword(request)
+      .then(function (result) {
+        response.send(result);
+      })
+      .catch(function () {
+        response.send('ERROR');
+      });
+  }
 
   run();
 });
-*/
+
 // --------------------------------------------------------------------------------------------------------------
 // Login
 /*

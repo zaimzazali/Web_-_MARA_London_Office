@@ -8,49 +8,71 @@ const services_encryptor = require('./services_encryptor');
 // const services_mailer = require('./services_mailer');
 const extraFunctions = require('./extraFunctions');
 
+function query0(transaction, request) {
+  return new Promise(function (resolve, reject) {
+    transaction.all(
+      `SELECT user_is_registered FROM view_userAccount WHERE user_ID = '${request.body.id}'`,
+      function (err, rows) {
+        if (err) {
+          reject(err.message);
+        } else {
+          resolve(rows);
+        }
+      }
+    );
+  });
+}
+
 function IDchecker(db, request) {
   return new Promise(function (resolve, reject) {
     db.beginTransaction(function (err, transaction) {
-      // Step 1 - Select account registration status
-      transaction.all(
-        `SELECT user_is_registered FROM view_userAccount WHERE user_ID = '${request.body.id}'`,
-        function (err1, rows) {
-          if (err1) {
-            reject(new Error(err1.message));
-            return console.log(err1.message);
-          }
+      let returnRow;
+      let queryPassed = [];
 
-          console.log('Query Pass');
+      async function run() {
+        // Step 1 - Select account registration status
+        await query0(transaction, request)
+          .then(function (result) {
+            queryPassed.push(true);
+            returnRow = result;
+            console.log('Query 0 - Pass');
+          })
+          .catch(function () {
+            queryPassed.push(false);
+            console.log('Query 0 - Fail');
+          });
 
-          if (rows.length === 0) {
-            resolve('NOT EXIST');
-            return console.log('NOT EXIST');
+        // Step 2 - To .commit() or .rollback()
+        if (queryPassed.includes(false)) {
+          reject(new Error('Transaction #1 not commited'));
+          return console.log('Transaction #1 not commited');
+        }
+
+        await transaction.commit(function (err5) {
+          if (err5) {
+            reject(new Error(err5.message));
+            return console.log('Transaction #1 commit() failed. Rollback...', err5);
           }
-          if (rows.length > 1) {
-            resolve('ERROR');
-            return console.log('ERROR');
-          }
-          rows.forEach((row) => {
+          return console.log('Transaction #1 commit() was successful.');
+        });
+
+        // Step 3 - Check for the flag
+        if (returnRow.length === 0) {
+          resolve('NOT EXIST');
+        } else if (returnRow.length > 1) {
+          resolve('ERROR');
+        } else {
+          returnRow.forEach((row) => {
             if (row.user_is_registered === 'NO') {
               resolve('OK');
-              return console.log('OK');
             }
             resolve('EXIST');
-            return console.log('EXIST');
           });
         }
-      );
 
-      // To .commit() or .rollback()
-      transaction.commit(function (err2) {
-        if (err2) {
-          reject(new Error(err2.message));
-          return console.log('Transaction #1 commit() failed. Rollback...', err2);
-        }
-        resolve('OK');
-        return console.log('Transaction #1 commit() was successful.');
-      });
-      // or automatically transaction.rollback()
+        return 0;
+      }
+      run();
     });
   });
 }
@@ -78,19 +100,6 @@ function setupEmailBody(request) {
   return emailBody;
 }
 */
-
-function getHashedPassword(string) {
-  return new Promise(function (resolve, reject) {
-    services_encryptor
-      .ecryptString(string)
-      .then(function (result) {
-        resolve(result);
-      })
-      .catch(function (error) {
-        reject(new Error(error));
-      });
-  });
-}
 
 function query1(transaction, request) {
   return new Promise(function (resolve, reject) {
@@ -148,13 +157,14 @@ function userRegistration(db, request) {
 
       async function run() {
         // Step 0 - Encrypt the password
-        await getHashedPassword(request.body.password)
+        await services_encryptor
+          .ecryptString(request.body.password)
           .then(function (result) {
             queryPassed.push(true);
             hashedPassword = result;
             console.log('Password Hashed - Pass');
           })
-          .catch(function (err0) {
+          .catch(function () {
             queryPassed.push(false);
             console.log('Password Hashed - Fail');
           });
@@ -165,7 +175,7 @@ function userRegistration(db, request) {
             queryPassed.push(true);
             console.log('Query 1 - Pass');
           })
-          .catch(function (err1) {
+          .catch(function () {
             queryPassed.push(false);
             console.log('Query 1 - Fail');
           });
@@ -176,7 +186,7 @@ function userRegistration(db, request) {
             queryPassed.push(true);
             console.log('Query 2 - Pass');
           })
-          .catch(function (err2) {
+          .catch(function () {
             queryPassed.push(false);
             console.log('Query 2 - Fail');
           });
@@ -187,7 +197,7 @@ function userRegistration(db, request) {
             queryPassed.push(true);
             console.log('Query 3 - Pass');
           })
-          .catch(function (err3) {
+          .catch(function () {
             queryPassed.push(false);
             console.log('Query 3 - Fail');
           });
