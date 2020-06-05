@@ -18,9 +18,11 @@ function responseResetPassword(divBlocker, response) {
 
   var inputBlocker;
   var modal;
+  var theBtn;
 
   inputBlocker = divBlocker;
   modal = inputBlocker.parentNode;
+  theBtn = modal.querySelector('#btn_forget_password');
 
   switch (response) {
     case 'OK':
@@ -83,6 +85,9 @@ function responseResetPassword(divBlocker, response) {
       // Do Nothing
       break;
   }
+
+  theBtn.classList.remove('active');
+  theBtn.blur();
 }
 
 function resetPassword(params) {
