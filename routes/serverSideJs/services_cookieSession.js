@@ -1,13 +1,40 @@
+/* eslint-disable func-names */
 /* eslint-disable strict */
-/* eslint-disable camelcase */
-/* eslint-disable no-unused-vars */
 
 'use strict';
 
-const services_database = require('./services_database');
 const extraFunctions = require('./extraFunctions');
 
 module.exports = {
+  checkCookie(request) {
+    return new Promise(function (resolve) {
+      // Check if there is session cookie
+      // If there is, auto-login the user
+      if (request.session.sessionID) {
+        console.log('Session cookie found');
+        resolve('AUTO LOGIN');
+      } else {
+        console.log('No session cookie detected');
+        resolve('STAY');
+      }
+    });
+  },
+  createCookie(request) {
+    return new Promise(function (resolve) {
+      request.session.sessionID = extraFunctions.randomString(50);
+      console.log('Session cookie created');
+      resolve('OK');
+    });
+  },
+  removeCookie(request) {
+    return new Promise(function (resolve) {
+      request.session = null;
+      resolve('OK');
+    });
+  },
+};
+
+/*
   async checkCookie(request, response) {
     let flag = null;
 
@@ -35,7 +62,4 @@ module.exports = {
 
     return flag;
   },
-  removeCookie(request, response) {
-    request.session = null;
-  },
-};
+  */

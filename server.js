@@ -22,12 +22,9 @@ var services_signUp = require('./routes/serverSideJs/services_signUp');
 var services_forgetPassword = require('./routes/serverSideJs/services_forgetPassword');
 var services_login = require('./routes/serverSideJs/services_login');
 
-/*
 var cookieSession = require('cookie-session');
 var services_cookieSession = require('./routes/serverSideJs/services_cookieSession');
-
 var extraFunctions = require('./routes/serverSideJs/extraFunctions');
-*/
 
 // --------------------------------------------------------------------------------------------------------------
 // Express setting
@@ -71,44 +68,52 @@ app.use(directAccess);
 
 // --------------------------------------------------------------------------------------------------------------
 // Cookie Session
-/*
+
 app.set('trust proxy', 1);
 app.use(
   cookieSession({
     name: 'sessionMARA',
     keys: [extraFunctions.randomString(50), extraFunctions.randomString(50)],
-    maxAge: 24 * 60 * 60 * 1000, // 24 hours
+    maxAge: 4 * 60 * 60 * 1000, // 4 hours to keep the cookie
   })
 );
+
 app.post('/check_cookie', function (request, response, next) {
-  var run = async function run() {
-    try {
-      var flag = await services_cookieSession.checkCookie(request, response);
-      response.send(flag);
-    } catch (error) {
-      response.send('ERROR');
-    }
-
-    next();
-  };
+  async function run() {
+    await services_cookieSession
+      .checkCookie(request)
+      .then(function (result) {
+        response.send(result);
+      })
+      .catch(function () {
+        response.send('ERROR');
+      })
+      .finally(function () {
+        next();
+      });
+  }
 
   run();
 });
+
 app.post('/remove_cookie', function (request, response, next) {
-  var run = async function run() {
-    try {
-      await services_cookieSession.removeCookie(request, response);
-      response.send('OK');
-    } catch (error) {
-      response.send('ERROR');
-    }
-
-    next();
-  };
+  async function run() {
+    await services_cookieSession
+      .removeCookie(request)
+      .then(function () {
+        response.send('OK');
+      })
+      .catch(function () {
+        response.send('ERROR');
+      })
+      .finally(function () {
+        next();
+      });
+  }
 
   run();
 });
-*/
+
 // --------------------------------------------------------------------------------------------------------------
 // Other Pages
 

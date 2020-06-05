@@ -16,9 +16,11 @@ function responseSendMessage(divBlocker, response) {
 
   var inputBlocker;
   var modal;
+  var theBtn;
 
   inputBlocker = divBlocker;
   modal = inputBlocker.parentNode;
+  theBtn = modal.querySelector('#btn_send_message');
 
   if (response === 'OK') {
     setupPopUpContent(
@@ -40,6 +42,9 @@ function responseSendMessage(divBlocker, response) {
     );
     displayPopUp(inputBlocker, 'modal_display_with_button');
   }
+
+  theBtn.classList.remove('active');
+  theBtn.blur();
 }
 
 function sendTheMessage(params) {
