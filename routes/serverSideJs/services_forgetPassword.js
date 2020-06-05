@@ -11,6 +11,8 @@ const extraFunctions = require('./extraFunctions');
 const services_encryptor = require('./services_encryptor');
 const services_mailer = require('./services_mailer');
 
+const allowTesting = true;
+
 // =====================================================================
 // =====================================================================
 // Email
@@ -147,12 +149,17 @@ function resetPass(db, request) {
             console.log('Reading row - Fail');
           }
 
-          if (
-            emailDB === emailInput ||
-            request.body.maraID === 'test_student_01' ||
-            request.body.maraID === 'test_student_02' ||
-            request.body.maraID === 'test_student_03'
-          ) {
+          // For Testing purposes.
+          if (allowTesting) {
+            // To bypass checking provided email with registered email
+            if (
+              request.body.maraID === 'test_student_01' ||
+              request.body.maraID === 'test_student_02' ||
+              request.body.maraID === 'test_student_03'
+            ) {
+              toProceed = true;
+            }
+          } else if (emailDB === emailInput) {
             toProceed = true;
           }
 
