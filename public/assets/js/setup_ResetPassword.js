@@ -27,7 +27,7 @@ function responseResetPassword(divBlocker, response) {
       setupPopUpContent(
         'modal_display_with_button',
         'Your password has been reset!',
-        'You will receive a new auto-generated password in an e-mail shorty.',
+        'You will receive a new auto-generated password in an e-mail shortly.',
         false,
         false
       );

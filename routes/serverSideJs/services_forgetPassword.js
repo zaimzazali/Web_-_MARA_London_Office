@@ -100,40 +100,17 @@ function query2(transaction, request, hashedPassword) {
   });
 }
 
-function resetPass(db, request) {
+function resetPass_secondPart(db, request, returnRow) {
   return new Promise(function (resolve, reject) {
     db.beginTransaction(function (err, transaction) {
-      let returnRow;
       const queryPassed = [];
       let hashedPassword;
       let toProceed;
 
       async function run() {
-        // Step 1 - Select the Account status, and its Registered Password
-        await query0(transaction, request)
-          .then(function (result) {
-            queryPassed.push(true);
-            returnRow = result;
-            console.log('Query 0 - Pass');
-          })
-          .catch(function () {
-            queryPassed.push(false);
-            console.log('Query 0 - Fail');
-          });
+        await returnRow.forEach(async function (row) {
+          console.log(row);
 
-        // Step 2 - Check the query result
-        toProceed = false;
-        if (returnRow.length === 1) {
-          // Pass Through
-        } else if (returnRow.length > 1) {
-          resolve('ERROR');
-          return 0;
-        } else {
-          resolve('NOT EXIST');
-          return 0;
-        }
-
-        returnRow.forEach(async function (row) {
           // Step 3 - Check if email entered is synced with the provided ID
           let userName;
           let emailDB;
@@ -141,15 +118,19 @@ function resetPass(db, request) {
           let randomPassword = null;
 
           try {
-            userName = extraFunctions.decodeSingleQuote(decodeURIComponent(row.full_name));
-            emailDB = extraFunctions.decodeSingleQuote(decodeURIComponent(row.email));
-            emailInput = extraFunctions.decodeSingleQuote(decodeURIComponent(request.body.email));
+            userName = await extraFunctions.decodeSingleQuote(decodeURIComponent(row.full_name));
+            emailDB = await extraFunctions.decodeSingleQuote(decodeURIComponent(row.email));
+            emailInput = await extraFunctions.decodeSingleQuote(
+              decodeURIComponent(request.body.email)
+            );
           } catch (error) {
-            queryPassed.push(false);
+            resolve('ERROR');
             console.log('Reading row - Fail');
+            return 0;
           }
 
           // For Testing purposes.
+          toProceed = false;
           if (allowTesting) {
             // To bypass checking provided email with registered email
             if (
@@ -163,7 +144,7 @@ function resetPass(db, request) {
             toProceed = true;
           }
 
-          if (toProceed && row.account_is_active !== 'YES') {
+          if (row.account_is_active !== 'YES' || emailDB === 'null' || row.password === 'null') {
             resolve('INACTIVE');
             return 0;
           }
@@ -177,21 +158,24 @@ function resetPass(db, request) {
           randomPassword = extraFunctions.randomString(10);
           await services_encryptor
             .ecryptString(randomPassword)
-            .then(function (result) {
-              queryPassed.push(true);
-              hashedPassword = result;
+            .then(function (data) {
+              hashedPassword = data;
               console.log('Password Hashed - Pass');
             })
             .catch(function () {
-              queryPassed.push(false);
+              resolve('ERROR');
               console.log('Password Hashed - Fail');
+              return 0;
             });
+
+          console.log('A');
+
+          // -------------------------------------------------------------------------------------
 
           // Step 5 - Record the forgotten password in the log for audit purposes
           await query1(transaction, request, row.password)
-            .then(function (result) {
+            .then(function () {
               queryPassed.push(true);
-              returnRow = result;
               console.log('Query 1 - Pass');
             })
             .catch(function () {
@@ -199,17 +183,20 @@ function resetPass(db, request) {
               console.log('Query 1 - Fail');
             });
 
+          console.log('B');
+
           // Step 6 - Update the new password in the list and update flag to Force reset password
           await query2(transaction, request, hashedPassword)
-            .then(function (result) {
+            .then(function () {
               queryPassed.push(true);
-              returnRow = result;
               console.log('Query 2 - Pass');
             })
             .catch(function () {
               queryPassed.push(false);
               console.log('Query 2 - Fail');
             });
+
+          console.log('C');
 
           // Step 7 - Send the New Password Email
           const inputValues = [];
@@ -229,19 +216,87 @@ function resetPass(db, request) {
 
           // Step 8 - To .commit() or .rollback()
           if (queryPassed.includes(false)) {
-            reject(new Error('Transaction not commited'));
-            return console.log('Transaction not commited');
+            reject(new Error('Forget Password 2 - Transaction not commited'));
+            return console.log('Forget Password 2 - Transaction not commited');
           }
           await transaction.commit(function (error) {
             if (error) {
               reject(new Error(error.message));
-              return console.log('Transaction commit() failed. Rollback...', error);
+              return console.log(
+                'Forget Password 2 - Transaction commit() failed. Rollback...',
+                error
+              );
             }
             resolve('OK');
-            return console.log('Transaction commit() was successful.');
+            return console.log('Forget Password 2 - Transaction commit() was successful.');
           });
           return 0;
         });
+      }
+      run();
+    });
+  });
+}
+
+function resetPass(db, request) {
+  return new Promise(function (resolve, reject) {
+    let proceedSecond = true;
+
+    db.beginTransaction(function (err, transaction) {
+      let returnRow;
+      const queryPassed = [];
+
+      async function run() {
+        // Step 1 - Select the Account status, and its Registered Password
+        await query0(transaction, request)
+          .then(async function (result) {
+            queryPassed.push(true);
+            returnRow = result;
+            console.log('Query 0 - Pass');
+          })
+          .catch(function () {
+            queryPassed.push(false);
+            console.log('Query 0 - Fail');
+          });
+
+        // To .commit() or .rollback()
+        if (queryPassed.includes(false)) {
+          reject(new Error('Forget Password 1 - Transaction not commited'));
+          return console.log('Forget Password 1 - Transaction not commited');
+        }
+        await transaction.commit(function (error) {
+          if (error) {
+            reject(new Error(error.message));
+            return console.log(
+              'Forget Password 1 - Transaction commit() failed. Rollback...',
+              error
+            );
+          }
+          return console.log('Forget Password 1 - Transaction commit() was successful.');
+        });
+
+        // -------------------------------------------------------------------------------------
+
+        // Step 2 - Check the query result
+        if (returnRow.length === 0) {
+          proceedSecond = false;
+          resolve('NOT EXIST');
+        }
+
+        if (returnRow.length > 1) {
+          proceedSecond = false;
+          resolve('ERROR');
+        }
+
+        if (proceedSecond) {
+          await resetPass_secondPart(db, request, returnRow)
+            .then(function (result) {
+              resolve(result);
+            })
+            .catch(function (error) {
+              reject(new Error(error.message));
+            });
+        }
         return 0;
       }
       run();
