@@ -175,7 +175,4 @@ function setupSendMessageBtn() {
   theBtn.addEventListener('click', function () {
     getReadyToSendMessage(this);
   });
-
-  // Input field - Click Enter
-  setupPressEnter(modal, theBtn);
 }
