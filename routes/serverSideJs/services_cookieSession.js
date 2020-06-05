@@ -12,25 +12,27 @@ module.exports = {
       // Check if there is session cookie
       // If there is, auto-login the user
       if (request.session.sessionID) {
-        console.log('Cookie session found');
-        resolve('AUTO LOGIN');
+        if (request.session.state === 'in') {
+          console.log('Cookie session found');
+          resolve('AUTO LOGIN');
+        } else {
+          console.log('Old cookie session found');
+          resolve('STAY');
+        }
       } else {
         console.log('No cookie session detected');
+        request.session.sessionID = extraFunctions.randomString(50);
+        request.session.state = 'out';
+        console.log('Session cookie created');
         resolve('STAY');
       }
     });
   },
-  createCookie(request) {
+  updateCookie(request) {
     return new Promise(function (resolve) {
-      // Check if session cookie already exist
-      if (!request.session.sessionID) {
-        request.session.sessionID = extraFunctions.randomString(50);
-        console.log('Session cookie created');
-        resolve('OK');
-      } else {
-        console.log('Cookie session has already set');
-        resolve('STAY');
-      }
+      request.session.state = 'in';
+      console.log('Cookie session has updated');
+      resolve('OK');
     });
   },
   removeCookie(request) {
