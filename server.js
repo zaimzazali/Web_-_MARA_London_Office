@@ -34,7 +34,6 @@ var extraFunctions = require('./routes/serverSideJs/extraFunctions');
 
 var app = express();
 var port = 80;
-
 // --------------------------------------------------------------------------------------------------------------
 // Serving Public Page
 

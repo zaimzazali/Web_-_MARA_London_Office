@@ -1,3 +1,4 @@
+/* eslint-disable prefer-destructuring */
 /* eslint-disable no-console */
 /* eslint-disable func-names */
 /* eslint-disable camelcase */
@@ -7,8 +8,8 @@
 
 const services_database = require('./services_database');
 const services_encryptor = require('./services_encryptor');
-// const services_mailer = require('./services_mailer');
-// const extraFunctions = require('./extraFunctions');
+const services_mailer = require('./services_mailer');
+const extraFunctions = require('./extraFunctions');
 
 // =====================================================================
 // =====================================================================
@@ -89,18 +90,15 @@ function emailing(inputValues) {
   return new Promise(function (resolve, reject) {
     // Setting up the parameters
     const emailData = {};
-    emailData.refNumber = inputValues[0];
-    emailData.senderName = inputValues[1];
-    emailData.senderEmail = inputValues[2];
-    emailData.senderMARAid = inputValues[3];
-    emailData.senderTmpMessage = inputValues[4];
+    emailData.fullName = extraFunctions.capitaliseWords(inputValues[0]);
+    emailData.maraLink = inputValues[1];
 
     const params = {
       Destination: {
         ToAddresses: [inputValues[2]],
       },
       Source: services_mailer.getSystemMailer(),
-      Template: 'template_contact_us',
+      Template: 'template_sign_up',
       TemplateData: JSON.stringify(emailData),
       ReplyToAddresses: [services_mailer.getSystemReceiver()],
     };
@@ -117,64 +115,6 @@ function emailing(inputValues) {
       });
   });
 }
-
-/*
-async function setupWholeEmail(request, emailBody) {
-  const theMessage = services_mailer.messageDetails(
-    extraFunctions.decodeSingleQuote(decodeURIComponent(request.body.email)), // to
-    'zaim.zazali.2019@bristol.ac.uk', // bcc
-    `[MARA London] - Thank you for Registering!`, // title of email
-    emailBody
-  );
-  return theMessage;
-}
-
-function setupEmailBody(request) {
-  const emailBody =
-    `<span>Welcome aboard, ${extraFunctions.decodeSingleQuote(
-      decodeURIComponent(request.body.name)
-    )} !<br/><br/>` +
-    `<span>Thank you for registering your details with us.<br/>` +
-    `<span>We can confirm that we received them and you are all good to log into the MARA London portal.<br/><br/><br/>` +
-    `<span>Link to MARA London Portal:</span>`;
-
-  return emailBody;
-}
-*/
-
-/*
-async function b(request) {
-  let tableName = null;
-  let sqlStatment = null;
-
-  // Send registration confirmation email to user
-  const emailBody = setupEmailBody(request);
-  const theMessage = await setupWholeEmail(request, emailBody);
-  try {
-    await services_mailer.send(theMessage, null, null);
-    if (request.body.maraID === 'test_student_00') {
-      // Rollback - Revoke user accessibility
-      await revokeUserAccessibility(request);
-
-      // Rollback - Delete user password
-      await deleteUserPassword(request);
-
-      // Rollback - Delete user details
-      await deleteUserDetails(request);
-    }
-  } catch (error) {
-    // Rollback - Revoke user accessibility
-    await revokeUserAccessibility(request);
-
-    // Rollback - Delete user password
-    await deleteUserPassword(request);
-
-    // Rollback - Delete user details
-    await deleteUserDetails(request);
-    throw new Error(error);
-  }
-}
-*/
 
 // =====================================================================
 // =====================================================================
@@ -235,53 +175,69 @@ function userRegistration(db, request) {
       const queryPassed = [];
 
       async function run() {
-        // Step 0 - Encrypt the provided password
-        await services_encryptor
-          .ecryptString(request.body.password)
-          .then(function (result) {
-            queryPassed.push(true);
-            hashedPassword = result;
-            console.log('Password Hashed - Pass');
-          })
-          .catch(function () {
-            queryPassed.push(false);
-            console.log('Password Hashed - Fail');
-          });
+        if (request.body.maraID !== 'test_student_00') {
+          // Step 0 - Encrypt the provided password
+          await services_encryptor
+            .ecryptString(request.body.password)
+            .then(function (result) {
+              queryPassed.push(true);
+              hashedPassword = result;
+              console.log('Password Hashed - Pass');
+            })
+            .catch(function () {
+              queryPassed.push(false);
+              console.log('Password Hashed - Fail');
+            });
 
-        // Step 1 - Insert User Details
-        await query1(transaction, request)
+          // Step 1 - Insert User Details
+          await query1(transaction, request)
+            .then(function () {
+              queryPassed.push(true);
+              console.log('Query 1 - Pass');
+            })
+            .catch(function () {
+              queryPassed.push(false);
+              console.log('Query 1 - Fail');
+            });
+
+          // Step 2 - Insert user password
+          await query2(transaction, request, hashedPassword)
+            .then(function () {
+              queryPassed.push(true);
+              console.log('Query 2 - Pass');
+            })
+            .catch(function () {
+              queryPassed.push(false);
+              console.log('Query 2 - Fail');
+            });
+
+          // Step 3 - Update user accessibility
+          await query3(transaction, request)
+            .then(function () {
+              queryPassed.push(true);
+              console.log('Query 3 - Pass');
+            })
+            .catch(function () {
+              queryPassed.push(false);
+              console.log('Query 3 - Fail');
+            });
+        }
+
+        // Step 4 - Send the Registration Confirmation Email
+        const inputValues = [];
+        inputValues.push(extraFunctions.decodeSingleQuote(decodeURIComponent(request.body.name)));
+        inputValues.push('https://www.google.com');
+        inputValues.push(extraFunctions.decodeSingleQuote(decodeURIComponent(request.body.email)));
+
+        await emailing(inputValues)
           .then(function () {
             queryPassed.push(true);
-            console.log('Query 1 - Pass');
+            console.log('Send Email - Pass');
           })
           .catch(function () {
             queryPassed.push(false);
-            console.log('Query 1 - Fail');
+            console.log('Send Email - Fail');
           });
-
-        // Step 2 - Insert user password
-        await query2(transaction, request, hashedPassword)
-          .then(function () {
-            queryPassed.push(true);
-            console.log('Query 2 - Pass');
-          })
-          .catch(function () {
-            queryPassed.push(false);
-            console.log('Query 2 - Fail');
-          });
-
-        // Step 3 - Update user accessibility
-        await query3(transaction, request)
-          .then(function () {
-            queryPassed.push(true);
-            console.log('Query 3 - Pass');
-          })
-          .catch(function () {
-            queryPassed.push(false);
-            console.log('Query 3 - Fail');
-          });
-
-        // Step 4 - Send registration confirmation email
 
         // Step 5 - To .commit() or .rollback()
         if (queryPassed.includes(false)) {
