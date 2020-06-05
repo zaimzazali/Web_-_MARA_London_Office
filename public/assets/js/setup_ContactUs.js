@@ -169,8 +169,6 @@ function setupSendMessageBtn() {
 
   var modal;
   var theBtn;
-  var inputFields;
-  var i;
 
   modal = document.getElementById('modal_contact_us');
   theBtn = modal.querySelector('#btn_send_message');

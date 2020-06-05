@@ -164,8 +164,6 @@ function setupLoginBtn() {
 
   var modal;
   var theBtn;
-  var inputFields;
-  var i;
 
   modal = document.getElementById('modal_login_form_holder');
   theBtn = modal.querySelector('#btn_login');

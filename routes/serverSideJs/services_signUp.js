@@ -51,15 +51,15 @@ function IDchecker(db, request) {
 
         // Step 2 - To .commit() or .rollback()
         if (queryPassed.includes(false)) {
-          reject(new Error('Transaction #1 not commited'));
-          return console.log('Transaction #1 not commited');
+          reject(new Error('Check ID - Transaction not commited'));
+          return console.log('Check ID - Transaction not commited');
         }
         await transaction.commit(function (error) {
           if (error) {
             reject(new Error(error.message));
-            return console.log('Transaction #1 commit() failed. Rollback...', error);
+            return console.log('Check ID - Transaction commit() failed. Rollback...', error);
           }
-          return console.log('Transaction #1 commit() was successful.');
+          return console.log('Check ID - Transaction commit() was successful.');
         });
 
         // Step 3 - Check the query result
@@ -243,16 +243,16 @@ function userRegistration(db, request) {
 
         // Step 5 - To .commit() or .rollback()
         if (queryPassed.includes(false)) {
-          reject(new Error('Transaction #2 not commited'));
-          return console.log('Transaction #2 not commited');
+          reject(new Error('Register - Transaction not commited'));
+          return console.log('Register - Transaction not commited');
         }
         await transaction.commit(function (error) {
           if (error) {
             reject(new Error(error.message));
-            return console.log('Transaction #2 commit() failed. Rollback...', error);
+            return console.log('Register - Transaction commit() failed. Rollback...', error);
           }
           resolve('OK');
-          return console.log('Transaction #2 commit() was successful.');
+          return console.log('Register - Transaction commit() was successful.');
         });
         return 0;
       }
