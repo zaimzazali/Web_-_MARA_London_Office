@@ -1,0 +1,8 @@
+{
+  "Template": {
+    "TemplateName": "template_sign_up",
+    "SubjectPart": "🔴 [MARA London] - Account Registration",
+    "HtmlPart": "<!DOCTYPE html>\r\n<html xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en-GB\" xml:lang=\"en-GB\">\r\n  <head>\r\n    <meta charset=\"utf-8\" />\r\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, shrink-to-fit=no\" />\r\n  </head>\r\n  <body>\r\n    <span>Welcome, <b>{{fullName}}</b>!</span><br /><br />\r\n    <span>Thank you for registering with us!</span><br />\r\n    <br />\r\n    <span\r\n      >We can confirm that your registration is a success, and your account has been\r\n      activated.</span\r\n    ><br />\r\n    <span>You may now log into the MARA London Office portal at :-</span><br />\r\n    <a target=\"_blank\" href=\"{{maraLink}}\">{{maraLink}}</a><br />\r\n    <br />\r\n    <span\r\n      >-----------------------------------------------------------------------------------------------------------</span\r\n    ><br />\r\n    <span><i>This email is an automated email from the system.</i></span>\r\n  </body>\r\n</html>\r\n",
+    "TextPart": "Welcome, {{fullName}}!\r\n\r\nThank you for registering with us!\r\n\r\nWe can confirm that your registration is a success, and your account has been activated.\r\nYou may now log into the MARA London Office portal at :-\r\n{{maraLink}}\r\n\r\n-----------------------------------------------------------------------------------------------------------\r\nThis email is an automated email from the system."
+  }
+}

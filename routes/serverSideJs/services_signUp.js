@@ -85,6 +85,39 @@ function IDchecker(db, request) {
 // =====================================================================
 // Email
 
+function emailing(inputValues) {
+  return new Promise(function (resolve, reject) {
+    // Setting up the parameters
+    const emailData = {};
+    emailData.refNumber = inputValues[0];
+    emailData.senderName = inputValues[1];
+    emailData.senderEmail = inputValues[2];
+    emailData.senderMARAid = inputValues[3];
+    emailData.senderTmpMessage = inputValues[4];
+
+    const params = {
+      Destination: {
+        ToAddresses: [inputValues[2]],
+      },
+      Source: services_mailer.getSystemMailer(),
+      Template: 'template_contact_us',
+      TemplateData: JSON.stringify(emailData),
+      ReplyToAddresses: [services_mailer.getSystemReceiver()],
+    };
+
+    services_mailer
+      .triggerSendEmail(params)
+      .then(function (result) {
+        console.log(result);
+        resolve(result);
+      })
+      .catch(function (err) {
+        console.error(err, err.stack);
+        reject(err);
+      });
+  });
+}
+
 /*
 async function setupWholeEmail(request, emailBody) {
   const theMessage = services_mailer.messageDetails(
