@@ -1,41 +1,78 @@
 /* eslint-disable no-console */
 /* eslint-disable func-names */
-/* eslint-disable strict */
 /* eslint-disable camelcase */
+/* eslint-disable strict */
 
 'use strict';
 
 const services_database = require('./services_database');
 const services_encryptor = require('./services_encryptor');
 
-/*
-function setUserLogout(request) {
-  const session_ID = request.session.sessionID;
-  const user_ID = request.session.userID;
+// =====================================================================
+// =====================================================================
+// Log On - Inside Portal
 
-  const tableName = 'userLogin_list';
-  const sqlStatment =
-    `INSERT INTO ${tableName} (sessionID, timeStampGMT0, userID, userIsLoggedIn) ` +
-    `VALUES ('${session_ID}','${request.body.currentTimeStamp}','${user_ID}', 'NO')`;
-  services_database.insertData(sqlStatment);
+function query1(transaction, request, session_ID, user_ID) {
+  return new Promise(function (resolve, reject) {
+    transaction.run(
+      `INSERT INTO userLogin_list (sessionID, timeStampGMT0, userID) ` +
+        `VALUES ('${session_ID}','${request.body.currentTimeStamp}','${user_ID}')`,
+      function (err) {
+        if (err) {
+          reject(err.message);
+        } else {
+          resolve('Query Pass');
+        }
+      }
+    );
+  });
 }
 
-async function setUserLogin(request) {
-  try {
-    const session_ID = request.session.sessionID;
-    const user_ID = request.session.userID;
+function setUserLogon(db, request) {
+  return new Promise(function (resolve, reject) {
+    db.beginTransaction(function (err, transaction) {
+      let session_ID;
+      let user_ID;
+      const queryPassed = [];
 
-    const tableName = 'userLogin_list';
-    const sqlStatment =
-      `INSERT INTO ${tableName} (sessionID, timeStampGMT0, userID, userIsLoggedIn) ` +
-      `VALUES ('${session_ID}','${request.body.currentTimeStamp}','${user_ID}', 'YES')`;
-    await services_database.insertData(sqlStatment);
-    return user_ID;
-  } catch (error) {
-    throw new Error(error);
-  }
+      async function run() {
+        session_ID = request.session.sessionID;
+        user_ID = request.session.userID;
+
+        // Step 1 - Insert login status into database
+        await query1(transaction, request, session_ID, user_ID)
+          .then(function () {
+            queryPassed.push(true);
+            console.log('Query 1 - Pass');
+          })
+          .catch(function () {
+            queryPassed.push(false);
+            console.log('Query 1 - Fail');
+          });
+
+        // Step 2 - To .commit() or .rollback()
+        if (queryPassed.includes(false)) {
+          reject(new Error('Log On - Transaction not commited'));
+          return console.log('Log On - Transaction not commited');
+        }
+        await transaction.commit(function (error) {
+          if (error) {
+            reject(new Error(error.message));
+            return console.log('Log On - Transaction commit() failed. Rollback...', error);
+          }
+          resolve('OK');
+          return console.log('Log On - Transaction commit() was successful.');
+        });
+        return 0;
+      }
+      run();
+    });
+  });
 }
-*/
+
+// =====================================================================
+// =====================================================================
+// Log In - From Main Page
 
 function query0(transaction, request) {
   return new Promise(function (resolve, reject) {
@@ -129,26 +166,6 @@ function toLogin(db, request) {
           }
           resolve(['INVALID', null]);
           return 0;
-
-          /*
-            // Check if user is already logged in
-            tableName = 'view_userLogin';
-            sqlStatment =
-              `SELECT log_activity, time_log FROM ${tableName} ` +
-              `WHERE user_ID = '${request.body.id}'` +
-              `ORDER BY time_log DESC LIMIT 1`;
-            returnJson2 = await services_database.selectData(sqlStatment);
-            
-            if (Object.keys(returnJson2).length === 0) {
-              flag = ['OK', returnJson1[0].account_type];
-            } else if (returnJson2[0].log_activity === 'NO' || returnJson2[0].log_activity === null) {
-              // Set data in server
-              request.session.userID = request.body.id;
-              flag = ['OK', returnJson1[0].account_type];
-            } else {
-              flag = ['LOGGED', null];
-            }
-        */
         });
         return 0;
       }
@@ -189,17 +206,31 @@ module.exports = {
       run();
     });
   },
-  /*
-  async setLogon(request) {
-    try {
-      const data = await setUserLogin(request);
-      return data;
-    } catch (error) {
-      throw new Error(error);
-    }
+  setLogon(request) {
+    return new Promise(function (resolve, reject) {
+      async function run() {
+        let db;
+        await services_database
+          .openConnection()
+          .then(async function (result1) {
+            db = result1;
+            await setUserLogon(db, request)
+              .then(function (result2) {
+                resolve(result2);
+                return result2;
+              })
+              .catch(function (error2) {
+                reject(new Error(error2));
+              })
+              .finally(async function () {
+                await services_database.closeConnection(db);
+              });
+          })
+          .catch(function (error1) {
+            reject(new Error(error1));
+          });
+      }
+      run();
+    });
   },
-  setLogout(request) {
-    setUserLogout(request);
-  },
-  */
 };

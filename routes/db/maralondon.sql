@@ -148,7 +148,6 @@ CREATE TABLE userLogin_list (
 	sessionID TEXT DEFAULT NA NOT NULL,
 	timeStampGMT0 TEXT(250) DEFAULT NA NOT NULL,
 	userID TEXT(100) DEFAULT NA NOT NULL,
-	userIsLoggedIn TEXT(5) DEFAULT NO NOT NULL,
 	CONSTRAINT userLogin_list_PK PRIMARY KEY (num),
 	CONSTRAINT userLogin_list_UN UNIQUE (sessionID, timeStampGMT0, userID),
 	CONSTRAINT userLogin_list_FK FOREIGN KEY (userID) REFERENCES user_list(userID)
@@ -353,8 +352,7 @@ CREATE VIEW view_userLogin AS
 SELECT 
 	`user_list`.userID AS user_ID,
 	`userLogin_list`.sessionID AS session_ID,
-	`userLogin_list`.timeStampGMT0 AS time_log,
-	`userLogin_list`.userIsLoggedIn AS log_activity
+	`userLogin_list`.timeStampGMT0 AS time_log
 FROM
 	`user_list`
 LEFT OUTER JOIN `userLogin_list` ON `user_list`.userID = `userLogin_list`.userID;

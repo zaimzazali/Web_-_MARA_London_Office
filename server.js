@@ -13,6 +13,7 @@
 var express = require('express');
 var path = require('path');
 var bodyParser = require('body-parser');
+var cookieSession = require('cookie-session');
 
 // --------------------------------------------------------------------------------------------------------------
 // Other Server-Side files
@@ -21,8 +22,6 @@ var services_contactUs = require('./routes/serverSideJs/services_contactUs');
 var services_signUp = require('./routes/serverSideJs/services_signUp');
 var services_forgetPassword = require('./routes/serverSideJs/services_forgetPassword');
 var services_login = require('./routes/serverSideJs/services_login');
-
-var cookieSession = require('cookie-session');
 var services_cookieSession = require('./routes/serverSideJs/services_cookieSession');
 var extraFunctions = require('./routes/serverSideJs/extraFunctions');
 
@@ -31,6 +30,7 @@ var extraFunctions = require('./routes/serverSideJs/extraFunctions');
 
 var app = express();
 var port = 80;
+
 // --------------------------------------------------------------------------------------------------------------
 // Serving Public Page
 
@@ -82,6 +82,24 @@ app.post('/check_cookie', function (request, response, next) {
   async function run() {
     await services_cookieSession
       .checkCookie(request)
+      .then(function (result) {
+        response.send(result);
+      })
+      .catch(function () {
+        response.send('ERROR');
+      })
+      .finally(function () {
+        next();
+      });
+  }
+
+  run();
+});
+
+app.post('/create_cookie', function (request, response, next) {
+  async function run() {
+    await services_cookieSession
+      .createCookie(request)
       .then(function (result) {
         response.send(result);
       })
@@ -231,28 +249,22 @@ app.post('/login', function (request, response) {
 
 // --------------------------------------------------------------------------------------------------------------
 // Logon
-/*
+
 app.post('/logon', function (request, response) {
-  var run = async function run() {
-    try {
-      var data = await services_login.setLogon(request);
-      response.send(data);
-    } catch (error) {
-      response.send('ERROR');
-    }
-  };
+  async function run() {
+    await services_login
+      .setLogon(request)
+      .then(function (result) {
+        response.send(result);
+      })
+      .catch(function () {
+        response.send('ERROR');
+      });
+  }
 
   run();
 });
-*/
-// --------------------------------------------------------------------------------------------------------------
-// Before exit user page
-/*
-app.post('/setLogout', function (request, response) {
-  services_login.setLogout(request);
-  response.send('OK');
-});
-*/
+
 // --------------------------------------------------------------------------------------------------------------
 // Hosting
 

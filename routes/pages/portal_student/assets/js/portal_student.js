@@ -45,7 +45,10 @@ function start() {
 
   if (isCompatible) {
     // Check-In user into Login list
-    // setUserLog();
+    setUserLog();
+
+    // Create cookie session
+    createCookie();
 
     // Setup side navbar
     setupSideNavbar();
