@@ -107,16 +107,16 @@ function startExecution(db, request) {
 
         // Step 3 - To .commit() or .rollback()
         if (queryPassed.includes(false)) {
-          reject(new Error('Transaction not commited'));
-          return console.log('Transaction not commited');
+          reject(new Error('Contact Us - Transaction not commited'));
+          return console.log('Contact Us - Transaction not commited');
         }
         await transaction.commit(function (error) {
           if (error) {
             reject(new Error(error.message));
-            return console.log('Transaction commit() failed. Rollback...', error);
+            return console.log('Contact Us - Transaction commit() failed. Rollback...', error);
           }
           resolve('OK');
-          return console.log('Transaction commit() was successful.');
+          return console.log('Contact Us - Transaction commit() was successful.');
         });
         return 0;
       }

@@ -344,8 +344,6 @@ function setupRegisterBtn() {
   var btnCheck;
   var checkObj;
   var theBtn;
-  var inputFields;
-  var i;
 
   modal = document.getElementById('modal_sign_up');
   inputIdObj = modal.getElementsByClassName('input_id')[0];

@@ -196,8 +196,6 @@ function setupForgetBtn() {
 
   var modal;
   var theBtn;
-  var inputFields;
-  var i;
 
   modal = document.getElementById('modal_forget_pass');
   theBtn = modal.querySelector('#btn_forget_password');

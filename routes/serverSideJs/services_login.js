@@ -75,16 +75,16 @@ function toLogin(db, request) {
 
         // Step 2 - To .commit() or .rollback()
         if (queryPassed.includes(false)) {
-          reject(new Error('Transaction not commited'));
-          return console.log('Transaction not commited');
+          reject(new Error('Login - Transaction not commited'));
+          return console.log('Login - Transaction not commited');
         }
         await transaction.commit(function (error) {
           if (error) {
             reject(new Error(error.message));
-            return console.log('Transaction commit() failed. Rollback...', error);
+            return console.log('Login - Transaction commit() failed. Rollback...', error);
           }
           resolve('OK');
-          return console.log('Transaction commit() was successful.');
+          return console.log('Login - Transaction commit() was successful.');
         });
 
         // Step 3 - Check the query result
