@@ -163,7 +163,12 @@ function resetPass(db, request) {
             toProceed = true;
           }
 
-          if (!toProceed || row.account_is_active !== 'YES') {
+          if (toProceed && row.account_is_active !== 'YES') {
+            resolve('INACTIVE');
+            return 0;
+          }
+
+          if (!toProceed) {
             resolve('NOT SAME');
             return 0;
           }

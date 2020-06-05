@@ -46,6 +46,17 @@ function responseResetPassword(divBlocker, response) {
       displayPopUp(inputBlocker, 'modal_display_with_button');
       break;
 
+    case 'INACTIVE':
+      setupPopUpContent(
+        'modal_display_with_button',
+        'Account is inactive!',
+        "Please register yourself first through 'Sign Up' to activate your account.",
+        false,
+        true
+      );
+      displayPopUp(inputBlocker, 'modal_display_with_button');
+      break;
+
     case 'NOT SAME':
       setupPopUpContent(
         'modal_display_with_button',
@@ -185,10 +196,15 @@ function setupForgetBtn() {
 
   var modal;
   var theBtn;
+  var inputFields;
+  var i;
 
   modal = document.getElementById('modal_forget_pass');
   theBtn = modal.querySelector('#btn_forget_password');
   theBtn.addEventListener('click', function () {
     getReadyToResetPassword(modal, this);
   });
+
+  // Input field - Click Enter
+  setupPressEnter(modal, theBtn);
 }

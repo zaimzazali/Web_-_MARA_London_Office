@@ -344,6 +344,8 @@ function setupRegisterBtn() {
   var btnCheck;
   var checkObj;
   var theBtn;
+  var inputFields;
+  var i;
 
   modal = document.getElementById('modal_sign_up');
   inputIdObj = modal.getElementsByClassName('input_id')[0];
@@ -368,4 +370,7 @@ function setupRegisterBtn() {
   theBtn.addEventListener('click', function () {
     getReadyToRegister(modal, this);
   });
+
+  // Input field - Click Enter
+  setupPressEnter(modal, theBtn);
 }
