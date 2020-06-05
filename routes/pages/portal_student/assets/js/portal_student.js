@@ -44,11 +44,11 @@ function start() {
   isCompatible = checkBootstrapCompatibility();
 
   if (isCompatible) {
+    // Update cookie session
+    updateCookie();
+
     // Check-In user into Login list
     setUserLog();
-
-    // Create cookie session
-    createCookie();
 
     // Setup side navbar
     setupSideNavbar();

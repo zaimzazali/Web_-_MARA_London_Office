@@ -96,10 +96,10 @@ app.post('/check_cookie', function (request, response, next) {
   run();
 });
 
-app.post('/create_cookie', function (request, response, next) {
+app.post('/update_cookie', function (request, response, next) {
   async function run() {
     await services_cookieSession
-      .createCookie(request)
+      .updateCookie(request)
       .then(function (result) {
         response.send(result);
       })
@@ -237,6 +237,7 @@ app.post('/login', function (request, response) {
     await services_login
       .tryLogin(request)
       .then(function (result) {
+        request.session.userID = request.body.id;
         response.send(result);
       })
       .catch(function () {
