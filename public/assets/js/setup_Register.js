@@ -142,6 +142,8 @@ function validateMARAid(btn, modal, process) {
       inputID === 'test_student_03'
     ) {
       feedback = [true, inputID];
+    } else {
+      feedback = isMARAidValid(inputID);
     }
   } else {
     feedback = isMARAidValid(inputID);

@@ -130,6 +130,8 @@ function getReadyToResetPassword(modal, btn) {
       inputValue === 'test_student_03'
     ) {
       returnVal.push([true, inputValue]);
+    } else {
+      returnVal.push(isMARAidValid(inputValue));
     }
   } else {
     returnVal.push(isMARAidValid(inputValue));
