@@ -109,8 +109,6 @@ function resetPass_secondPart(db, request, returnRow) {
 
       async function run() {
         await returnRow.forEach(async function (row) {
-          console.log(row);
-
           // Step 3 - Check if email entered is synced with the provided ID
           let userName;
           let emailDB;

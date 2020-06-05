@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 /* eslint-disable strict */
 
@@ -7,17 +8,14 @@
 function checkCookie() {
   'use strict';
 
-  /*
-    $.ajax({
-      type: 'POST',
-      async: true,
-      url: '/check_cookie',
-      success: function success(response) {
-        if (response === 'AUTO_LOGIN') {
-          window.location.replace('/portal_student');
-        }
-      },
-    });
-    */
-
+  $.ajax({
+    type: 'POST',
+    async: true,
+    url: '/check_cookie',
+    success: function success(response) {
+      if (response === 'AUTO LOGIN') {
+        window.location.replace('/portal_student');
+      }
+    },
+  });
 }
