@@ -128,6 +128,9 @@ function validateMARAid(btn, modal, process) {
   inputFieldObj = modalObj.getElementsByClassName('input_id')[0];
   inputID = inputFieldObj.value;
 
+  inputFieldObj.classList.remove('signal_error');
+  theBtn.classList.remove('signal_error');
+
   switch (inputID) {
     case 'test_student_00':
       feedback = [true, 'test_student_00'];
