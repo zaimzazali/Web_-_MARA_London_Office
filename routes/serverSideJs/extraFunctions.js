@@ -1,3 +1,4 @@
+/* eslint-disable func-names */
 /* eslint-disable strict */
 
 'use strict';
@@ -16,5 +17,10 @@ module.exports = {
     let theInput = input;
     theInput = theInput.replace(/''/g, "'");
     return theInput;
+  },
+  capitaliseWords(string) {
+    return string.replace(/\w\S*/g, function (txt) {
+      return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+    });
   },
 };

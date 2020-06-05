@@ -1,3 +1,4 @@
+/* eslint-disable prefer-destructuring */
 /* eslint-disable no-console */
 /* eslint-disable func-names */
 /* eslint-disable camelcase */
@@ -8,57 +9,41 @@
 const services_database = require('./services_database');
 const extraFunctions = require('./extraFunctions');
 const services_encryptor = require('./services_encryptor');
-// const services_mailer = require('./services_mailer');
+const services_mailer = require('./services_mailer');
 
 // =====================================================================
 // =====================================================================
 // Email
 
-/*
-async function setupWholeEmail(emailInput, emailBody) {
-  const theMessage = services_mailer.messageDetails(
-    emailInput, // to
-    'zaim.zazali.2019@bristol.ac.uk', // bcc
-    `[MARA London] - Your password has been reset!`, // title of email
-    emailBody
-  );
-  return theMessage;
+function emailing(inputValues) {
+  return new Promise(function (resolve, reject) {
+    // Setting up the parameters
+    const emailData = {};
+    emailData.fullName = extraFunctions.capitaliseWords(inputValues[0]);
+    emailData.newPassword = inputValues[1];
+
+    const params = {
+      Destination: {
+        ToAddresses: [inputValues[2]],
+      },
+      Source: services_mailer.getSystemMailer(),
+      Template: 'template_forget_password',
+      TemplateData: JSON.stringify(emailData),
+      ReplyToAddresses: [services_mailer.getSystemReceiver()],
+    };
+
+    services_mailer
+      .triggerSendEmail(params)
+      .then(function (result) {
+        console.log(result);
+        resolve(result);
+      })
+      .catch(function (err) {
+        console.error(err, err.stack);
+        reject(err);
+      });
+  });
 }
-
-function setupEmailBody(userName, randomPassword) {
-  const emailBody =
-    `<span>Hello, ${userName}</span><br/><br/>` +
-    `<span>Your password has been reset.</span><br/>` +
-    `<span>New password: ${randomPassword}</span><br/><br/>` +
-    `<span>Please note that you will be prompted to change your auto-generated password once you logged into the portal.</span>`;
-
-  return emailBody;
-}
-*/
-
-/*
-async function a(request) {
-  if (Object.keys(returnJson2).length === 1) {
-
-    if (toProceed && returnJson1[0].account_is_active === 'YES') {
-    
-      // Send registration confirmation email to user
-      const emailBody = setupEmailBody(userName, randomPassword);
-      const theMessage = await setupWholeEmail(emailInput, emailBody);
-      try {
-        await services_mailer.send(theMessage, null, null);
-      } catch (error) {
-        // Rollback - Re-update to old password
-        await revertPassword(request, previousPassword);
-
-        // Rollback - Delete record of old password
-        await deleteUserOldPassword(request);
-        throw new Error(error);
-      }
-    }
-  }
-}
-*/
 
 // =====================================================================
 // =====================================================================
@@ -151,7 +136,7 @@ function resetPass(db, request) {
           let userName;
           let emailDB;
           let emailInput;
-          let randomPassword;
+          let randomPassword = null;
 
           try {
             userName = extraFunctions.decodeSingleQuote(decodeURIComponent(row.full_name));
@@ -215,6 +200,20 @@ function resetPass(db, request) {
             });
 
           // Step 7 - Send the New Password Email
+          const inputValues = [];
+          inputValues.push(userName);
+          inputValues.push(randomPassword);
+          inputValues.push(emailInput);
+
+          await emailing(inputValues)
+            .then(function () {
+              queryPassed.push(true);
+              console.log('Send Email - Pass');
+            })
+            .catch(function () {
+              queryPassed.push(false);
+              console.log('Send Email - Fail');
+            });
 
           // Step 8 - To .commit() or .rollback()
           if (queryPassed.includes(false)) {
