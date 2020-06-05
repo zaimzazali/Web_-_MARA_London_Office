@@ -13,19 +13,15 @@
 function logoutUser() {
   'use strict';
 
-  /*
   $.ajax({
-    type: "POST",
+    type: 'POST',
     async: true,
-    url: "/remove_cookie",
+    url: '/remove_cookie',
     success: function success() {
       // Redirect to Login page
-      window.location.replace("/");
+      window.location.replace('/');
     },
-    
   });
-  */
-
 }
 
 // =====================================================================
@@ -42,7 +38,3 @@ function setupLogOutBtn() {
     logoutUser();
   });
 }
-
-// =====================================================================
-// =====================================================================
-// Events before page exit
