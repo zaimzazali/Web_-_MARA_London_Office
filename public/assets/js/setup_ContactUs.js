@@ -167,10 +167,17 @@ function getReadyToSendMessage(obj) {
 function setupSendMessageBtn() {
   'use strict';
 
+  var modal;
   var theBtn;
+  var inputFields;
+  var i;
 
-  theBtn = document.getElementById('btn_send_message');
+  modal = document.getElementById('modal_contact_us');
+  theBtn = modal.querySelector('#btn_send_message');
   theBtn.addEventListener('click', function () {
     getReadyToSendMessage(this);
   });
+
+  // Input field - Click Enter
+  setupPressEnter(modal, theBtn);
 }

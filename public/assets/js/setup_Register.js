@@ -7,6 +7,8 @@
 
 'use strict';
 
+var allowTesting = true;
+
 // =====================================================================
 // =====================================================================
 // Extra functions
@@ -131,26 +133,20 @@ function validateMARAid(btn, modal, process) {
   inputFieldObj.classList.remove('signal_error');
   theBtn.classList.remove('signal_error');
 
-  switch (inputID) {
-    case 'test_student_00':
-      feedback = [true, 'test_student_00'];
-      break;
-
-    case 'test_student_01':
-      feedback = [true, 'test_student_01'];
-      break;
-
-    case 'test_student_02':
-      feedback = [true, 'test_student_02'];
-      break;
-
-    case 'test_student_03':
-      feedback = [true, 'test_student_03'];
-      break;
-
-    default:
+  // For Testing purposes.
+  if (allowTesting) {
+    if (
+      inputID === 'test_student_00' ||
+      inputID === 'test_student_01' ||
+      inputID === 'test_student_02' ||
+      inputID === 'test_student_03'
+    ) {
+      feedback = [true, inputID];
+    } else {
       feedback = isMARAidValid(inputID);
-      break;
+    }
+  } else {
+    feedback = isMARAidValid(inputID);
   }
 
   if (feedback[0]) {
@@ -348,6 +344,8 @@ function setupRegisterBtn() {
   var btnCheck;
   var checkObj;
   var theBtn;
+  var inputFields;
+  var i;
 
   modal = document.getElementById('modal_sign_up');
   inputIdObj = modal.getElementsByClassName('input_id')[0];
@@ -372,4 +370,7 @@ function setupRegisterBtn() {
   theBtn.addEventListener('click', function () {
     getReadyToRegister(modal, this);
   });
+
+  // Input field - Click Enter
+  setupPressEnter(modal, theBtn);
 }

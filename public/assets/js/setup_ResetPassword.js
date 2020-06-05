@@ -7,6 +7,8 @@
 
 'use strict';
 
+var allowTesting = true;
+
 // =====================================================================
 // =====================================================================
 // Set Forget Button
@@ -38,6 +40,17 @@ function responseResetPassword(divBlocker, response) {
         'modal_display_with_button',
         'MARA ID not found!',
         "We could not find your MARA Reference Number.<br />Kindly reach us through 'Contact Us'.",
+        false,
+        true
+      );
+      displayPopUp(inputBlocker, 'modal_display_with_button');
+      break;
+
+    case 'INACTIVE':
+      setupPopUpContent(
+        'modal_display_with_button',
+        'Account is inactive!',
+        "Please register yourself first through 'Sign Up' to activate your account.",
         false,
         true
       );
@@ -120,12 +133,17 @@ function getReadyToResetPassword(modal, btn) {
   inputObj = modalObj.getElementsByClassName('input_id')[0];
   inputValue = inputObj.value;
 
-  if (inputValue === 'test_student_01') {
-    returnVal.push([true, 'test_student_01']);
-  } else if (inputValue === 'test_student_02') {
-    returnVal.push([true, 'test_student_02']);
-  } else if (inputValue === 'test_student_03') {
-    returnVal.push([true, 'test_student_03']);
+  // For Testing purposes.
+  if (allowTesting) {
+    if (
+      inputValue === 'test_student_01' ||
+      inputValue === 'test_student_02' ||
+      inputValue === 'test_student_03'
+    ) {
+      returnVal.push([true, inputValue]);
+    } else {
+      returnVal.push(isMARAidValid(inputValue));
+    }
   } else {
     returnVal.push(isMARAidValid(inputValue));
   }
@@ -178,10 +196,15 @@ function setupForgetBtn() {
 
   var modal;
   var theBtn;
+  var inputFields;
+  var i;
 
   modal = document.getElementById('modal_forget_pass');
   theBtn = modal.querySelector('#btn_forget_password');
   theBtn.addEventListener('click', function () {
     getReadyToResetPassword(modal, this);
   });
+
+  // Input field - Click Enter
+  setupPressEnter(modal, theBtn);
 }

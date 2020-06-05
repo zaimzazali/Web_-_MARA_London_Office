@@ -68,3 +68,24 @@ function setupInputField() {
     });
   }
 }
+
+// =====================================================================
+// =====================================================================
+// Set all Input Field focus event
+
+function setupPressEnter(modal, btn) {
+  'use strict';
+
+  var inputFields;
+  var i;
+
+  inputFields = modal.getElementsByClassName('input_field');
+  for (i = 0; i < inputFields.length; i += 1) {
+    inputFields[i].addEventListener('keyup', function (event) {
+      if (event.keyCode === 13) {
+        event.preventDefault();
+        btn.click();
+      }
+    });
+  }
+}

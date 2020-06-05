@@ -175,6 +175,8 @@ function userRegistration(db, request) {
       const queryPassed = [];
 
       async function run() {
+        // Account 'test_student_00' is set to be un-recorded
+        // So that multiple registration can be done
         if (request.body.maraID !== 'test_student_00') {
           // Step 0 - Encrypt the provided password
           await services_encryptor
