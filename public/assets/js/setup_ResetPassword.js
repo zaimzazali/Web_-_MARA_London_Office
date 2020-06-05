@@ -7,6 +7,8 @@
 
 'use strict';
 
+var allowTesting = true;
+
 // =====================================================================
 // =====================================================================
 // Set Forget Button
@@ -120,12 +122,15 @@ function getReadyToResetPassword(modal, btn) {
   inputObj = modalObj.getElementsByClassName('input_id')[0];
   inputValue = inputObj.value;
 
-  if (inputValue === 'test_student_01') {
-    returnVal.push([true, 'test_student_01']);
-  } else if (inputValue === 'test_student_02') {
-    returnVal.push([true, 'test_student_02']);
-  } else if (inputValue === 'test_student_03') {
-    returnVal.push([true, 'test_student_03']);
+  // For Testing purposes.
+  if (allowTesting) {
+    if (
+      inputValue === 'test_student_01' ||
+      inputValue === 'test_student_02' ||
+      inputValue === 'test_student_03'
+    ) {
+      returnVal.push([true, inputValue]);
+    }
   } else {
     returnVal.push(isMARAidValid(inputValue));
   }
