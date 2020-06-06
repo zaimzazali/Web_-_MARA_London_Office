@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-console */
 /* eslint-disable vars-on-top */
 /* eslint-disable func-names */
@@ -14,6 +15,7 @@ var express = require('express');
 var path = require('path');
 var bodyParser = require('body-parser');
 var cookieSession = require('cookie-session');
+var http = require('http');
 var https = require('https');
 var fs = require('fs');
 
@@ -26,6 +28,7 @@ var services_forgetPassword = require('./routes/serverSideJs/services_forgetPass
 var services_login = require('./routes/serverSideJs/services_login');
 var services_cookieSession = require('./routes/serverSideJs/services_cookieSession');
 var extraFunctions = require('./routes/serverSideJs/extraFunctions');
+var services_aws = require('./routes/serverSideJs/awsRelated');
 
 // --------------------------------------------------------------------------------------------------------------
 // Express setting
@@ -285,7 +288,20 @@ https
     console.log('Express (HTTPS) server is listening at :'.concat(httpsPort, '!'));
   });
 
-// Non-Secure at 80
-app.listen(httpPort, function () {
+// Non-Secure at 80 (re-direct to HTTPS)
+http
+  .createServer(function (request, response) {
+    response.writeHead(301, { Location: 'https://' + request.headers['host'] + request.url });
+    response.end();
+  })
+  .listen(httpPort, function () {
+    console.log('Express (HTTP) server is listening at :'.concat(httpPort, '!'));
+  });
+
+// Without re-direct to HTTPS
+/*
+app.listen(httpPort, function (request, response) {
   console.log('Express (HTTP) server is listening at :'.concat(httpPort, '!'));
+  
 });
+*/

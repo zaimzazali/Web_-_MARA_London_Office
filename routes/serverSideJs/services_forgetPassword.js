@@ -247,7 +247,7 @@ function resetPass(db, request) {
       async function run() {
         // Step 1 - Select the Account status, and its Registered Password
         await query0(transaction, request)
-          .then(async function (result) {
+          .then(function (result) {
             queryPassed.push(true);
             returnRow = result;
             console.log('Query 0 - Pass');
