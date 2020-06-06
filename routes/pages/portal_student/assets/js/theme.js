@@ -8,23 +8,7 @@
 
 // =====================================================================
 // =====================================================================
-// PExtra functions
-
-function toggleExpandAll() {
-  'use strict';
-
-  var obj;
-  var i;
-
-  obj = document.getElementsByClassName('right_side');
-  for (i = 0; i < obj.length; i += 1) {
-    if (obj[i].classList.contains('expand')) {
-      obj[i].classList.remove('expand');
-    } else {
-      obj[i].classList.add('expand');
-    }
-  }
-}
+// Extra functions
 
 function forceRevert() {
   'use strict';
@@ -46,25 +30,7 @@ function forceRevert() {
 (function ($) {
   'use strict';
 
-  var obj;
   var $anchor;
-
-  // Toggle the side navigation
-  $('#sidebarToggle, #sidebarToggleTop').on('click', function (e) {
-    obj = document.getElementById('navbar_holder');
-
-    if (obj.classList.contains('hide')) {
-      obj.classList.remove('hide');
-      setTimeout(function () {
-        obj.classList.remove('fadeOut');
-      }, 100);
-      toggleExpandAll();
-    } else {
-      obj.classList.add('hide');
-      obj.classList.add('fadeOut');
-      toggleExpandAll();
-    }
-  });
 
   // Close any open menu accordions when window is resized below 768px
   $(window).resize(function () {
