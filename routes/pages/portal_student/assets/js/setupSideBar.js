@@ -134,3 +134,55 @@ function setupSideNavbar() {
     });
   }
 }
+
+// =====================================================================
+// =====================================================================
+// Toggle Side Menu
+
+function toggleExpandAll() {
+  'use strict';
+
+  var obj;
+  var i;
+
+  obj = document.getElementsByClassName('right_side');
+  for (i = 0; i < obj.length; i += 1) {
+    if (obj[i].classList.contains('expand')) {
+      obj[i].classList.remove('expand');
+    } else {
+      obj[i].classList.add('expand');
+    }
+  }
+}
+
+function readyToToggleMenu(btn) {
+  'use strict';
+
+  var obj;
+
+  obj = document.getElementById('navbar_holder');
+  if (obj.classList.contains('hide')) {
+    obj.classList.remove('hide');
+    setTimeout(function () {
+      obj.classList.remove('fadeOut');
+    }, 100);
+    toggleExpandAll();
+  } else {
+    obj.classList.add('hide');
+    obj.classList.add('fadeOut');
+    toggleExpandAll();
+  }
+
+  btn.blur();
+}
+
+function setupToggleSideMenu() {
+  'use strict';
+
+  var theBtn;
+
+  theBtn = document.getElementById('sidebarToggleTop');
+  theBtn.addEventListener('click', function () {
+    readyToToggleMenu(this);
+  });
+}

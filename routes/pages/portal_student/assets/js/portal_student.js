@@ -53,6 +53,9 @@ function start() {
     // Setup side navbar
     setupSideNavbar();
 
+    // Setup toggle side navbar
+    setupToggleSideMenu();
+
     // Setup Logout Button
     setupLogOutBtn();
 
