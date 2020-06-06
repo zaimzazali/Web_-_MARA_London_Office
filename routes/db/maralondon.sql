@@ -5,6 +5,7 @@ DROP VIEW IF EXISTS view_userEducationDetails;
 DROP VIEW IF EXISTS view_userDetails;
 DROP VIEW IF EXISTS view_userAccount;
 
+DROP TABLE IF EXISTS aws_details;
 DROP TABLE IF EXISTS contactUs_student;
 DROP TABLE IF EXISTS contactUs_messages;
 DROP TABLE IF EXISTS userEducationDetails_list;
@@ -272,6 +273,13 @@ CREATE TABLE contactUs_student (
 	CONSTRAINT contactUs_student_PK PRIMARY KEY (num),
 	CONSTRAINT contactUs_student_FK_1 FOREIGN KEY (refNum) REFERENCES contactUs_messages(refNum) ON UPDATE CASCADE,
 	CONSTRAINT contactUs_student_FK_2 FOREIGN KEY (userID) REFERENCES user_list(userID)
+);
+
+CREATE TABLE aws_details (
+	keyID TEXT(250) DEFAULT NA NOT NULL, 
+	accessID TEXT(250) DEFAULT NA NOT NULL, 
+	region TEXT(100) DEFAULT NA NOT NULL, 
+	CONSTRAINT aws_details_PK PRIMARY KEY (keyID)
 );
 
 /*
