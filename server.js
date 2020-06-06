@@ -14,6 +14,8 @@ var express = require('express');
 var path = require('path');
 var bodyParser = require('body-parser');
 var cookieSession = require('cookie-session');
+var https = require('https');
+var fs = require('fs');
 
 // --------------------------------------------------------------------------------------------------------------
 // Other Server-Side files
@@ -29,7 +31,8 @@ var extraFunctions = require('./routes/serverSideJs/extraFunctions');
 // Express setting
 
 var app = express();
-var port = 80;
+var httpsPort = 443;
+var httpPort = 80;
 
 // --------------------------------------------------------------------------------------------------------------
 // Serving Public Page
@@ -269,6 +272,20 @@ app.post('/logon', function (request, response) {
 // --------------------------------------------------------------------------------------------------------------
 // Hosting
 
-app.listen(port, function () {
-  console.log('Express server is listening on port '.concat(port, '!'));
+// Secure at 443
+https
+  .createServer(
+    {
+      key: fs.readFileSync(path.join(__dirname, `${routes}`, '/certificates/server.key')),
+      cert: fs.readFileSync(path.join(__dirname, `${routes}`, '/certificates/server.cert')),
+    },
+    app
+  )
+  .listen(httpsPort, () => {
+    console.log('Express (HTTPS) server is listening at :'.concat(httpsPort, '!'));
+  });
+
+// Non-Secure at 80
+app.listen(httpPort, function () {
+  console.log('Express (HTTP) server is listening at :'.concat(httpPort, '!'));
 });
