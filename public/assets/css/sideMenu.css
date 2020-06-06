@@ -1,4 +1,5 @@
-#side-menu, .side-menu-overlay {
+#side-menu,
+.side-menu-overlay {
   position: fixed;
   top: 0;
   height: 100%;
@@ -11,7 +12,7 @@ body.overflow-hidden {
 
 #side-menu {
   width: 70vw;
-  right: -300px;
+  right: -70vw;
   overflow-y: auto;
   z-index: 1035;
   background: #fff;
@@ -22,7 +23,7 @@ body.overflow-hidden {
 }
 
 #side-menu.side-menu-visible {
-  transform: translateX(-300px);
+  transform: translateX(-70vw);
 }
 
 #side-menu .contents {
@@ -54,11 +55,11 @@ body.overflow-hidden {
 
 #side-menu.side-menu-left {
   right: auto;
-  left: -300px;
+  left: -70vw;
 }
 
 body.side-menu-visible #side-menu.side-menu-left {
-  transform: translateX(300px);
+  transform: translateX(70vw);
 }
 
 @media (min-width: 768px) {
@@ -66,4 +67,3 @@ body.side-menu-visible #side-menu.side-menu-left {
     display: none;
   }
 }
-
