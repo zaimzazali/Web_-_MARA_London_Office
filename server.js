@@ -281,7 +281,7 @@ https
     },
     app
   )
-  .listen(httpsPort, () => {
+  .listen(httpsPort, function () {
     console.log('Express (HTTPS) server is listening at :'.concat(httpsPort, '!'));
   });
 
