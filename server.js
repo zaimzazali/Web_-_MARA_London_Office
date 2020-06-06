@@ -291,7 +291,7 @@ https
 // Non-Secure at 80 (re-direct to HTTPS)
 http
   .createServer(function (request, response) {
-    response.writeHead(301, { Location: 'https://' + request.headers['host'] + request.url });
+    response.writeHead(301, { Location: `https://${request.headers.host}${request.url}` });
     response.end();
   })
   .listen(httpPort, function () {
