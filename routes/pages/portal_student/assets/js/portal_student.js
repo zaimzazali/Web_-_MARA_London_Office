@@ -40,9 +40,7 @@ function start() {
   'use strict';
 
   var isCompatible;
-  var setupOkay;
 
-  setupOkay = false;
   isCompatible = checkBootstrapCompatibility();
 
   if (isCompatible) {
@@ -51,11 +49,6 @@ function start() {
 
     // Check-In user into Login list
     setUserLog();
-
-    // -----------------------------------------------
-
-    // Setup User Details display
-    setupOkay = setDisplayInfo();
 
     // -----------------------------------------------
 
@@ -68,10 +61,11 @@ function start() {
     // Setup Logout Button
     setupLogOutBtn();
 
-    if (setupOkay) {
-      window.scrollTo(0, 0);
-      showWebPage();
-    }
+    // -----------------------------------------------
+
+    // Setup User Details display
+    setDisplayInfo();
+    window.scrollTo(0, 0);
   } else {
     // Redirect to Not Compatible page
     window.location.replace('/not_compatible');
