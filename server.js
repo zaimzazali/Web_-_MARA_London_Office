@@ -37,6 +37,8 @@ var services_displayInfo = require('./routes/serverSideJs/services_displayInfo')
 var app = express();
 var httpsPort = 443;
 var httpPort = 80;
+var hostIP = 'ec2-18-132-59-23.eu-west-2.compute.amazonaws.com';
+var isLocalHost = true;
 
 // --------------------------------------------------------------------------------------------------------------
 // Serving Public Page
@@ -49,7 +51,7 @@ app.get('/', function (request, response) {
 // --------------------------------------------------------------------------------------------------------------
 // Prevent direct access to other pages
 
-var permittedLinker = ['localhost', '127.0.0.1'];
+var permittedLinker = ['localhost', '127.0.0.1', hostIP];
 
 function directAccess(request, response, next) {
   var i = 0;
@@ -291,6 +293,10 @@ app.post('/set_display', function (request, response) {
 // --------------------------------------------------------------------------------------------------------------
 // Hosting
 
+if (isLocalHost) {
+  hostIP = 'localhost';
+}
+
 // Secure at 443
 https
   .createServer(
@@ -300,25 +306,26 @@ https
     },
     app
   )
-  .listen(httpsPort, function () {
+  .listen(httpsPort, hostIP, function () {
     console.log('Express (HTTPS) server is listening at :'.concat(httpsPort, '!'));
   });
 
 // Non-Secure at 80 (re-direct to HTTPS)
-/*
-http
-  .createServer(function (request, response) {
-    response.writeHead(301, { Location: `https://${request.headers.host}${request.url}` });
-    response.end();
-  })
-  .listen(httpPort, function () {
-    console.log(
-      'Express (HTTP) server is listening at :'.concat(httpPort, '!').concat(' - Redirection')
-    );
+// For Development purposes only, for Production need to remove this kind of thing
+if (isLocalHost) {
+  http
+    .createServer(function (request, response) {
+      response.writeHead(301, { Location: `https://${request.headers.host}${request.url}` });
+      response.end();
+    })
+    .listen(httpPort, hostIP, function () {
+      console.log(
+        'Express (HTTP) server is listening at :'.concat(httpPort, '!').concat(' - Redirection')
+      );
+    });
+} else {
+  // Without re-direct to HTTPS
+  app.listen(httpPort, hostIP, function () {
+    console.log('Express (HTTP) server is listening at :'.concat(httpPort, '!'));
   });
-*/
-
-// Without re-direct to HTTPS
-app.listen(httpPort, function () {
-  console.log('Express (HTTP) server is listening at :'.concat(httpPort, '!'));
-});
+}
