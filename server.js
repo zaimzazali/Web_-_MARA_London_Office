@@ -319,6 +319,6 @@ http
 */
 
 // Without re-direct to HTTPS
-app.listen(httpPort, function (request, response) {
+app.listen(httpPort, function () {
   console.log('Express (HTTP) server is listening at :'.concat(httpPort, '!'));
 });
