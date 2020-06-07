@@ -20,7 +20,7 @@ body {
 }
 
 #container_background {
-  background-image: url("../../assets/img/bg_01.jpg");
+  background-image: url('../../assets/img/bg_01.jpg');
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
@@ -44,7 +44,7 @@ body {
   position: absolute;
   top: 0;
   width: 100%;
-  background-color: rgba(255,255,255,0);
+  background-color: rgba(255, 255, 255, 0);
   height: 6em;
   z-index: 140;
 }
@@ -55,7 +55,7 @@ body {
   background-color: white;
   border-bottom-right-radius: 0.5em;
   border-bottom-left-radius: 0.5em;
-  box-shadow: 0em 0em 0.8em 0em rgba(0,0,0,0.75);
+  box-shadow: 0em 0em 0.8em 0em rgba(0, 0, 0, 0.75);
   left: 1.5em;
   z-index: 150;
   text-align: center;
@@ -79,7 +79,8 @@ body {
   height: 100%;
 }
 
-.policy_item:hover, .policy_item.active {
+.policy_item:hover,
+.policy_item.active {
   text-decoration: underline;
 }
 
@@ -473,7 +474,7 @@ body {
   position: relative;
   width: 18em;
   display: inline-block;
-  background-color: rgba(255,255,255,0.95);
+  background-color: rgba(255, 255, 255, 0.95);
 }
 
 @media (min-width: 768px) {
@@ -547,7 +548,7 @@ body {
 }
 
 #holder_malaysia_flag {
-  background-image: url("../../assets/img/malaysia_flag.jpg");
+  background-image: url('../../assets/img/malaysia_flag.jpg');
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
@@ -620,7 +621,7 @@ body {
 .input_default_style {
   width: 100%;
   border-radius: 5em;
-  background-color: rgb(240,242,247);
+  background-color: rgb(240, 242, 247);
   border: none;
   height: 2.5em;
   padding-left: 2.7em;
@@ -659,7 +660,10 @@ body {
   padding-top: 1em;
 }
 
-.btn.btn-primary.hover_important:hover, .btn.btn-primary.hover_important:active, .btn.btn-primary.hover_important:focus, .btn.btn-primary.hover_important.active {
+.btn.btn-primary.hover_important:hover,
+.btn.btn-primary.hover_important:active,
+.btn.btn-primary.hover_important:focus,
+.btn.btn-primary.hover_important.active {
   background-color: #ffcc00;
   color: rgb(61, 57, 53);
 }
@@ -731,7 +735,7 @@ body {
   width: auto;
   border-radius: 0.5em;
   position: relative;
-  box-shadow: 0.1em 0.1em 0.2em 0.05em rgba(0,0,0,0.75);
+  box-shadow: 0.1em 0.1em 0.2em 0.05em rgba(0, 0, 0, 0.75);
 }
 
 .text_red {
@@ -796,7 +800,7 @@ body {
   position: absolute;
   height: 100%;
   width: 100%;
-  background-image: url("../../assets/img/malaysia_flag.jpg");
+  background-image: url('../../assets/img/malaysia_flag.jpg');
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
@@ -1057,6 +1061,10 @@ body {
   padding-top: 1em;
 }
 
+#check_text {
+  padding-left: 1em;
+}
+
 #register_row_3 {
   padding-top: 0.5em;
 }
@@ -1088,7 +1096,7 @@ body {
 .text_area_default {
   width: 100%;
   border-radius: 0.5em;
-  background-color: rgb(240,242,247);
+  background-color: rgb(240, 242, 247);
   border: none;
   padding-left: 1.5em;
   padding-right: 1.5em;
@@ -1132,21 +1140,21 @@ body {
 }
 
 .signal_error {
-  background-color: rgb(255,150,150);
+  background-color: rgb(255, 150, 150);
 }
 
 .btn.btn-primary.signal_error {
-  background-color: rgb(255,150,150);
+  background-color: rgb(255, 150, 150);
   color: rgb(61, 57, 53);
 }
 
 .signal_ok {
-  background-color: rgb(150,255,150);
+  background-color: rgb(150, 255, 150);
   color: rgb(61, 57, 53);
 }
 
 .btn.btn-primary.signal_ok {
-  background-color: rgb(150,255,150);
+  background-color: rgb(150, 255, 150);
 }
 
 .modal_blocker {
@@ -1179,7 +1187,9 @@ body {
   display: block;
 }
 
-.btn.btn-primary.btn_active_black:hover, .btn.btn-primary.btn_active_black:focus, .btn.btn-primary.btn_active_black:active {
+.btn.btn-primary.btn_active_black:hover,
+.btn.btn-primary.btn_active_black:focus,
+.btn.btn-primary.btn_active_black:active {
   background-color: rgb(61, 57, 53);
   color: white;
 }
@@ -1187,4 +1197,3 @@ body {
 .text_blue {
   color: rgb(59, 85, 230);
 }
-
