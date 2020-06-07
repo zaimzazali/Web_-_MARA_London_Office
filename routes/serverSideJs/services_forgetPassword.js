@@ -166,8 +166,6 @@ function resetPass_secondPart(db, request, returnRow) {
               return 0;
             });
 
-          console.log('A');
-
           // -------------------------------------------------------------------------------------
 
           // Step 5 - Record the forgotten password in the log for audit purposes
@@ -181,8 +179,6 @@ function resetPass_secondPart(db, request, returnRow) {
               console.log('Query 1 - Fail');
             });
 
-          console.log('B');
-
           // Step 6 - Update the new password in the list and update flag to Force reset password
           await query2(transaction, request, hashedPassword)
             .then(function () {
@@ -193,8 +189,6 @@ function resetPass_secondPart(db, request, returnRow) {
               queryPassed.push(false);
               console.log('Query 2 - Fail');
             });
-
-          console.log('C');
 
           // Step 7 - Send the New Password Email
           const inputValues = [];

@@ -8,6 +8,7 @@
 'use strict';
 
 const services_database = require('./services_database');
+const extraFunctions = require('./extraFunctions');
 const services_mailer = require('./services_mailer');
 
 // =====================================================================
@@ -19,7 +20,7 @@ function emailing(inputValues) {
     // Setting up the parameters
     const emailData = {};
     emailData.refNumber = inputValues[0];
-    emailData.senderName = inputValues[1];
+    emailData.senderName = extraFunctions.capitaliseWords(inputValues[1]);
     emailData.senderEmail = inputValues[2];
     emailData.senderMARAid = inputValues[3];
     emailData.senderTmpMessage = inputValues[4];
