@@ -29,6 +29,7 @@ var services_login = require('./routes/serverSideJs/services_login');
 var services_cookieSession = require('./routes/serverSideJs/services_cookieSession');
 var extraFunctions = require('./routes/serverSideJs/extraFunctions');
 var services_aws = require('./routes/serverSideJs/awsRelated');
+var services_displayInfo = require('./routes/serverSideJs/services_displayInfo');
 
 // --------------------------------------------------------------------------------------------------------------
 // Express setting
@@ -266,6 +267,21 @@ app.post('/logon', function (request, response) {
       })
       .catch(function () {
         response.send('ERROR');
+      });
+  }
+
+  run();
+});
+
+app.post('/set_display', function (request, response) {
+  async function run() {
+    await services_displayInfo
+      .getRelatedInfo(request)
+      .then(function (result) {
+        response.send(result);
+      })
+      .catch(function () {
+        response.send(false);
       });
   }
 
