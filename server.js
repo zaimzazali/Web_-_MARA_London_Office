@@ -305,19 +305,20 @@ https
   });
 
 // Non-Secure at 80 (re-direct to HTTPS)
+/*
 http
   .createServer(function (request, response) {
     response.writeHead(301, { Location: `https://${request.headers.host}${request.url}` });
     response.end();
   })
   .listen(httpPort, function () {
-    console.log('Express (HTTP) server is listening at :'.concat(httpPort, '!'));
+    console.log(
+      'Express (HTTP) server is listening at :'.concat(httpPort, '!').concat(' - Redirection')
+    );
   });
+*/
 
 // Without re-direct to HTTPS
-/*
 app.listen(httpPort, function (request, response) {
   console.log('Express (HTTP) server is listening at :'.concat(httpPort, '!'));
-  
 });
-*/
