@@ -20,5 +20,5 @@ http://ec2-18-132-59-23.eu-west-2.compute.amazonaws.com/
 
 <p align="center">
   <img src="./README_Assets/process_flow.png" width="700"> <br>
-  <b>Figure 1: System Process Flow</b>
+  <b>Figure 2: System Process Flow</b>
 </p>
