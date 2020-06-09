@@ -15,6 +15,7 @@ http://ec2-18-132-59-23.eu-west-2.compute.amazonaws.com/
   <b>Figure 1: System Overview</b>
 </p>
 
+<br>
 
 ## System Process Flow
 
@@ -22,6 +23,8 @@ http://ec2-18-132-59-23.eu-west-2.compute.amazonaws.com/
   <img src="./README_Assets/process_flow.png" width="700"> <br>
   <b>Figure 2: System Process Flow</b>
 </p>
+
+<br>
 
 ## Current Data Model
 
