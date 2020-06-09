@@ -22,3 +22,10 @@ http://ec2-18-132-59-23.eu-west-2.compute.amazonaws.com/
   <img src="./README_Assets/process_flow.png" width="700"> <br>
   <b>Figure 2: System Process Flow</b>
 </p>
+
+## Current Data Model
+
+<p align="center">
+  <img src="./README_Assets/db.png" width="700"> <br>
+  <b>Figure 3: Database Structure</b>
+</p>
