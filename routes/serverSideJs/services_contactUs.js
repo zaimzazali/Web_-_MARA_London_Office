@@ -55,9 +55,8 @@ function emailing(inputValues) {
 function query1(transaction, request) {
   return new Promise(function (resolve, reject) {
     transaction.run(
-      `INSERT INTO contactUs_messages (timeStampGMT0, senderName, senderEmail, senderMARAid, senderMessage) ` +
-        `VALUES ('${request.body.currentTimeStamp}','${request.body.name}','${request.body.email}',` +
-        `'${request.body.maraID}','${request.body.message}')`,
+       `INSERT INTO contactUs_messages (timeStampGMT0, senderName, senderEmail, senderMARAid, senderMessage) VALUES (?,?,?,?,?)`,
+        [request.body.currentTimeStamp, request.body.name, request.body.email, request.body.maraID, request.body.message],
       function (err) {
         if (err) {
           reject(err.message);

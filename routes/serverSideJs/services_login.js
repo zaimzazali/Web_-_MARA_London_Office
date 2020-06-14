@@ -15,8 +15,8 @@ const services_encryptor = require('./services_encryptor');
 function query1(transaction, request, session_ID, user_ID) {
   return new Promise(function (resolve, reject) {
     transaction.run(
-      `INSERT INTO userLogin_list (sessionID, timeStampGMT0, userID) ` +
-        `VALUES ('${session_ID}','${request.body.currentTimeStamp}','${user_ID}')`,
+        `INSERT INTO userLogin_list (sessionID, timeStampGMT0, userID) VALUES (?,?,?)`,
+        [session_ID, request.body.currentTimeStamp, user_ID],
       function (err) {
         if (err) {
           reject(err.message);
@@ -77,8 +77,8 @@ function setUserLogon(db, request) {
 function query0(transaction, request) {
   return new Promise(function (resolve, reject) {
     transaction.all(
-      `SELECT user_is_registered, account_is_active, account_type, password FROM view_userAccount ` +
-        `WHERE user_ID = '${request.body.id}'`,
+        `SELECT user_is_registered, account_is_active, account_type, password FROM view_userAccount WHERE user_ID = ?`,
+        [request.body.id],
       function (err, rows) {
         if (err) {
           reject(err.message);

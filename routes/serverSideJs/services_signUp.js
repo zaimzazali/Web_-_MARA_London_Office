@@ -18,7 +18,8 @@ const extraFunctions = require('./extraFunctions');
 function query0(transaction, request) {
   return new Promise(function (resolve, reject) {
     transaction.all(
-      `SELECT user_is_registered FROM view_userAccount WHERE user_ID = '${request.body.id}'`,
+      `SELECT user_is_registered FROM view_userAccount WHERE user_ID = ?`,
+      [request.body.id],
       function (err, rows) {
         if (err) {
           reject(err.message);
@@ -123,8 +124,8 @@ function emailing(inputValues) {
 function query1(transaction, request) {
   return new Promise(function (resolve, reject) {
     transaction.run(
-      `INSERT INTO userDetails_list (userFullName, userEmail, userID) ` +
-        `VALUES ('${request.body.name}', '${request.body.email}', '${request.body.maraID}')`,
+      `INSERT INTO userDetails_list (userFullName, userEmail, userID) VALUES (?, ?, ?)`,
+        [request.body.name, request.body.email, request.body.maraID],
       function (err) {
         if (err) {
           reject(err.message);
@@ -139,8 +140,8 @@ function query1(transaction, request) {
 function query2(transaction, request, hashedPassword) {
   return new Promise(function (resolve, reject) {
     transaction.run(
-      `INSERT INTO userPassword_list (userPassword, userID, needReset) ` +
-        `VALUES ('${hashedPassword}', '${request.body.maraID}', 'NO')`,
+      `INSERT INTO userPassword_list (userPassword, userID, needReset) VALUES (?, ?, 'NO')`,
+        [hashedPassword, request.body.maraID],
       function (err) {
         if (err) {
           reject(err.message);
@@ -155,8 +156,8 @@ function query2(transaction, request, hashedPassword) {
 function query3(transaction, request) {
   return new Promise(function (resolve, reject) {
     transaction.run(
-      `UPDATE user_list SET isRegistered = 'YES', isAccountActive = 'YES',  userTypeCode = 1 ` +
-        `WHERE userID = '${request.body.maraID}'`,
+      `UPDATE user_list SET isRegistered = 'YES', isAccountActive = 'YES',  userTypeCode = 1 WHERE userID = ?`,
+        [request.body.maraID],
       function (err) {
         if (err) {
           reject(err.message);

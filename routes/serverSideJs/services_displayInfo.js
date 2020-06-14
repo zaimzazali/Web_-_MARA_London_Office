@@ -17,7 +17,8 @@ const extraFunctions = require('./extraFunctions');
 function query0(transaction, userID) {
   return new Promise(function (resolve, reject) {
     transaction.all(
-      `SELECT user_ID, full_name FROM view_userDetails ` + `WHERE user_ID = '${userID}'`,
+      `SELECT user_ID, full_name FROM view_userDetails WHERE user_ID = ?`,
+      [userID],
       function (err, rows) {
         if (err) {
           reject(err.message);
