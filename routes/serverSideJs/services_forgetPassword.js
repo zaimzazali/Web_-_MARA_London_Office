@@ -54,9 +54,10 @@ function emailing(inputValues) {
 function query0(transaction, request) {
   return new Promise(function (resolve, reject) {
     transaction.all(
-      `SELECT account_is_active, password, full_name, email FROM view_userAccount ` +
+        `SELECT account_is_active, password, full_name, email FROM view_userAccount ` +
         `JOIN view_userDetails ON view_userAccount.user_ID = view_userDetails.user_ID ` +
-        `WHERE view_userAccount.user_ID = '${request.body.maraID}'`,
+        `WHERE view_userAccount.user_ID = ?`,
+        [request.body.maraID],
       function (err, rows) {
         if (err) {
           reject(err.message);
@@ -71,8 +72,8 @@ function query0(transaction, request) {
 function query1(transaction, request, previousPassword) {
   return new Promise(function (resolve, reject) {
     transaction.run(
-      `INSERT INTO historyPassword_list (timeStampGMT0, userID, previousPassword) ` +
-        `VALUES ('${request.body.currentTimeStamp}','${request.body.maraID}','${previousPassword}')`,
+        `INSERT INTO historyPassword_list (timeStampGMT0, userID, previousPassword) VALUES (?,?,?)`,
+        [request.body.currentTimeStamp, request.body.maraID, previousPassword],
       function (err) {
         if (err) {
           reject(err.message);
@@ -87,8 +88,8 @@ function query1(transaction, request, previousPassword) {
 function query2(transaction, request, hashedPassword) {
   return new Promise(function (resolve, reject) {
     transaction.run(
-      `UPDATE userPassword_list SET userPassword = '${hashedPassword}', needReset = 'YES' ` +
-        `WHERE userID = '${request.body.maraID}'`,
+        `UPDATE userPassword_list SET userPassword = ?, needReset = 'YES' WHERE userID = ?`,
+        [hashedPassword, request.body.maraID],
       function (err) {
         if (err) {
           reject(err.message);
